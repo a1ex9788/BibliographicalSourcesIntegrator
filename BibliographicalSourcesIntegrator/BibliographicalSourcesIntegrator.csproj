@@ -46,11 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="FormularioDeBusqueda.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FormularioDeBusqueda.Designer.cs">
+      <DependentUpon>FormularioDeBusqueda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormularioDeCarga.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormularioDeCarga.Designer.cs">
+      <DependentUpon>FormularioDeCarga.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
