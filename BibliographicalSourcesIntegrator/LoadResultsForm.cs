@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace BibliographicalSourcesIntegrator
 {
-    public partial class UploadForm : Form
+    public partial class LoadResultsForm : Form
     {
-        public UploadForm()
+        public LoadResultsForm()
         {
             InitializeComponent();
         }

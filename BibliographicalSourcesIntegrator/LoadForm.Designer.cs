@@ -1,6 +1,6 @@
 ﻿namespace BibliographicalSourcesIntegrator
 {
-    partial class UploadForm
+    partial class LoadForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,10 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // LoadForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "FormularioDeCarga";
+            this.Name = "LoadForm";
+            this.Text = "LoadForm";
+            this.Load += new System.EventHandler(this.LoadForm_Load);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
