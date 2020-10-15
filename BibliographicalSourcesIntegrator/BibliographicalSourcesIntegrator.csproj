@@ -72,9 +72,6 @@
     <Compile Include="SearchResultsForm.Designer.cs">
       <DependentUpon>SearchResultsForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="LoadForm.resx">
-      <DependentUpon>LoadForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
