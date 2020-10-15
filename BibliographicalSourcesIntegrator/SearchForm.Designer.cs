@@ -1,6 +1,6 @@
 ﻿namespace BibliographicalSourcesIntegrator
 {
-    partial class FormularioDeBusqueda
+    partial class SearchForm
     {
         /// <summary>
         /// Variable del diseñador necesaria.

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace BibliographicalSourcesIntegrator
 {
-    public partial class FormularioDeBusqueda : Form
+    public partial class SearchForm : Form
     {
-        public FormularioDeBusqueda()
+        public SearchForm()
         {
             InitializeComponent();
         }

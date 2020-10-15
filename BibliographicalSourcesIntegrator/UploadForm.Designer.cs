@@ -1,6 +1,6 @@
 ﻿namespace BibliographicalSourcesIntegrator
 {
-    partial class FormularioDeCarga
+    partial class UploadForm
     {
         /// <summary>
         /// Required designer variable.

@@ -16,7 +16,7 @@ namespace BibliographicalSourcesIntegrator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormularioDeBusqueda());
+            Application.Run(new SearchForm());
         }
     }
 }
