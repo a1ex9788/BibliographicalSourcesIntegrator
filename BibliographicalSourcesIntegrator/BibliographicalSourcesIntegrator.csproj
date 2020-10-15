@@ -46,17 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormularioDeBusqueda.cs">
+    <Compile Include="SearchForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormularioDeBusqueda.Designer.cs">
-      <DependentUpon>FormularioDeBusqueda.cs</DependentUpon>
+    <Compile Include="SearchForm.Designer.cs">
+      <DependentUpon>SearchForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormularioDeCarga.cs">
+    <Compile Include="UploadForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormularioDeCarga.Designer.cs">
-      <DependentUpon>FormularioDeCarga.cs</DependentUpon>
+    <Compile Include="UploadForm.Designer.cs">
+      <DependentUpon>UploadForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
