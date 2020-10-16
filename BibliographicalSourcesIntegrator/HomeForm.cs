@@ -20,12 +20,12 @@ namespace BibliographicalSourcesIntegrator
 
         private void SearchButtonClick(object sender, EventArgs e)
         {
-            LoadNewForm(new SearchForm());
+            LoadNewForm(new SearchForm(this));
         }
 
         private void LoadButtonClick(object sender, EventArgs e)
         {
-            LoadNewForm(new LoadForm());
+            LoadNewForm(new LoadForm(this));
         }
 
 

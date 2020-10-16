@@ -12,9 +12,13 @@ namespace BibliographicalSourcesIntegrator
 {
     public partial class LoadForm : Form
     {
-        public LoadForm()
+        private Form homeForm;
+
+        public LoadForm(Form homeForm)
         {
             InitializeComponent();
+
+            this.homeForm = homeForm;
 
             labelDBLPReferencesNumber.Text = "";
             labelIEEEXploreReferencesNumber.Text = "";
@@ -41,9 +45,10 @@ namespace BibliographicalSourcesIntegrator
             richTextBoxResults.Text = "";
         }
 
-        private void CloseApplication(object sender, FormClosedEventArgs e)
+
+        private void CloseForm(object sender, FormClosedEventArgs e)
         {
-            Application.Exit();
+            homeForm.Show();
         }
     }
 }

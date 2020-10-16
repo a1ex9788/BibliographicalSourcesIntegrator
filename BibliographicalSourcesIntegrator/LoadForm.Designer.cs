@@ -120,7 +120,7 @@
             this.tableLayoutPanel8.ColumnCount = 3;
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.49451F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.50549F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 197F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 199F));
             this.tableLayoutPanel8.Controls.Add(this.label6, 0, 0);
             this.tableLayoutPanel8.Controls.Add(this.label9, 1, 1);
             this.tableLayoutPanel8.Controls.Add(this.label10, 1, 2);
@@ -156,7 +156,7 @@
             // 
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(102, 30);
+            this.label9.Location = new System.Drawing.Point(101, 30);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(38, 13);
             this.label9.TabIndex = 2;
@@ -166,7 +166,7 @@
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(102, 68);
+            this.label10.Location = new System.Drawing.Point(101, 68);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(67, 13);
             this.label10.TabIndex = 3;
@@ -176,7 +176,7 @@
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(102, 105);
+            this.label11.Location = new System.Drawing.Point(101, 105);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(46, 26);
             this.label11.TabIndex = 4;
@@ -186,7 +186,7 @@
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(102, 143);
+            this.label8.Location = new System.Drawing.Point(101, 143);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(34, 13);
             this.label8.TabIndex = 1;
@@ -196,7 +196,7 @@
             // 
             this.labelDBLPReferencesNumber.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelDBLPReferencesNumber.AutoSize = true;
-            this.labelDBLPReferencesNumber.Location = new System.Drawing.Point(182, 30);
+            this.labelDBLPReferencesNumber.Location = new System.Drawing.Point(180, 30);
             this.labelDBLPReferencesNumber.Name = "labelDBLPReferencesNumber";
             this.labelDBLPReferencesNumber.Size = new System.Drawing.Size(41, 13);
             this.labelDBLPReferencesNumber.TabIndex = 5;
@@ -206,7 +206,7 @@
             // 
             this.labelIEEEXploreReferencesNumber.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelIEEEXploreReferencesNumber.AutoSize = true;
-            this.labelIEEEXploreReferencesNumber.Location = new System.Drawing.Point(182, 68);
+            this.labelIEEEXploreReferencesNumber.Location = new System.Drawing.Point(180, 68);
             this.labelIEEEXploreReferencesNumber.Name = "labelIEEEXploreReferencesNumber";
             this.labelIEEEXploreReferencesNumber.Size = new System.Drawing.Size(41, 13);
             this.labelIEEEXploreReferencesNumber.TabIndex = 6;
@@ -216,7 +216,7 @@
             // 
             this.labelGoogleScholarReferencesNumber.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelGoogleScholarReferencesNumber.AutoSize = true;
-            this.labelGoogleScholarReferencesNumber.Location = new System.Drawing.Point(182, 112);
+            this.labelGoogleScholarReferencesNumber.Location = new System.Drawing.Point(180, 112);
             this.labelGoogleScholarReferencesNumber.Name = "labelGoogleScholarReferencesNumber";
             this.labelGoogleScholarReferencesNumber.Size = new System.Drawing.Size(41, 13);
             this.labelGoogleScholarReferencesNumber.TabIndex = 7;
@@ -226,7 +226,7 @@
             // 
             this.labelTotalReferencesNumber.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelTotalReferencesNumber.AutoSize = true;
-            this.labelTotalReferencesNumber.Location = new System.Drawing.Point(182, 143);
+            this.labelTotalReferencesNumber.Location = new System.Drawing.Point(180, 143);
             this.labelTotalReferencesNumber.Name = "labelTotalReferencesNumber";
             this.labelTotalReferencesNumber.Size = new System.Drawing.Size(41, 13);
             this.labelTotalReferencesNumber.TabIndex = 8;
@@ -476,11 +476,11 @@
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(127, 29);
+            this.label4.Location = new System.Drawing.Point(133, 29);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(127, 13);
+            this.label4.Size = new System.Drawing.Size(115, 13);
             this.label4.TabIndex = 5;
-            this.label4.Text = "Select search parameters";
+            this.label4.Text = "Select load parameters";
             // 
             // LoadForm
             // 
@@ -489,8 +489,9 @@
             this.ClientSize = new System.Drawing.Size(915, 561);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "LoadForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LoadForm";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CloseApplication);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CloseForm);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel7.ResumeLayout(false);

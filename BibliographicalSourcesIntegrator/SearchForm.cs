@@ -12,9 +12,13 @@ namespace BibliographicalSourcesIntegrator
 {
     public partial class SearchForm : Form
     {
-        public SearchForm()
+        private Form homeForm;
+
+        public SearchForm(Form homeForm)
         {
             InitializeComponent();
+
+            this.homeForm = homeForm;
         }
 
 
@@ -29,9 +33,9 @@ namespace BibliographicalSourcesIntegrator
         }
 
 
-        private void CloseApplication(object sender, FormClosedEventArgs e)
+        private void CloseForm(object sender, FormClosedEventArgs e)
         {
-            Application.Exit();
+            homeForm.Show();
         }
     }
 }
