@@ -30,15 +30,15 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBoxAuthor = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBoxArticle = new System.Windows.Forms.CheckBox();
+            this.checkBoxBook = new System.Windows.Forms.CheckBox();
+            this.checkBoxCongress = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
@@ -57,7 +57,7 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.listViewResults = new System.Windows.Forms.ListView();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
@@ -91,14 +91,14 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.CleanSearchButtonClick);
             // 
-            // textBox1
+            // textBoxTitle
             // 
-            this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(244, 138);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(102, 26);
-            this.textBox1.TabIndex = 2;
+            this.textBoxTitle.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.textBoxTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxTitle.Location = new System.Drawing.Point(244, 138);
+            this.textBoxTitle.Name = "textBoxTitle";
+            this.textBoxTitle.Size = new System.Drawing.Size(102, 26);
+            this.textBoxTitle.TabIndex = 2;
             // 
             // label1
             // 
@@ -122,14 +122,14 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Title:";
             // 
-            // textBox2
+            // textBoxAuthor
             // 
-            this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(244, 51);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(102, 26);
-            this.textBox2.TabIndex = 7;
+            this.textBoxAuthor.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.textBoxAuthor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxAuthor.Location = new System.Drawing.Point(244, 51);
+            this.textBoxAuthor.Name = "textBoxAuthor";
+            this.textBoxAuthor.Size = new System.Drawing.Size(102, 26);
+            this.textBoxAuthor.TabIndex = 7;
             // 
             // label5
             // 
@@ -157,41 +157,41 @@
             this.label6.Text = "IEI Bibliographical search";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // checkBox1
+            // checkBoxArticle
             // 
-            this.checkBox1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.Location = new System.Drawing.Point(190, 3);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(70, 24);
-            this.checkBox1.TabIndex = 13;
-            this.checkBox1.Text = "article";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBoxArticle.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxArticle.AutoSize = true;
+            this.checkBoxArticle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxArticle.Location = new System.Drawing.Point(190, 3);
+            this.checkBoxArticle.Name = "checkBoxArticle";
+            this.checkBoxArticle.Size = new System.Drawing.Size(70, 24);
+            this.checkBoxArticle.TabIndex = 13;
+            this.checkBoxArticle.Text = "article";
+            this.checkBoxArticle.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // checkBoxBook
             // 
-            this.checkBox2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox2.Location = new System.Drawing.Point(190, 46);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(63, 24);
-            this.checkBox2.TabIndex = 14;
-            this.checkBox2.Text = "book";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBoxBook.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxBook.AutoSize = true;
+            this.checkBoxBook.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxBook.Location = new System.Drawing.Point(190, 46);
+            this.checkBoxBook.Name = "checkBoxBook";
+            this.checkBoxBook.Size = new System.Drawing.Size(63, 24);
+            this.checkBoxBook.TabIndex = 14;
+            this.checkBoxBook.Text = "book";
+            this.checkBoxBook.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // checkBoxCongress
             // 
-            this.checkBox3.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox3.Location = new System.Drawing.Point(190, 108);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(181, 24);
-            this.checkBox3.TabIndex = 15;
-            this.checkBox3.Text = "communication in congress";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBoxCongress.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxCongress.AutoSize = true;
+            this.checkBoxCongress.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxCongress.Location = new System.Drawing.Point(190, 108);
+            this.checkBoxCongress.Name = "checkBoxCongress";
+            this.checkBoxCongress.Size = new System.Drawing.Size(181, 24);
+            this.checkBoxCongress.TabIndex = 15;
+            this.checkBoxCongress.Text = "communication in congress";
+            this.checkBoxCongress.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
             // 
@@ -205,7 +205,7 @@
             this.tableLayoutPanel1.Controls.Add(this.label8, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label6, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel5, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.listView1, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.listViewResults, 1, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -227,8 +227,8 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 176F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel6, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.textBox2, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.textBox1, 2, 1);
+            this.tableLayoutPanel2.Controls.Add(this.textBoxAuthor, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.textBoxTitle, 2, 1);
             this.tableLayoutPanel2.Controls.Add(this.label2, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.label1, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel7, 2, 2);
@@ -354,9 +354,9 @@
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Controls.Add(this.checkBox3, 1, 2);
-            this.tableLayoutPanel3.Controls.Add(this.checkBox2, 1, 1);
-            this.tableLayoutPanel3.Controls.Add(this.checkBox1, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxCongress, 1, 2);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxBook, 1, 1);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxArticle, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.label7, 0, 1);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 369);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -477,16 +477,16 @@
             this.label9.Text = "1 2 3";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // listView1
+            // listViewResults
             // 
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(446, 121);
-            this.listView1.Name = "listView1";
-            this.tableLayoutPanel1.SetRowSpan(this.listView1, 2);
-            this.listView1.Size = new System.Drawing.Size(485, 429);
-            this.listView1.TabIndex = 18;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listViewResults.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewResults.HideSelection = false;
+            this.listViewResults.Location = new System.Drawing.Point(446, 121);
+            this.listViewResults.Name = "listViewResults";
+            this.tableLayoutPanel1.SetRowSpan(this.listViewResults, 2);
+            this.listViewResults.Size = new System.Drawing.Size(485, 429);
+            this.listViewResults.TabIndex = 18;
+            this.listViewResults.UseCompatibleStateImageBehavior = false;
             // 
             // SearchForm
             // 
@@ -521,15 +521,15 @@
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxTitle;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBoxAuthor;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBoxArticle;
+        private System.Windows.Forms.CheckBox checkBoxBook;
+        private System.Windows.Forms.CheckBox checkBoxCongress;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
@@ -542,7 +542,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView listViewResults;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown numericUpDownInitialYear;

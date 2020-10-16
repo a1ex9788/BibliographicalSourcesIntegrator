@@ -24,12 +24,29 @@ namespace BibliographicalSourcesIntegrator
 
         private void SearchButtonClick(object sender, EventArgs e)
         {
+            string author = textBoxAuthor.Text;
+            string title = textBoxTitle.Text;
+            int initialYear = (int) numericUpDownInitialYear.Value;
+            int finalYear = (int) numericUpDownFinalYear.Value;
+            bool searchArticle = checkBoxArticle.Checked;
+            bool searchBook = checkBoxBook.Checked;
+            bool searchCongress = checkBoxCongress.Checked;
 
+            new RequestsManager().SearchDataInWarehouse();
+
+            //listViewResults.Items.Add();
         }
 
         private void CleanSearchButtonClick(object sender, EventArgs e)
         {
-
+            textBoxAuthor.Text = "";
+            textBoxTitle.Text = "";
+            numericUpDownInitialYear.Text = "";
+            numericUpDownFinalYear.Text = "";
+            checkBoxArticle.Text = "";
+            checkBoxBook.Text = "";
+            checkBoxCongress.Text = "";
+            listViewResults.Items.Clear();
         }
 
 
