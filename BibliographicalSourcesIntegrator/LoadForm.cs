@@ -15,26 +15,35 @@ namespace BibliographicalSourcesIntegrator
         public LoadForm()
         {
             InitializeComponent();
+
+            labelDBLPReferencesNumber.Text = "";
+            labelIEEEXploreReferencesNumber.Text = "";
+            labelGoogleScholarReferencesNumber.Text = "";
+            labelTotalReferencesNumber.Text = "";
+            richTextBoxResults.Text = "";
         }
 
-        private void LoadForm_Load(object sender, EventArgs e)
-        {
 
+        private void LoadDataButtonClick(object sender, EventArgs e)
+        {
+            bool loadDBLP = checkBoxDBLP.Checked;
+            bool loadIEEEXplore = checkBoxIEEEXplore.Checked;
+            bool loadGoogleScholar = checkBoxGoogleScholar.Checked;
+            int initialYear = (int) numericUpDownInitialYear.Value;
+            int finalYear = (int) numericUpDownFinalYear.Value;
+
+            new RequestsManager().LoadDataFromDataSources();
+
+            labelDBLPReferencesNumber.Text = "";
+            labelIEEEXploreReferencesNumber.Text = "";
+            labelGoogleScholarReferencesNumber.Text = "";
+            labelTotalReferencesNumber.Text = "";
+            richTextBoxResults.Text = "";
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void CloseApplication(object sender, FormClosedEventArgs e)
         {
-
-        }
-
-        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
+            Application.Exit();
         }
     }
 }

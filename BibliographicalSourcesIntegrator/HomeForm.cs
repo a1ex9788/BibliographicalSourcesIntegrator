@@ -17,22 +17,23 @@ namespace BibliographicalSourcesIntegrator
             InitializeComponent();
         }
 
-        private void searchButtonClick(object sender, EventArgs e)
+
+        private void SearchButtonClick(object sender, EventArgs e)
         {
-            this.Hide();
-
-            SearchForm sf = new SearchForm();
-
-            sf.Show();
+            LoadNewForm(new SearchForm());
         }
 
-        private void loadButtonClick(object sender, EventArgs e)
+        private void LoadButtonClick(object sender, EventArgs e)
         {
+            LoadNewForm(new LoadForm());
+        }
+
+
+        private void LoadNewForm(Form form)
+        {
+            form.Show();
+
             this.Hide();
-
-            LoadForm sf = new LoadForm();
-
-            sf.Show();
         }
     }
 }
