@@ -14,7 +14,7 @@ namespace BibliographicalSourcesIntegrator
 
         public RequestsManager()
         {
-            client.BaseAddress = new Uri("http://localhost:/");
+            client.BaseAddress = new Uri("http://localhost:49845");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("aplication/json"));
         }
