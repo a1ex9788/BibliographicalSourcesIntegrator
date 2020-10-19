@@ -15,8 +15,5 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
         public string Name { get; set; }
 
         public string Surnames { get; set; }
-
-
-        public ICollection<Publication> Publications { get; set; }
     }
 }

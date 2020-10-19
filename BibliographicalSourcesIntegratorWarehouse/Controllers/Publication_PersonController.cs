@@ -5,13 +5,12 @@ using BibliographicalSourcesIntegratorWarehouse.Entities;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Web.Http;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 {
     public class Publication_PersonController : ControllerBase
     {
-        private readonly ILogger<PublicationController> _logger;
+        private readonly ILogger<Publication_PersonController> _logger;
 
         public Publication_PersonController(ILogger<Publication_PersonController> logger)
         {

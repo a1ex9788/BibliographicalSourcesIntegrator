@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Entities
 {
-    public class Article : Publication
+    public class Article
     {
         [Key]
         public int Id { get; set; }
@@ -22,7 +22,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
 
         public int FinalPage { get; set; }
 
-        public int Id_Exemplar { get; set; }
+        //public int Id_Exemplar { get; set; }
 
         public Exemplar Exemplar { get; set; }
     }

@@ -27,7 +27,7 @@ namespace BibliographicalSourcesIntegratorWarehouse
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionStrings")));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer("Data Source=.;Initial catalog=BibliographicalSourcesIntegratorWarehouseDB;Integrated Security=true"));
             services.AddControllers();
         }
 
