@@ -10,22 +10,22 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PersonController : ControllerBase
+    public class SearchController : ControllerBase
     {
-        private readonly AppDbContext context;
+        private SearchManager searchManager;
 
-        private readonly ILogger<PersonController> _logger;
+        private readonly ILogger<SearchController> _logger;
 
-        public PersonController(ILogger<PersonController> logger, AppDbContext context)
+        public SearchController(ILogger<SearchController> logger, SearchManager searchManager)
         {
             _logger = logger;
-            this.context = context;
+            this.searchManager = searchManager;
         }
 
         [HttpGet]
-        public IEnumerable<Person> Get()
+        public void Get()
         {
-            return context.People;
+            SearchManager.Search();
         }
     }
 }
