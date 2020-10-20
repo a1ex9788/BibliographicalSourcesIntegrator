@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Entities
 {
@@ -18,6 +18,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
         public string Surnames { get; set; }
 
 
-        public ICollection<Publication> Publications { get; set; }
+        public ICollection<Person_Publication> Publications { get; set; }
     }
 }
