@@ -7,18 +7,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Entities
 {
-    public class Publication_Person
+    public class Publication
     {
         [Key]
         public int Id { get; set; }
 
-        public int Id_Article { get; set; }
 
-        public int Id_Book { get; set; }
+        public string Title { get; set; }
 
-        public int Id_CongressComunication { get; set; }
+        public string Year { get; set; }
 
-        public int Id_Person { get; set; }
+        public string Url { get; set; }
+
 
         public ICollection<Person> People { get; set; }
     }

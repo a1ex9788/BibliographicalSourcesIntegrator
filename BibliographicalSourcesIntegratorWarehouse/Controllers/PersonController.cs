@@ -25,7 +25,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
         [HttpGet]
         public IEnumerable<Person> Get()
         {
-            return context.Person;
+            return context.People;
         }
     }
 }

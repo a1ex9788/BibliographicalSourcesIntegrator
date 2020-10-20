@@ -14,16 +14,18 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
         }
 
 
-        public DbSet<Article> Article { get; set; }
+        public DbSet<Publication> Publications { get; set; }
 
-        public DbSet<Book> Book { get; set; }
+        public DbSet<Article> Articles { get; set; }
 
-        public DbSet<CongressComunication> CongressComunication { get; set; }
+        public DbSet<Book> Books { get; set; }
 
-        public DbSet<Exemplar> Exemplar { get; set; }
+        public DbSet<CongressComunication> CongressComunications { get; set; }
 
-        public DbSet<Journal> Journal { get; set; }
+        public DbSet<Exemplar> Exemplars { get; set; }
 
-        public DbSet<Person> Person { get; set; }
+        public DbSet<Journal> Journals { get; set; }
+
+        public DbSet<Person> People { get; set; }
     }
 }

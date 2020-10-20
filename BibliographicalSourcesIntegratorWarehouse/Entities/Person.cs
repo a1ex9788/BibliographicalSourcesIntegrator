@@ -12,8 +12,12 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
         [Key]
         public int Id { get; set; }
 
+
         public string Name { get; set; }
 
         public string Surnames { get; set; }
+
+
+        public ICollection<Publication> Publications { get; set; }
     }
 }
