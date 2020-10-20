@@ -23,9 +23,9 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
         }
 
         [HttpGet]
-        public void Get()
+        public void Search()
         {
-            SearchManager.Search();
+            searchManager.Search();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BibliographicalSourcesIntegratorWarehouse.Persistence;
+﻿using BibliographicalSourcesIntegrator;
+using BibliographicalSourcesIntegratorWarehouse.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +9,19 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 {
     public class LoadManager
     {
+        RequestsManager requestsManager;
+
         private readonly AppDbContext context;
 
-        public LoadManager(AppDbContext context)
+        public LoadManager(AppDbContext context, RequestsManager requestsManager)
         {
             this.context = context;
+            this.requestsManager = requestsManager;
         }
 
-        public static void Load()
+        public async void Load()
         {
-            throw new NotImplementedException();
+            await requestsManager.LoadDataFrom().ConfigureAwait(false);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BibliographicalSourcesIntegratorWarehouse.Persistence;
+﻿using BibliographicalSourcesIntegrator;
+using BibliographicalSourcesIntegratorWarehouse.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,9 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             this.context = context;
         }
 
-        public static void Search()
+        public void Search()
         {
-            throw new NotImplementedException();
+            // preguntar a la BD
         }
     }
 }

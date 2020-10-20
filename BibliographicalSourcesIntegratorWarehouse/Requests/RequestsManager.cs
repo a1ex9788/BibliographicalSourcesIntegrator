@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BibliographicalSourcesIntegratorContracts;
+using Nancy.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -14,7 +16,7 @@ namespace BibliographicalSourcesIntegrator
 
         public RequestsManager()
         {
-            client.BaseAddress = new Uri("http://localhost:49845");
+            client.BaseAddress = new Uri(ProgramAddresses.DBLPWrapperAddress);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("aplication/json"));
         }
@@ -22,7 +24,9 @@ namespace BibliographicalSourcesIntegrator
 
         public async Task<string> LoadDataFrom()
         {
-            return await MakeARequest("no se encara");
+            ExtractRequest extractRequest = new ExtractRequest(1, 5);
+
+            return await MakeARequest("ExtractData/" + new JavaScriptSerializer().Serialize(extractRequest));
         }
 
 

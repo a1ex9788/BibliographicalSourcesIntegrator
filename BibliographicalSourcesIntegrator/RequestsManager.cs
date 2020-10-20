@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BibliographicalSourcesIntegratorContracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -14,7 +15,7 @@ namespace BibliographicalSourcesIntegrator
 
         public RequestsManager()
         {
-            client.BaseAddress = new Uri("http://localhost:49845");
+            client.BaseAddress = new Uri(ProgramAddresses.BibliographicalSourcesIntegratorWarehouseAddress);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("aplication/json"));
         }
