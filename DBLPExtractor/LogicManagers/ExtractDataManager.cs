@@ -19,6 +19,7 @@ namespace DBLPExtractor.LogicManagers
             _logger = logger;
         }
 
+
         public string ExtractData(string request)
         {
             ExtractRequest extractRequest = GetExtractRequest(request);
@@ -30,6 +31,7 @@ namespace DBLPExtractor.LogicManagers
 
             return null;
         }
+
 
         private ExtractRequest GetExtractRequest(string request)
         {
