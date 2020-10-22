@@ -2,12 +2,8 @@
 # Execute: Set-ExecutionPolicy RemoteSigned
 
 
-Set-Location .\BibliographicalSourcesIntegratorWarehouse
 
-start dotnet run
-
-
-Set-Location ..\DBLPExtractor
+Set-Location .\DBLPExtractor
 
 start dotnet run
 
@@ -18,6 +14,11 @@ start dotnet run
 
 
 Set-Location ..\IEEEXploreExtractor
+
+start dotnet run
+
+
+Set-Location ..\BibliographicalSourcesIntegratorWarehouse
 
 start dotnet run
 

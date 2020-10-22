@@ -4,8 +4,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:50011",
-      "sslPort": 50011
+      "applicationUrl": "http://localhost:50002"
     }
   },
   "profiles": {
@@ -21,7 +20,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "ExtractData/Request asfd",
-      "applicationUrl": "https://localhost:50011;http://localhost:40011",
+      "applicationUrl": "https://localhost:50002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

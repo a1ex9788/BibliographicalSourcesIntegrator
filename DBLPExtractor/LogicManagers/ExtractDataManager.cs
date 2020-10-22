@@ -41,7 +41,7 @@ namespace DBLPExtractor.LogicManagers
             }
             catch (Exception)
             {
-                _logger.LogError("The request string is not an ExtractRequest.");
+                _logger.LogError("The request is not an ExtractRequest.");
 
                 return null;
             }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BibliographicalSourcesIntegratorContracts;
 using DBLPExtractor.LogicManagers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,6 +26,8 @@ namespace DBLPExtractor.Controllers
         [HttpGet("{request}")]
         public string ExtractData(string request)
         {
+            _logger.LogInformation("An extract data request was received: " + request);
+
             return extractDataManager.ExtractData(request);
         }
     }

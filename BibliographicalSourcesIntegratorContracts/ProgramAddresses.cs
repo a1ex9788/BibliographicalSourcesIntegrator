@@ -15,17 +15,17 @@ namespace BibliographicalSourcesIntegratorContracts
 
         public static string DBLPWrapperAddress
         {
-            get => "http://localhost:50011";
+            get => "http://localhost:50002";
         }
 
         public static string GoogleScholarWrapperAddress
         {
-            get => "http://localhost:50012";
+            get => "http://localhost:50003";
         }
 
         public static string IEEEXploreWrapperAddress
         {
-            get => "http://localhost:50013";
+            get => "http://localhost:50004";
         }
     }
 }
