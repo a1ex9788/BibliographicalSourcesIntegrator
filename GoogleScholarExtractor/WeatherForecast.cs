@@ -1,6 +1,6 @@
 using System;
 
-namespace GoogleScholarExtractor
+namespace GoogleScholarWrapper
 {
     public class WeatherForecast
     {

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BibliographicalSourcesIntegratorContracts;
-using DBLPExtractor.LogicManagers;
+using DBLPWrapper.LogicManagers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace DBLPExtractor.Controllers
+namespace DBLPWrapper.Controllers
 {
     [ApiController]
     [Route("[controller]")]

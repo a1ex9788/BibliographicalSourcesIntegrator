@@ -1,6 +1,6 @@
 using System;
 
-namespace IEEEXploreExtractor
+namespace IEEEXploreWrapper
 {
     public class WeatherForecast
     {

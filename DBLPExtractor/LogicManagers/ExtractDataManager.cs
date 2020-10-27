@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DBLPExtractor.LogicManagers
+namespace DBLPWrapper.LogicManagers
 {
     public class ExtractDataManager
     {

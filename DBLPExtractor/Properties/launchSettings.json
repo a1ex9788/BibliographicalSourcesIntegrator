@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "DBLPExtractor": {
+    "DBLPWrapper": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "ExtractData/Request asfd",

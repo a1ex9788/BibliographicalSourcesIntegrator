@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "GoogleScholarExtractor": {
+    "GoogleScholarWrapper": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",
