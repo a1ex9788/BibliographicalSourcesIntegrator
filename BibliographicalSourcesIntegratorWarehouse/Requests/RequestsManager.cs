@@ -16,17 +16,39 @@ namespace BibliographicalSourcesIntegrator
 
         public RequestsManager()
         {
-            client.BaseAddress = new Uri(ProgramAddresses.DBLPWrapperAddress);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("aplication/json"));
         }
 
 
-        public async Task<string> LoadDataFrom()
+        public async Task<LoadAnswer> LoadDataFrom(LoadRequest loadRequest)
         {
-            ExtractRequest extractRequest = new ExtractRequest(1, 5);
+            string dBLPAnswer = "", iEEEXploreAnswer = "", googleScholarAnswer = "";
 
-            return await MakeARequest("ExtractData/" + new JavaScriptSerializer().Serialize(extractRequest));
+            ExtractRequest extractRequest = new ExtractRequest(loadRequest.InitialYear, loadRequest.FinalYear);
+
+            if (loadRequest.loadFromDBLP)
+            {
+                client.BaseAddress = new Uri(ProgramAddresses.DBLPWrapperAddress);
+
+                dBLPAnswer = await MakeARequest("ExtractData/" + JSONHelper<ExtractRequest>.Serialize(extractRequest));
+            }
+
+            if (loadRequest.loadFromIEEEXplore)
+            {
+                client.BaseAddress = new Uri(ProgramAddresses.IEEEXploreWrapperAddress);
+
+                iEEEXploreAnswer = await MakeARequest("ExtractData/" + JSONHelper<ExtractRequest>.Serialize(extractRequest));
+            }
+
+            if (loadRequest.loadFromGoogleScholar)
+            {
+                client.BaseAddress = new Uri(ProgramAddresses.GoogleScholarWrapperAddress);
+
+                googleScholarAnswer = await MakeARequest("ExtractData/" + JSONHelper<ExtractRequest>.Serialize(extractRequest));
+            }
+
+            return new LoadAnswer(dBLPAnswer, iEEEXploreAnswer, googleScholarAnswer);
         }
 
 

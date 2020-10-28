@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "Load",
+      "launchUrl": "Load/Requestasda",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -19,7 +19,7 @@
     "BibliographicalSourcesIntegratorWarehouse": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "Load",
+      "launchUrl": "Load/Requestasda",
       "applicationUrl": "https://localhost:50001",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

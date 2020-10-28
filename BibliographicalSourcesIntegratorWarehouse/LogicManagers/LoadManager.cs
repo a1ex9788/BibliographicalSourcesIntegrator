@@ -23,13 +23,15 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             _logger = logger;
         }
 
-        public async void Load(string request)
+        public async Task<string> Load(string request)
         {
             LoadRequest loadRequest = GetLoadRequest(request);
 
-            await requestsManager.LoadDataFrom().ConfigureAwait(false);
+            LoadAnswer loadAnswer = await requestsManager.LoadDataFrom(loadRequest).ConfigureAwait(false);
 
             // Guarda en la DB
+
+            return JSONHelper<LoadAnswer>.Serialize(loadAnswer);
         }
 
 
@@ -37,7 +39,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
         {
             try
             {
-                return new JavaScriptSerializer().Deserialize<LoadRequest>(request);
+                return JSONHelper<LoadRequest>.Deserialize(request);
             }
             catch (Exception)
             {

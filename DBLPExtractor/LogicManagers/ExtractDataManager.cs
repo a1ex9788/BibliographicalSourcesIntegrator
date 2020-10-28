@@ -37,7 +37,7 @@ namespace DBLPWrapper.LogicManagers
         {
             try
             {
-                return new JavaScriptSerializer().Deserialize<ExtractRequest>(request);
+                return JSONHelper<ExtractRequest>.Deserialize(request);
             }
             catch (Exception)
             {
@@ -49,13 +49,16 @@ namespace DBLPWrapper.LogicManagers
 
         private string ExtractDataFromFile(int initialYear, int finalYear)
         {
+            return "asdas";
+
             try
             {
                 // TODO: Utilizar herramientas de XML para obtener los datos
 
                 FileStream file = File.OpenRead("../../DBLP.XML");
+                File.ReadAllText("../../DBLP.XML");
 
-                return "";
+                return "asdfasdf";
             }
             catch (Exception)
             {

@@ -25,7 +25,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
         [HttpGet("{request}")]
         public void Load(string request)
         {
-            _logger.LogInformation("A load request was received: ");
+            _logger.LogInformation("A load request was received: " + request);
 
             loadManager.Load(request);
         }

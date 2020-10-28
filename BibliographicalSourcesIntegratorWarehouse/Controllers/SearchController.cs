@@ -22,9 +22,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             this.searchManager = searchManager;
         }
 
-        [HttpGet]
-        public void Search()
+        [HttpGet("request")]
+        public void Search(string request)
         {
+            _logger.LogInformation("A search request was received: " + request);
+
             searchManager.Search();
         }
     }
