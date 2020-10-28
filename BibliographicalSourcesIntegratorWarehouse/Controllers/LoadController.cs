@@ -22,12 +22,12 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             this.loadManager = loadManager;
         }
 
-        [HttpGet]
-        public void Load()
+        [HttpGet("{request}")]
+        public void Load(string request)
         {
             _logger.LogInformation("A load request was received: ");
 
-            loadManager.Load();
+            loadManager.Load(request);
         }
     }
 }

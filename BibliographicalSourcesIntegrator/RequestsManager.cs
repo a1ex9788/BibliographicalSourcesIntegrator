@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace BibliographicalSourcesIntegrator
 {
@@ -26,9 +27,9 @@ namespace BibliographicalSourcesIntegrator
             return await MakeARequest("no se encara");
         }
 
-        public async Task<string> LoadDataFromDataSources()
+        public async Task<string> LoadDataFromDataSources(LoadRequest loadRequest)
         {
-            return await MakeARequest("no se encara");
+            return await MakeARequest("Load/" + new JavaScriptSerializer().Serialize(loadRequest));
         }
 
 

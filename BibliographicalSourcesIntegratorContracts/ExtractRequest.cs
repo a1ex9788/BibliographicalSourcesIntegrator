@@ -11,6 +11,7 @@ namespace BibliographicalSourcesIntegratorContracts
 
         public int FinalYear { get; set; }
 
+
         public ExtractRequest(int initialYear, int finalYear)
         {
             InitialYear = initialYear;

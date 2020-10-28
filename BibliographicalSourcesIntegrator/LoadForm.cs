@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BibliographicalSourcesIntegratorContracts;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -36,7 +37,9 @@ namespace BibliographicalSourcesIntegrator
             int initialYear = (int) numericUpDownInitialYear.Value;
             int finalYear = (int) numericUpDownFinalYear.Value;
 
-            new RequestsManager().LoadDataFromDataSources();
+            LoadRequest loadRequest = new LoadRequest(loadDBLP, loadIEEEXplore, loadGoogleScholar, initialYear, finalYear);
+
+            new RequestsManager().LoadDataFromDataSources(loadRequest);
 
             labelDBLPReferencesNumber.Text = "";
             labelIEEEXploreReferencesNumber.Text = "";
