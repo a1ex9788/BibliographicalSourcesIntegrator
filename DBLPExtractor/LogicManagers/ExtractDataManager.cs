@@ -37,7 +37,7 @@ namespace DBLPWrapper.LogicManagers
         {
             try
             {
-                return JSONHelper<ExtractRequest>.Deserialize(request);
+                return JSONHelper.Deserialize<ExtractRequest>(request);
             }
             catch (Exception)
             {

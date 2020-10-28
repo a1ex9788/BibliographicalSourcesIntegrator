@@ -7,14 +7,14 @@ using System.Web.Script.Serialization;
 
 namespace BibliographicalSourcesIntegratorContracts
 {
-    public static class JSONHelper<T>
+    public static class JSONHelper
     {
-        public static string Serialize(T objectToJSON)
+        public static string Serialize<T>(T objectToJSON)
         {
             return new JavaScriptSerializer().Serialize(objectToJSON);
         }
 
-        public static T Deserialize(string jsonToString)
+        public static T Deserialize<T>(string jsonToString)
         {
             return new JavaScriptSerializer().Deserialize<T>(jsonToString);
         }

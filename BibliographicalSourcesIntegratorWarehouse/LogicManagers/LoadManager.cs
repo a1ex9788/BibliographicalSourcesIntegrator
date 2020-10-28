@@ -31,7 +31,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 
             // Guarda en la DB
 
-            return JSONHelper<LoadAnswer>.Serialize(loadAnswer);
+            return JSONHelper.Serialize(loadAnswer);
         }
 
 
@@ -39,7 +39,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
         {
             try
             {
-                return JSONHelper<LoadRequest>.Deserialize(request);
+                return JSONHelper.Deserialize<LoadRequest>(request);
             }
             catch (Exception)
             {

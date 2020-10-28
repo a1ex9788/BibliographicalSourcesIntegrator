@@ -31,21 +31,21 @@ namespace BibliographicalSourcesIntegrator
             {
                 client.BaseAddress = new Uri(ProgramAddresses.DBLPWrapperAddress);
 
-                dBLPAnswer = await MakeARequest("ExtractData/" + JSONHelper<ExtractRequest>.Serialize(extractRequest));
+                dBLPAnswer = await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
             }
 
             if (loadRequest.loadFromIEEEXplore)
             {
                 client.BaseAddress = new Uri(ProgramAddresses.IEEEXploreWrapperAddress);
 
-                iEEEXploreAnswer = await MakeARequest("ExtractData/" + JSONHelper<ExtractRequest>.Serialize(extractRequest));
+                iEEEXploreAnswer = await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
             }
 
             if (loadRequest.loadFromGoogleScholar)
             {
                 client.BaseAddress = new Uri(ProgramAddresses.GoogleScholarWrapperAddress);
 
-                googleScholarAnswer = await MakeARequest("ExtractData/" + JSONHelper<ExtractRequest>.Serialize(extractRequest));
+                googleScholarAnswer = await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
             }
 
             return new LoadAnswer(dBLPAnswer, iEEEXploreAnswer, googleScholarAnswer);

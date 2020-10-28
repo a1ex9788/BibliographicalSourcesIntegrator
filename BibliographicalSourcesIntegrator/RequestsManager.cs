@@ -29,7 +29,7 @@ namespace BibliographicalSourcesIntegrator
 
         public async Task<string> LoadDataFromDataSources(LoadRequest loadRequest)
         {
-            return await MakeARequest("Load/" + JSONHelper<LoadRequest>.Serialize(loadRequest));
+            return await MakeARequest("Load/" + JSONHelper.Serialize(loadRequest));
         }
 
 
