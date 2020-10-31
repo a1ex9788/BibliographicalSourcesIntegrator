@@ -12,13 +12,25 @@ namespace BibliographicalSourcesIntegrator
 {
     public class RequestsManager
     {
+        private static RequestsManager requestsManagerInstance;
+
         static HttpClient client = new HttpClient();
 
-        public RequestsManager()
+        private RequestsManager()
         {
             client.BaseAddress = new Uri(ProgramAddresses.BibliographicalSourcesIntegratorWarehouseAddress);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("aplication/json"));
+        }
+
+        public static RequestsManager GetRequestsManager()
+        {
+            if (requestsManagerInstance == null)
+            {
+                requestsManagerInstance = new RequestsManager();
+            }
+
+            return requestsManagerInstance;
         }
 
 

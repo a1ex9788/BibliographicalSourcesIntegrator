@@ -22,7 +22,7 @@ namespace BibliographicalSourcesIntegrator
         }
 
 
-        private void SearchButtonClick(object sender, EventArgs e)
+        private async void SearchButtonClick(object sender, EventArgs e)
         {
             string author = textBoxAuthor.Text;
             string title = textBoxTitle.Text;
@@ -32,7 +32,7 @@ namespace BibliographicalSourcesIntegrator
             bool searchBook = checkBoxBook.Checked;
             bool searchCongress = checkBoxCongress.Checked;
 
-            new RequestsManager().SearchDataInWarehouse();
+            await RequestsManager.GetRequestsManager().SearchDataInWarehouse();
 
             //listViewResults.Items.Add();
         }

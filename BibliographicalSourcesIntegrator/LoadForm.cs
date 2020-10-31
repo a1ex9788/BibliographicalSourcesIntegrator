@@ -37,26 +37,46 @@ namespace BibliographicalSourcesIntegrator
             int initialYear = (int) numericUpDownInitialYear.Value;
             int finalYear = (int) numericUpDownFinalYear.Value;
 
+            if (!loadDBLP && !loadIEEEXplore && !loadGoogleScholar)
+            {
+                ShowError("Any source selected, please select one or more.");
+
+                return;
+            }
+
             LoadRequest loadRequest = new LoadRequest(loadDBLP, loadIEEEXplore, loadGoogleScholar, initialYear, finalYear);
 
-            LoadAnswer loadAnswer = await new RequestsManager().LoadDataFromDataSources(loadRequest);
+            LoadAnswer loadAnswer = await RequestsManager.GetRequestsManager().LoadDataFromDataSources(loadRequest);
 
             if (loadAnswer == null)
             {
                 return;
             }
 
+            ResetErrorText();
             labelDBLPReferencesNumber.Text = "";
             labelIEEEXploreReferencesNumber.Text = "";
             labelGoogleScholarReferencesNumber.Text = "";
             labelTotalReferencesNumber.Text = "";
-            richTextBoxResults.Text = "";
         }
 
 
         private void CloseForm(object sender, FormClosedEventArgs e)
         {
             homeForm.Show();
+        }
+
+
+        private void ShowError(string errorMessage)
+        {
+            richTextBoxResults.ForeColor = Color.Red;
+            richTextBoxResults.Text = errorMessage;
+        }
+
+        private void ResetErrorText()
+        {
+            richTextBoxResults.ForeColor = Color.DarkGray;
+            richTextBoxResults.Text = "";
         }
     }
 }
