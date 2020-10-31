@@ -29,7 +29,7 @@ namespace BibliographicalSourcesIntegrator
         }
 
 
-        private void LoadDataButtonClick(object sender, EventArgs e)
+        private async void LoadDataButtonClick(object sender, EventArgs e)
         {
             bool loadDBLP = checkBoxDBLP.Checked;
             bool loadIEEEXplore = checkBoxIEEEXplore.Checked;
@@ -39,7 +39,12 @@ namespace BibliographicalSourcesIntegrator
 
             LoadRequest loadRequest = new LoadRequest(loadDBLP, loadIEEEXplore, loadGoogleScholar, initialYear, finalYear);
 
-            new RequestsManager().LoadDataFromDataSources(loadRequest);
+            LoadAnswer loadAnswer = await new RequestsManager().LoadDataFromDataSources(loadRequest);
+
+            if (loadAnswer == null)
+            {
+                return;
+            }
 
             labelDBLPReferencesNumber.Text = "";
             labelIEEEXploreReferencesNumber.Text = "";

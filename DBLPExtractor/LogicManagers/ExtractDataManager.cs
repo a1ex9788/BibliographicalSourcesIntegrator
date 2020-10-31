@@ -24,12 +24,12 @@ namespace DBLPWrapper.LogicManagers
         {
             ExtractRequest extractRequest = GetExtractRequest(request);
 
-            if (extractRequest != null)
+            if (extractRequest == null)
             {
-                return ExtractDataFromFile(extractRequest.InitialYear, extractRequest.FinalYear);
+                return null;
             }
 
-            return null;
+            return ExtractDataFromFile(extractRequest.InitialYear, extractRequest.FinalYear);
         }
 
 

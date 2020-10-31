@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BibliographicalSourcesIntegratorWarehouse.Entities;
 using BibliographicalSourcesIntegratorWarehouse.Persistence;
 using Microsoft.AspNetCore.Mvc;
@@ -23,11 +24,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
         }
 
         [HttpGet("{request}")]
-        public void Load(string request)
+        public async Task<string> Load(string request)
         {
             _logger.LogInformation("A load request was received: " + request);
 
-            loadManager.Load(request);
+            return await loadManager.Load(request);
         }
     }
 }

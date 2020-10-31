@@ -21,34 +21,25 @@ namespace BibliographicalSourcesIntegrator
         }
 
 
-        public async Task<LoadAnswer> LoadDataFrom(LoadRequest loadRequest)
+        public async Task<string> LoadDataFromDBLP(ExtractRequest extractRequest)
         {
-            string dBLPAnswer = "", iEEEXploreAnswer = "", googleScholarAnswer = "";
+            client.BaseAddress = new Uri(ProgramAddresses.DBLPWrapperAddress);
 
-            ExtractRequest extractRequest = new ExtractRequest(loadRequest.InitialYear, loadRequest.FinalYear);
+            return await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
+        }
 
-            if (loadRequest.loadFromDBLP)
-            {
-                client.BaseAddress = new Uri(ProgramAddresses.DBLPWrapperAddress);
+        public async Task<string> LoadDataFromIEEEXplore(ExtractRequest extractRequest)
+        {
+            client.BaseAddress = new Uri(ProgramAddresses.IEEEXploreWrapperAddress);
 
-                dBLPAnswer = await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
-            }
+            return await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
+        }
 
-            if (loadRequest.loadFromIEEEXplore)
-            {
-                client.BaseAddress = new Uri(ProgramAddresses.IEEEXploreWrapperAddress);
+        public async Task<string> LoadDataFromGoogleScholar(ExtractRequest extractRequest)
+        {
+            client.BaseAddress = new Uri(ProgramAddresses.GoogleScholarWrapperAddress);
 
-                iEEEXploreAnswer = await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
-            }
-
-            if (loadRequest.loadFromGoogleScholar)
-            {
-                client.BaseAddress = new Uri(ProgramAddresses.GoogleScholarWrapperAddress);
-
-                googleScholarAnswer = await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
-            }
-
-            return new LoadAnswer(dBLPAnswer, iEEEXploreAnswer, googleScholarAnswer);
+            return await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
         }
 
 

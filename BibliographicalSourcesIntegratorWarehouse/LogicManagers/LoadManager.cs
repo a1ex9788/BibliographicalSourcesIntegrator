@@ -27,7 +27,12 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
         {
             LoadRequest loadRequest = GetLoadRequest(request);
 
-            LoadAnswer loadAnswer = await requestsManager.LoadDataFrom(loadRequest).ConfigureAwait(false);
+            if (loadRequest == null)
+            {
+                return null;
+            }
+
+            LoadAnswer loadAnswer = await MakeLoadRequest(loadRequest);
 
             // Guarda en la DB
 
@@ -47,6 +52,36 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 
                 return null;
             }
+        }
+
+        private async Task<LoadAnswer> MakeLoadRequest(LoadRequest loadRequest)
+        {
+            string dBLPAnswer = "", iEEEXploreAnswer = "", googleScholarAnswer = "";
+
+            ExtractRequest extractRequest = new ExtractRequest(loadRequest.InitialYear, loadRequest.FinalYear);
+
+            if (loadRequest.loadFromDBLP)
+            {
+                dBLPAnswer = await requestsManager.LoadDataFromDBLP(extractRequest);
+
+                _logger.LogInformation("DBLP answer:\n" + dBLPAnswer);
+            }
+
+            if (loadRequest.loadFromIEEEXplore)
+            {
+                iEEEXploreAnswer = await requestsManager.LoadDataFromIEEEXplore(extractRequest);
+
+                _logger.LogInformation("IEEE Xplore answer:\n" + iEEEXploreAnswer);
+            }
+
+            if (loadRequest.loadFromGoogleScholar)
+            {
+                googleScholarAnswer = await requestsManager.LoadDataFromGoogleScholar(extractRequest);
+
+                _logger.LogInformation("Google Scholar answer:\n" + googleScholarAnswer);
+            }
+
+            return new LoadAnswer(dBLPAnswer, iEEEXploreAnswer, googleScholarAnswer);
         }
     }
 }

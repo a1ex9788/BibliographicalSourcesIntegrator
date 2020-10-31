@@ -27,9 +27,16 @@ namespace BibliographicalSourcesIntegrator
             return await MakeARequest("no se encara");
         }
 
-        public async Task<string> LoadDataFromDataSources(LoadRequest loadRequest)
+        public async Task<LoadAnswer> LoadDataFromDataSources(LoadRequest loadRequest)
         {
-            return await MakeARequest("Load/" + JSONHelper.Serialize(loadRequest));
+            string answer = await MakeARequest("Load/" + JSONHelper.Serialize(loadRequest));
+
+            if (answer == null)
+            {
+                return null;
+            }
+
+            return JSONHelper.Deserialize<LoadAnswer>(answer);
         }
 
 
@@ -46,8 +53,10 @@ namespace BibliographicalSourcesIntegrator
 
                 return null;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
+
                 return null;
             }
         }
