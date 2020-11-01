@@ -5,8 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
-using System.Web.Script.Serialization;
 
 namespace DBLPWrapper.LogicManagers
 {
@@ -37,7 +37,7 @@ namespace DBLPWrapper.LogicManagers
         {
             try
             {
-                return new JavaScriptSerializer().Deserialize<ExtractRequest>(request);
+                return JsonSerializer.Deserialize<ExtractRequest>(request);
             }
             catch (Exception)
             {

@@ -5,8 +5,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
-using System.Web.Script.Serialization;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 {
@@ -41,7 +41,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 
             // TODO: Guardar en la DB
 
-            return new JavaScriptSerializer().Serialize(loadAnswer);
+            return JsonSerializer.Serialize(loadAnswer);
         }
 
 
@@ -49,7 +49,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
         {
             try
             {
-                return new JavaScriptSerializer().Deserialize<LoadRequest>(request);
+                return JsonSerializer.Deserialize<LoadRequest>(request);
             }
             catch (Exception)
             {
