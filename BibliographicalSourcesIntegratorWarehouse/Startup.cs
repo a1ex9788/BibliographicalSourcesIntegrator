@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BibliographicalSourcesIntegrator;
 using BibliographicalSourcesIntegratorWarehouse.Controllers;
+using BibliographicalSourcesIntegratorWarehouse.Extractors;
 using BibliographicalSourcesIntegratorWarehouse.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +33,9 @@ namespace BibliographicalSourcesIntegratorWarehouse
             services.AddScoped<SearchManager>();
             services.AddScoped<LoadManager>();
             services.AddScoped<RequestsManager>();
+            services.AddScoped<DBLPExtractor>();
+            services.AddScoped<IEEEXploreExtractor>();
+            services.AddScoped<BibTeXExtractor>();
 
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionStrings")));
             

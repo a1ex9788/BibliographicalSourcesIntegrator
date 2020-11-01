@@ -27,7 +27,7 @@ namespace BibliographicalSourcesIntegrator
 
             //return await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
 
-            return File.ReadAllText("../DBLP.json");
+            return File.ReadAllText("../DBLPmini.json");
         }
 
         public async Task<string> LoadDataFromIEEEXplore(ExtractRequest extractRequest)

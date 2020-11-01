@@ -1,5 +1,6 @@
 ﻿using BibliographicalSourcesIntegrator;
 using BibliographicalSourcesIntegratorContracts;
+using BibliographicalSourcesIntegratorWarehouse.Extractors;
 using BibliographicalSourcesIntegratorWarehouse.Persistence;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,12 +15,18 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
     {
         private readonly AppDbContext context;
         private RequestsManager requestsManager;
+        private DBLPExtractor dBLPExtractor;
+        private IEEEXploreExtractor iEEEXploreExtractor;
+        private BibTeXExtractor bibTeXExtractor;
         private readonly ILogger<LoadManager> _logger;
 
-        public LoadManager(AppDbContext context, RequestsManager requestsManager, ILogger<LoadManager> logger)
+        public LoadManager(AppDbContext context, RequestsManager requestsManager, DBLPExtractor dBLPExtractor, IEEEXploreExtractor iEEEXploreExtractor, BibTeXExtractor bibTeXExtractor, ILogger<LoadManager> logger)
         {
             this.context = context;
             this.requestsManager = requestsManager;
+            this.dBLPExtractor = dBLPExtractor;
+            this.iEEEXploreExtractor = iEEEXploreExtractor;
+            this.bibTeXExtractor = bibTeXExtractor;
             _logger = logger;
         }
 
@@ -32,14 +39,12 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
                 return null;
             }
 
-            LoadAnswer loadAnswer = await MakeLoadRequest(loadRequest);
+            LoadAnswer loadAnswer = await ProcessLoadRequest(loadRequest);
 
             if (loadAnswer == null)
             {
                 return null;
             }
-
-            // TODO: Guardar en la DB
 
             return JsonSerializer.Serialize(loadAnswer);
         }
@@ -59,31 +64,38 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             }
         }
 
-        private async Task<LoadAnswer> MakeLoadRequest(LoadRequest loadRequest)
+        private async Task<LoadAnswer> ProcessLoadRequest(LoadRequest loadRequest)
         {
+            // TODO: ver formato de respuestas
             string dBLPAnswer = "", iEEEXploreAnswer = "", googleScholarAnswer = "";
 
             ExtractRequest extractRequest = new ExtractRequest(loadRequest.InitialYear, loadRequest.FinalYear);
 
             if (loadRequest.loadFromDBLP)
             {
-                dBLPAnswer = await requestsManager.LoadDataFromDBLP(extractRequest);
+                string dBLPAnswerJSON = await requestsManager.LoadDataFromDBLP(extractRequest);
 
                 _logger.LogInformation("DBLP answer:\n" + dBLPAnswer);
+
+                dBLPExtractor.ExtractData(dBLPAnswerJSON);
             }
 
             if (loadRequest.loadFromIEEEXplore)
             {
-                iEEEXploreAnswer = await requestsManager.LoadDataFromIEEEXplore(extractRequest);
+                string iEEEXploreAnswerJSON = await requestsManager.LoadDataFromIEEEXplore(extractRequest);
 
                 _logger.LogInformation("IEEE Xplore answer:\n" + iEEEXploreAnswer);
+
+                iEEEXploreExtractor.ExtractData(iEEEXploreAnswerJSON);
             }
 
             if (loadRequest.loadFromGoogleScholar)
             {
-                googleScholarAnswer = await requestsManager.LoadDataFromGoogleScholar(extractRequest);
+                string googleScholarAnswerJSON = await requestsManager.LoadDataFromGoogleScholar(extractRequest);
 
                 _logger.LogInformation("Google Scholar answer:\n" + googleScholarAnswer);
+
+                bibTeXExtractor.ExtractData(googleScholarAnswerJSON);
             }
 
             return new LoadAnswer(dBLPAnswer, iEEEXploreAnswer, googleScholarAnswer);

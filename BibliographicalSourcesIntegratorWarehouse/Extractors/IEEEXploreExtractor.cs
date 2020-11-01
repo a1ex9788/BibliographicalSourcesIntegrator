@@ -7,5 +7,9 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 {
     public class IEEEXploreExtractor
     {
+        public void ExtractData(string json)
+        {
+            // Leer json, aplicar mappings y guardar en la BD
+        }
     }
 }
