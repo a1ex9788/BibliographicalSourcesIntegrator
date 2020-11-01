@@ -15,6 +15,8 @@ namespace BibliographicalSourcesIntegratorContracts
         public string GoogleScholarAnswer { get; set; }
 
 
+        public LoadAnswer() { }
+
         public LoadAnswer(string dBLPAnswer, string iEEXploreAnswer, string googleScholarAnswer)
         {
             DBLPAnswer = dBLPAnswer;

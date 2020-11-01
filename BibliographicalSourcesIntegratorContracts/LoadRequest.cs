@@ -20,6 +20,8 @@ namespace BibliographicalSourcesIntegratorContracts
         public int FinalYear { get; set; }
 
 
+        public LoadRequest() { }
+        
         public LoadRequest(bool loadFromDBLP, bool loadFromIEEEXplore, bool loadFromGoogleScholar, int initialYear, int finalYear)
         {
             this.loadFromDBLP = loadFromDBLP;

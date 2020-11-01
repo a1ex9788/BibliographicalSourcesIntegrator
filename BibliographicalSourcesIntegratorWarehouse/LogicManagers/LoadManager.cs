@@ -34,7 +34,12 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 
             LoadAnswer loadAnswer = await MakeLoadRequest(loadRequest);
 
-            // Guarda en la DB
+            if (loadAnswer == null)
+            {
+                return null;
+            }
+
+            // TODO: Guardar en la DB
 
             return JSONHelper.Serialize(loadAnswer);
         }

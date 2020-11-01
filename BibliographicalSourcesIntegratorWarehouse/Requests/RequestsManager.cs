@@ -1,7 +1,7 @@
 ﻿using BibliographicalSourcesIntegratorContracts;
-using Nancy.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -23,23 +23,29 @@ namespace BibliographicalSourcesIntegrator
 
         public async Task<string> LoadDataFromDBLP(ExtractRequest extractRequest)
         {
-            client.BaseAddress = new Uri(ProgramAddresses.DBLPWrapperAddress);
+            //client.BaseAddress = new Uri(ProgramAddresses.DBLPWrapperAddress);
 
-            return await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
+            //return await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
+
+            return File.ReadAllText("../DBLP.json");
         }
 
         public async Task<string> LoadDataFromIEEEXplore(ExtractRequest extractRequest)
         {
-            client.BaseAddress = new Uri(ProgramAddresses.IEEEXploreWrapperAddress);
+            //client.BaseAddress = new Uri(ProgramAddresses.IEEEXploreWrapperAddress);
 
-            return await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
+            //return await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
+
+            return File.ReadAllText("../IEEEXplore.json");
         }
 
         public async Task<string> LoadDataFromGoogleScholar(ExtractRequest extractRequest)
         {
-            client.BaseAddress = new Uri(ProgramAddresses.GoogleScholarWrapperAddress);
+            //client.BaseAddress = new Uri(ProgramAddresses.GoogleScholarWrapperAddress);
 
-            return await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
+            //return await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
+
+            return "";
         }
 
 
