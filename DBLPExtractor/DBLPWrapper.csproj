@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nancy" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BibliographicalSourcesIntegratorWarehouse\BibliographicalSourcesIntegratorWarehouse.csproj" />
   </ItemGroup>
 

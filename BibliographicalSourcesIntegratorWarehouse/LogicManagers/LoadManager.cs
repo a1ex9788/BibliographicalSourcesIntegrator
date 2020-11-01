@@ -2,7 +2,6 @@
 using BibliographicalSourcesIntegratorContracts;
 using BibliographicalSourcesIntegratorWarehouse.Persistence;
 using Microsoft.Extensions.Logging;
-using Nancy.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
