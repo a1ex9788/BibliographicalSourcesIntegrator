@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "ExtractData/Request asfd",
+      "launchUrl": "ExtractData/{\"InitialYear\":2000,\"FinalYear\":2010}",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -19,7 +19,7 @@
     "DBLPWrapper": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "ExtractData/Request asfd",
+      "launchUrl": "ExtractData/{\"InitialYear\":2000,\"FinalYear\":2010}",
       "applicationUrl": "https://localhost:50002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

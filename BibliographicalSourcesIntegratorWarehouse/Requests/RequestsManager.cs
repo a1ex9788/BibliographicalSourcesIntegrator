@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace BibliographicalSourcesIntegrator
@@ -24,8 +25,8 @@ namespace BibliographicalSourcesIntegrator
         public async Task<string> LoadDataFromDBLP(ExtractRequest extractRequest)
         {
             //client.BaseAddress = new Uri(ProgramAddresses.DBLPWrapperAddress);
-
-            //return await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
+            
+            //return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest));
 
             return File.ReadAllText("../DBLPmini.json");
         }
@@ -34,7 +35,7 @@ namespace BibliographicalSourcesIntegrator
         {
             //client.BaseAddress = new Uri(ProgramAddresses.IEEEXploreWrapperAddress);
 
-            //return await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
+            //return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest));
 
             return File.ReadAllText("../IEEEXplore.json");
         }
@@ -43,7 +44,7 @@ namespace BibliographicalSourcesIntegrator
         {
             //client.BaseAddress = new Uri(ProgramAddresses.GoogleScholarWrapperAddress);
 
-            //return await MakeARequest("ExtractData/" + JSONHelper.Serialize(extractRequest));
+            //return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest));
 
             return "";
         }

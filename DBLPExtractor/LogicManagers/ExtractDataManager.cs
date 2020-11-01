@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace DBLPWrapper.LogicManagers
 {
@@ -49,16 +50,18 @@ namespace DBLPWrapper.LogicManagers
 
         private string ExtractDataFromFile(int initialYear, int finalYear)
         {
-            return "asdas";
-
             try
             {
-                // TODO: Utilizar herramientas de XML para obtener los datos
+                // TODO: Utilizar herramientas de XML para filtrar los datos en función de los años
 
-                FileStream file = File.OpenRead("../../DBLP.XML");
-                File.ReadAllText("../../DBLP.XML");
+                string xml = File.ReadAllText("../DBLP.XML");
 
-                return "asdfasdf";
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(xml);
+
+                string json = Newtonsoft.Json.JsonConvert.SerializeXmlNode(doc);
+
+                return json;
             }
             catch (Exception)
             {
