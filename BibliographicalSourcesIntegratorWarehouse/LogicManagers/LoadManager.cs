@@ -71,7 +71,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 
             ExtractRequest extractRequest = new ExtractRequest(loadRequest.InitialYear, loadRequest.FinalYear);
 
-            if (loadRequest.loadFromDBLP)
+            if (loadRequest.LoadFromDBLP)
             {
                 string dBLPAnswerJSON = await requestsManager.LoadDataFromDBLP(extractRequest);
 
@@ -80,7 +80,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
                 dBLPExtractor.ExtractData(dBLPAnswerJSON);
             }
 
-            if (loadRequest.loadFromIEEEXplore)
+            if (loadRequest.LoadFromIEEEXplore)
             {
                 string iEEEXploreAnswerJSON = await requestsManager.LoadDataFromIEEEXplore(extractRequest);
 
@@ -89,7 +89,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
                 iEEEXploreExtractor.ExtractData(iEEEXploreAnswerJSON);
             }
 
-            if (loadRequest.loadFromGoogleScholar)
+            if (loadRequest.LoadFromGoogleScholar)
             {
                 string googleScholarAnswerJSON = await requestsManager.LoadDataFromGoogleScholar(extractRequest);
 

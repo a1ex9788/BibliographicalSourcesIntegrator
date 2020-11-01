@@ -23,9 +23,9 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 jsonWithoutEndDBLPNodeBracket.Remove(0);
                 jsonWithoutEndDBLPNodeBracket.Remove(jsonWithoutEndDBLPNodeBracket.Length - 1);
 
-                string a = '[' + jsonWithoutEndDBLPNodeBracket + ']';
+                string jsonAsAListOfPublications = '[' + jsonWithoutEndDBLPNodeBracket + ']';
 
-                List<Article> articles = JsonConvert.DeserializeObject<List<Article>>(a);
+                List<Article> publications = JsonConvert.DeserializeObject<List<Article>>(jsonAsAListOfPublications);
             }
             catch (Exception e) { }
         }

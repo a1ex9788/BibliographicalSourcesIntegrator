@@ -8,11 +8,11 @@ namespace BibliographicalSourcesIntegratorContracts
 {
     public class LoadRequest
     {
-        public bool loadFromDBLP { get; set; }
+        public bool LoadFromDBLP { get; set; }
 
-        public bool loadFromIEEEXplore { get; set; }
+        public bool LoadFromIEEEXplore { get; set; }
 
-        public bool loadFromGoogleScholar { get; set; }
+        public bool LoadFromGoogleScholar { get; set; }
 
 
         public int InitialYear { get; set; }
@@ -24,9 +24,9 @@ namespace BibliographicalSourcesIntegratorContracts
         
         public LoadRequest(bool loadFromDBLP, bool loadFromIEEEXplore, bool loadFromGoogleScholar, int initialYear, int finalYear)
         {
-            this.loadFromDBLP = loadFromDBLP;
-            this.loadFromIEEEXplore = loadFromIEEEXplore;
-            this.loadFromGoogleScholar = loadFromGoogleScholar;
+            LoadFromDBLP = loadFromDBLP;
+            LoadFromIEEEXplore = loadFromIEEEXplore;
+            LoadFromGoogleScholar = loadFromGoogleScholar;
             InitialYear = initialYear;
             FinalYear = finalYear;
         }
