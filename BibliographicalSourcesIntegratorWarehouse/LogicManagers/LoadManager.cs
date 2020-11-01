@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 {
@@ -40,7 +41,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 
             // TODO: Guardar en la DB
 
-            return JSONHelper.Serialize(loadAnswer);
+            return new JavaScriptSerializer().Serialize(loadAnswer);
         }
 
 
@@ -48,7 +49,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
         {
             try
             {
-                return JSONHelper.Deserialize<LoadRequest>(request);
+                return new JavaScriptSerializer().Deserialize<LoadRequest>(request);
             }
             catch (Exception)
             {

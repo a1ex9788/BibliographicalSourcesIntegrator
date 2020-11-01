@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace BibliographicalSourcesIntegrator
 {
@@ -40,14 +41,14 @@ namespace BibliographicalSourcesIntegrator
 
         public async Task<LoadAnswer> LoadDataFromDataSources(LoadRequest loadRequest)
         {
-            string answer = await MakeARequest("Load/" + JSONHelper.Serialize(loadRequest));
+            string answer = await MakeARequest("Load/" + new JavaScriptSerializer().Serialize(loadRequest));
 
             if (answer == null)
             {
                 return null;
             }
 
-            return JSONHelper.Deserialize<LoadAnswer>(answer);
+            return new JavaScriptSerializer().Deserialize<LoadAnswer>(answer);
         }
 
 
