@@ -14,7 +14,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             // Leer json, aplicar mappings y guardar en la BD
             try
             {
-                string jsonWithoutSpecialChars = json.Replace("\t", "").Replace("\n", "").Replace("\r", "").Replace("@", "");
+                string jsonWithoutSpecialChars = json.Replace("\t", "").Replace("\n", "").Replace("\r", "").Replace("@", "").Replace("$", "dollar");
 
                 string jsonWithoutDBLPNode = jsonWithoutSpecialChars.Substring(21);
 
@@ -29,7 +29,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         {
             public string mdate { get; set; }
 
-            //public List<string> author { get; set; }
+            public List<Object> author { get; set; }
 
             public string title { get; set; }
 
@@ -40,6 +40,12 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             public string volume { get; set; }
 
             public string journal { get; set; }
+
+            public string url { get; set; }
+
+            public int number { get; set; }
         }
+
+ 
     }
 }
