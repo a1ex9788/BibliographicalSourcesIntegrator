@@ -1,4 +1,5 @@
 ﻿using BibliographicalSourcesIntegratorWarehouse.Entities;
+using Microsoft.AspNetCore.Localization;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,41 +12,127 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
     {
         public void ExtractData(string json)
         {
-            // Leer json, aplicar mappings y guardar en la BD
             try
             {
-                string jsonWithoutSpecialChars = json.Replace("\t", "").Replace("\n", "").Replace("\r", "").Replace("@", "").Replace("$", "dollar");
+                string preparedJson = PrepareJson(json);
+                
+                List<DBLPPublicationSchema> publications = JsonConvert.DeserializeObject<List<DBLPPublicationSchema>>(preparedJson);
 
-                string jsonWithoutDBLPNode = jsonWithoutSpecialChars.Substring(21);
-
-                string jsonWithoutEndDBLPNodeBracket = jsonWithoutDBLPNode.Substring(0, jsonWithoutDBLPNode.Length - 2);
-
-                List<DBLPPublicationSchema> publications = JsonConvert.DeserializeObject<List<DBLPPublicationSchema>>(jsonWithoutEndDBLPNodeBracket);
+                foreach (DBLPPublicationSchema dBLPPublication in publications)
+                {
+                    Article publication = new Article(
+                        dBLPPublication.title,
+                        dBLPPublication.year,
+                        dBLPPublication.url,
+                        null,
+                        GetInitialPage(dBLPPublication.pages),
+                        GetFinalPage(dBLPPublication.pages),
+                        null
+                    );
+                }
             }
             catch (Exception e) { }
         }
 
-        class DBLPPublicationSchema
+
+        static string PrepareJson(string source)
         {
-            public string mdate { get; set; }
+            string aux = source;
 
-            public List<Object> author { get; set; }
+            string jsonWithoutSpecialChars = aux.Replace("\t", "").Replace("\n", "").Replace("\r", "").Replace("@", "").Replace("$", "dollar");
 
-            public string title { get; set; }
+            string jsonWithoutDBLPNode = jsonWithoutSpecialChars.Substring(21);
 
-            public string pages { get; set; }
+            string jsonWithoutEndDBLPNodeBracket = jsonWithoutDBLPNode.Substring(0, jsonWithoutDBLPNode.Length - 2);
 
-            public int year { get; set; }
+            string jsonWithSquareBrackets = AddSquareBrackets(jsonWithoutEndDBLPNodeBracket);
 
-            public string volume { get; set; }
-
-            public string journal { get; set; }
-
-            public string url { get; set; }
-
-            public int number { get; set; }
+            return jsonWithSquareBrackets;
         }
 
- 
+        static string AddSquareBrackets(string source)
+        {
+            string res = source;
+
+            List<int> initialAuthorPositions = GetInitialPositionsOf(res, "author");
+
+            int numberOfAddedSquareBrackets = 0;
+
+            foreach (int initialAuthorPosition in initialAuthorPositions)
+            {
+                int currentPosition = initialAuthorPosition + 9 + numberOfAddedSquareBrackets;
+
+                if (res[currentPosition] != '[')
+                {
+                    res = res.Substring(0, currentPosition) + '[' + res.Substring(currentPosition);
+
+                    int initialTitlePosition = res.Substring(currentPosition).IndexOf("\"title") + currentPosition;
+
+                    int beforeCommaPosition = res.Substring(0, initialTitlePosition).LastIndexOf(',');
+
+                    res = res.Substring(0, beforeCommaPosition) + ']' + res.Substring(beforeCommaPosition);
+
+                    numberOfAddedSquareBrackets += 2;
+                }
+            }
+
+            return res;
+        }
+
+        static List<int> GetInitialPositionsOf(string source, string word)
+        {
+            List<int> res = new List<int>();
+            string aux = source;
+            int currentInitialPos = 0;
+
+            while (aux.Contains(word))
+            {
+                int indexOfWord = aux.IndexOf(word);
+
+                res.Add(currentInitialPos + indexOfWord);
+                aux = aux.Substring(indexOfWord + 1);
+
+                currentInitialPos += indexOfWord + 1;
+            }
+
+            return res;
+        }
+
+
+        static int GetInitialPage(string pages)
+        {
+            int slashPosition = pages.IndexOf('-');
+
+            return Convert.ToInt32(pages.Substring(0, slashPosition));
+        }
+
+        static int GetFinalPage(string pages)
+        {
+            int slashPosition = pages.IndexOf('-');
+
+            return Convert.ToInt32(pages.Substring(slashPosition + 1));
+        }
+    }
+
+
+    class DBLPPublicationSchema
+    {
+        public string mdate { get; set; }
+
+        public List<Object> author { get; set; }
+
+        public string title { get; set; }
+
+        public string pages { get; set; }
+
+        public int year { get; set; }
+
+        public string volume { get; set; }
+
+        public string journal { get; set; }
+
+        public string url { get; set; }
+
+        public int number { get; set; }
     }
 }
