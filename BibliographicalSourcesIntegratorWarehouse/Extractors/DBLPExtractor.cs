@@ -14,20 +14,32 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             // Leer json, aplicar mappings y guardar en la BD
             try
             {
-                string jsonWithoutSpecialChars = json.Replace("\t", "").Replace("\n", "").Replace("\r", "");
+                string jsonWithoutSpecialChars = json.Replace("\t", "").Replace("\n", "").Replace("\r", "").Replace("@", "");
 
-                string jsonWithoutDBLPNode = jsonWithoutSpecialChars.Substring(9);
+                string jsonWithoutDBLPNode = jsonWithoutSpecialChars.Substring(21);
 
-                string jsonWithoutEndDBLPNodeBracket = jsonWithoutDBLPNode.Remove(jsonWithoutDBLPNode.Length - 1);
+                string jsonWithoutEndDBLPNodeBracket = jsonWithoutDBLPNode.Substring(0, jsonWithoutDBLPNode.Length - 2);
 
-                jsonWithoutEndDBLPNodeBracket.Remove(0);
-                jsonWithoutEndDBLPNodeBracket.Remove(jsonWithoutEndDBLPNodeBracket.Length - 1);
-
-                string jsonAsAListOfPublications = '[' + jsonWithoutEndDBLPNodeBracket + ']';
-
-                List<Article> publications = JsonConvert.DeserializeObject<List<Article>>(jsonAsAListOfPublications);
+                List<DBLPPublicationSchema> publications = JsonConvert.DeserializeObject<List<DBLPPublicationSchema>>(jsonWithoutEndDBLPNodeBracket);
             }
             catch (Exception e) { }
+        }
+
+        class DBLPPublicationSchema
+        {
+            public string mdate { get; set; }
+
+            //public List<string> author { get; set; }
+
+            public string title { get; set; }
+
+            public string pages { get; set; }
+
+            public int year { get; set; }
+
+            public string volume { get; set; }
+
+            public string journal { get; set; }
         }
     }
 }
