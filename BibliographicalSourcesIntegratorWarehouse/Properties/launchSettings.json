@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "Load/{\"loadFromDBLP\":true,\"loadFromIEEEXplore\":false,\"loadFromGoogleScholar\":false,\"InitialYear\":2000,\"FinalYear\":2010}",
+      "launchUrl": "Load/{\"LoadFromDBLP\":true,\"LoadFromIEEEXplore\":false,\"LoadFromGoogleScholar\":false,\"InitialYear\":2000,\"FinalYear\":2010}",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -19,7 +19,7 @@
     "BibliographicalSourcesIntegratorWarehouse": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "Load/{\"loadFromDBLP\":true,\"loadFromIEEEXplore\":false,\"loadFromGoogleScholar\":false,\"InitialYear\":2000,\"FinalYear\":2010}",
+      "launchUrl": "Load/{\"LoadFromDBLP\":true,\"LoadFromIEEEXplore\":false,\"LoadFromGoogleScholar\":false,\"InitialYear\":2000,\"FinalYear\":2010}",
       "applicationUrl": "https://localhost:50001",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

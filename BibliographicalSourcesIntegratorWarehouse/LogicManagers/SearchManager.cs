@@ -9,13 +9,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 {
     public class SearchManager
     {
-        private readonly AppDbContext context;
-
-        public SearchManager(AppDbContext context)
-        {
-            this.context = context;
-        }
-
         public void Search()
         {
             // preguntar a la BD

@@ -1,4 +1,5 @@
 ﻿using BibliographicalSourcesIntegratorWarehouse.Entities;
+using BibliographicalSourcesIntegratorWarehouse.Persistence;
 using Microsoft.AspNetCore.Localization;
 using Newtonsoft.Json;
 using System;
@@ -10,6 +11,15 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 {
     public class DBLPExtractor
     {
+        private readonly DatabaseAccess databaseAccess;
+
+
+        public DBLPExtractor(DatabaseAccess databaseAccess)
+        {
+            this.databaseAccess = databaseAccess;
+        }
+
+
         public void ExtractData(string json)
         {
             try
@@ -29,6 +39,8 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                         finalPage: GetFinalPage(dBLPPublication.pages),
                         exemplar: null
                     );
+
+                    databaseAccess.SaveArticle(publication);
                 }
             }
             catch (Exception e) { }
