@@ -23,5 +23,15 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
         public ICollection<Article> Articles { get; set; }
 
         public Journal Journal { get; set; }
+
+
+        public Exemplar(int volume, int number, int month, ICollection<Article> articles, Journal journal)
+        {
+            Volume = volume;
+            Number = number;
+            Month = month;
+            Articles = articles;
+            Journal = journal;
+        }
     }
 }

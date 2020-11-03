@@ -21,13 +21,13 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 foreach (DBLPPublicationSchema dBLPPublication in publications)
                 {
                     Article publication = new Article(
-                        dBLPPublication.title,
-                        dBLPPublication.year,
-                        dBLPPublication.url,
-                        null,
-                        GetInitialPage(dBLPPublication.pages),
-                        GetFinalPage(dBLPPublication.pages),
-                        null
+                        title: dBLPPublication.title,
+                        year: dBLPPublication.year,
+                        url: dBLPPublication.url,
+                        people: null,
+                        initialPage: GetInitialPage(dBLPPublication.pages),
+                        finalPage: GetFinalPage(dBLPPublication.pages),
+                        exemplar: null
                     );
                 }
             }

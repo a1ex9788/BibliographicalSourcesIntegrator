@@ -20,5 +20,12 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
         public int PublicationId { get; set; }
 
         public Publication Publication { get; set; }
+
+
+        public Person_Publication(Person person, Publication publication)
+        {
+            Person = person;
+            Publication = publication;
+        }
     }
 }

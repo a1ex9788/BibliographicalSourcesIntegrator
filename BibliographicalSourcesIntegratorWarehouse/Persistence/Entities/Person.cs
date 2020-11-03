@@ -19,5 +19,13 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
 
 
         public ICollection<Person_Publication> Publications { get; set; }
+
+
+        public Person(string name, string surnames, ICollection<Person_Publication> publications)
+        {
+            Name = name;
+            Surnames = surnames;
+            Publications = publications;
+        }
     }
 }
