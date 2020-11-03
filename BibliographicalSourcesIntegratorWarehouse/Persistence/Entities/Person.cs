@@ -21,11 +21,12 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
         public ICollection<Person_Publication> Publications { get; set; }
 
 
-        public Person(string name, string surnames, ICollection<Person_Publication> publications)
+        public Person(string name, string surnames)
         {
             Name = name;
             Surnames = surnames;
-            Publications = publications;
+
+            Publications = new List<Person_Publication>();
         }
     }
 }

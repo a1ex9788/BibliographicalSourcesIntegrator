@@ -19,10 +19,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
         public ICollection<Exemplar> Exemplars { get; set; }
 
 
-        public Journal(string name, ICollection<Exemplar> exemplars)
+        public Journal(string name)
         {
             Name = name;
-            Exemplars = exemplars;
+
+            Exemplars = new List<Exemplar>();
         }
     }
 }

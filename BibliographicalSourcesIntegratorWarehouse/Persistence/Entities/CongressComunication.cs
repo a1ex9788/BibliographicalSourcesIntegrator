@@ -20,8 +20,8 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
         public int FinalPage { get; set; }
 
 
-        public CongressComunication(string title, int year, string url, ICollection<Person_Publication> people, string congress, int edition, string place, int initialPage, int finalPage)
-            : base(title, year, url, people)
+        public CongressComunication(string title, int year, string url, string congress, int edition, string place, int initialPage, int finalPage)
+            : base(title, year, url)
         {
             Congress = congress;
             Edition = edition;

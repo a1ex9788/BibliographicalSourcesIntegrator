@@ -17,8 +17,8 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
         public Exemplar Exemplar { get; set; }
 
 
-        public Article(string title, int year, string url, ICollection<Person_Publication> people, int initialPage, int finalPage, Exemplar exemplar) 
-            : base(title, year, url , people)
+        public Article(string title, int year, string url, int initialPage, int finalPage, Exemplar exemplar)
+            : base(title, year, url)
         {
             InitialPage = initialPage;
             FinalPage = finalPage;
