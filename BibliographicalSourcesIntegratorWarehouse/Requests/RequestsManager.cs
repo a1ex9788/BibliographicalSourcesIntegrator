@@ -37,7 +37,7 @@ namespace BibliographicalSourcesIntegrator
 
             //return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest));
 
-            return File.ReadAllText("../IEEEXplore.json");
+            return File.ReadAllText("../IEEEXmini.json");
         }
 
         public async Task<string> LoadDataFromGoogleScholar(ExtractRequest extractRequest)
