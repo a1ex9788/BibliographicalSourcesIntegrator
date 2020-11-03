@@ -13,16 +13,14 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 {
     public class LoadManager
     {
-        private readonly AppDbContext context;
         private RequestsManager requestsManager;
         private DBLPExtractor dBLPExtractor;
         private IEEEXploreExtractor iEEEXploreExtractor;
         private BibTeXExtractor bibTeXExtractor;
         private readonly ILogger<LoadManager> _logger;
 
-        public LoadManager(AppDbContext context, RequestsManager requestsManager, DBLPExtractor dBLPExtractor, IEEEXploreExtractor iEEEXploreExtractor, BibTeXExtractor bibTeXExtractor, ILogger<LoadManager> logger)
+        public LoadManager(RequestsManager requestsManager, DBLPExtractor dBLPExtractor, IEEEXploreExtractor iEEEXploreExtractor, BibTeXExtractor bibTeXExtractor, ILogger<LoadManager> logger)
         {
-            this.context = context;
             this.requestsManager = requestsManager;
             this.dBLPExtractor = dBLPExtractor;
             this.iEEEXploreExtractor = iEEEXploreExtractor;
