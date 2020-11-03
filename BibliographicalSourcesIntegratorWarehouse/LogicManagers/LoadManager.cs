@@ -34,7 +34,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
         {
             LoadRequest loadRequest = GetLoadRequest(request);
 
-            loadRequest.LoadFromDBLP = true;
             if (loadRequest == null)
             {
                 return null;
