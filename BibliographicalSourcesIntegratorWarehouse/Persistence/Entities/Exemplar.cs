@@ -13,7 +13,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
         public int Id { get; set; }
 
 
-        public int Volume { get; set; }
+        public string Volume { get; set; }
 
         public int Number { get; set; }
 
@@ -30,7 +30,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
             Articles = new List<Article>();
         }
 
-        public Exemplar(int volume, int number, int month, Journal journal)
+        public Exemplar(string volume, int number, int month, Journal journal)
         {
             Volume = volume;
             Number = number;

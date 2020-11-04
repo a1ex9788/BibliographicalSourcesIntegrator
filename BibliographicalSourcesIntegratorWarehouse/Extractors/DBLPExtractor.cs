@@ -11,11 +11,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 {
     public class DBLPExtractor
     {
-        private readonly PublicationConstructor publicationConstructor;
+        private readonly PublicationCreator publicationConstructor;
         private readonly DatabaseAccess databaseAccess;
 
 
-        public DBLPExtractor(PublicationConstructor publicationConstructor, DatabaseAccess databaseAccess)
+        public DBLPExtractor(PublicationCreator publicationConstructor, DatabaseAccess databaseAccess)
         {
             this.publicationConstructor = publicationConstructor;
             this.databaseAccess = databaseAccess;
@@ -28,32 +28,24 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             List<DBLPPublicationSchema> publications = JsonConvert.DeserializeObject<List<DBLPPublicationSchema>>(preparedJson);
 
+            List<Article> articles = new List<Article>();
+
             foreach (DBLPPublicationSchema dBLPPublication in publications)
             {
-                Journal journal = new Journal(
-                    name: dBLPPublication.journal);
-
-                Exemplar exemplar = new Exemplar(
-                        volume: Convert.ToInt32(dBLPPublication.volume),
-                        number: Convert.ToInt32(dBLPPublication.number),
-                        month: GetMonth(dBLPPublication.mdate),
-                        journal: journal);
-
-                Article article = new Article(
+                articles.Add(publicationConstructor.CreateArticle(
                     title: dBLPPublication.title,
                     year: dBLPPublication.year,
                     url: dBLPPublication.url,
-                    initialPage: GetInitialPage(dBLPPublication.pages),
-                    finalPage: GetFinalPage(dBLPPublication.pages),
-                    exemplar: exemplar);
-
-                journal.Exemplars.Add(exemplar);
-                exemplar.Articles.Add(article);
-
-                //publicationConstructor.
-
-                databaseAccess.SaveArticle(article);
+                    authors: dBLPPublication.GetAuthors(),
+                    initialPage: dBLPPublication.GetInitialPage(),
+                    finalPage: dBLPPublication.GetFinalPage(),
+                    volume: dBLPPublication.volume,
+                    number: dBLPPublication.number,
+                    month: dBLPPublication.GetMonth(),
+                    journalName: dBLPPublication.journal));
             }
+
+            databaseAccess.SaveArticles(articles);
         }
 
 
@@ -119,40 +111,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             return res;
         }
-
-
-        static int GetInitialPage(string pages)
-        {
-            try
-            {
-                int slashPosition = pages.IndexOf('-');
-
-                return Convert.ToInt32(pages.Substring(0, slashPosition));
-            }
-            catch (Exception)
-            {
-                return -1;
-            }
-        }
-
-        static int GetFinalPage(string pages)
-        {
-            try
-            {
-                int slashPosition = pages.IndexOf('-');
-
-                return Convert.ToInt32(pages.Substring(slashPosition + 1));
-            }
-            catch (Exception)
-            {
-                return -1;
-            }
-        }
-
-        static int GetMonth(string mdate)
-        {
-            return Convert.ToInt32(mdate.Substring(5, 2));
-        }
     }
 
 
@@ -175,5 +133,120 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         public string url { get; set; }
 
         public int number { get; set; }
+
+
+        public List<(string name, string surnames)> GetAuthors()
+        {
+            List<(string name, string surnames)> authors = new List<(string name, string surnames)>();
+
+            foreach (Object o in author)
+            {
+                string name = "";
+                string surnames = "";
+                string completeName = "";
+
+                completeName = o as string;
+
+                if (completeName == null)
+                {
+                    Author author = JsonConvert.DeserializeObject<Author>(o.ToString());
+                    completeName = author.dollar;
+                }
+
+                name = GetName(completeName);
+                surnames = GetSurnames(completeName);
+
+                authors.Add((name, surnames));
+            }
+
+            return authors;
+
+
+            string GetName(string completeName)
+            {
+                string[] splittedName = completeName.Split(' ');
+
+                if (splittedName[1].Contains('.'))
+                {
+                    return splittedName.Length > 1 ? splittedName[0] + splittedName[1] : splittedName[0];
+                }
+                else
+                {
+                    return splittedName[0];
+                }
+            }
+
+            string GetSurnames(string completeName)
+            {
+                string[] splittedName = completeName.Split(' ');
+                string surnames = "";
+
+                if (splittedName[1].Contains('.'))
+                {
+                    for (int i = 2; i < splittedName.Length; i++)
+                    {
+                        surnames += splittedName[i] + " ";
+                    }
+                }
+                else
+                {
+                    for (int i = 1; i < splittedName.Length; i++)
+                    {
+                        surnames += splittedName[i] + " ";
+                    }
+                }
+
+                return surnames.TrimEnd();
+            }
+        }
+
+        public int GetInitialPage()
+        {
+            try
+            {
+                int slashPosition = pages.IndexOf('-');
+
+                return Convert.ToInt32(pages.Substring(0, slashPosition));
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
+        }
+
+        public int GetFinalPage()
+        {
+            try
+            {
+                int slashPosition = pages.IndexOf('-');
+
+                return Convert.ToInt32(pages.Substring(slashPosition + 1));
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
+        }
+
+        public int GetMonth()
+        {
+            return Convert.ToInt32(mdate.Substring(5, 2));
+        }
+
+
+
+        class Author
+        {
+            string type;
+
+            public string dollar;
+
+
+            public Author(string type, string dollar)
+            {
+                this.type = type;
+                this.dollar = dollar;
+            }
+        }
     }
 }

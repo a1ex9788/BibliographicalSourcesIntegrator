@@ -16,9 +16,23 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
         }
 
 
-        public void SaveArticle(Article article)
+        public void SaveArticles(List<Article> articles)
         {
-            context.Articles.Add(article);
+            context.Articles.AddRange(articles);
+
+            context.SaveChanges();
+        }
+
+        public void SaveCongressComunications(List<CongressComunication> congressComunication)
+        {
+            context.CongressComunications.AddRange(congressComunication);
+
+            context.SaveChanges();
+        }
+
+        public void SaveBooks(List<Book> books)
+        {
+            context.Books.AddRange(books);
 
             context.SaveChanges();
         }

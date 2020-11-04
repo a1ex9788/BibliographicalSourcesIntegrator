@@ -24,7 +24,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                         );
                     Exemplar exemplar = new Exemplar(
                         //volume: Convert.ToInt32(IEEPublication.volume),
-                        volume: 1,
+                        volume: "",
                         number: Convert.ToInt32(IEEPublication.article_number),
                         month: getMonth(IEEPublication.publication_date),
                         journal: journal
