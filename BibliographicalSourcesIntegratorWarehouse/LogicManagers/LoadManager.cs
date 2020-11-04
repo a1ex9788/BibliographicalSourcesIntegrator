@@ -73,8 +73,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             {
                 string jsonDBLPAnswer = await requestsManager.LoadDataFromDBLP(extractRequest);
 
-                _logger.LogInformation("DBLP answer:\n" + jsonDBLPAnswer);
-
                 try
                 {
                     dBLPExtractor.ExtractData(jsonDBLPAnswer);
@@ -89,8 +87,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             {
                 string jsonIEEEXploreAnswer = await requestsManager.LoadDataFromIEEEXplore(extractRequest);
 
-                _logger.LogInformation("IEEE Xplore answer:\n" + jsonIEEEXploreAnswer);
-
                 try
                 {
                     iEEEXploreExtractor.ExtractData(jsonIEEEXploreAnswer);
@@ -104,8 +100,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             if (loadRequest.LoadFromGoogleScholar)
             {
                 string jsonGoogleScholarAnswer = await requestsManager.LoadDataFromGoogleScholar(extractRequest);
-
-                _logger.LogInformation("Google Scholar answer:\n" + jsonGoogleScholarAnswer);
 
                 try
                 {

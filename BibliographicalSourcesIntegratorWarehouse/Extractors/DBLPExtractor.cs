@@ -168,7 +168,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
                 if (splittedName[1].Contains('.'))
                 {
-                    return splittedName.Length > 1 ? splittedName[0] + splittedName[1] : splittedName[0];
+                    return splittedName.Length > 1 ? splittedName[0] + " " + splittedName[1] : splittedName[0];
                 }
                 else
                 {

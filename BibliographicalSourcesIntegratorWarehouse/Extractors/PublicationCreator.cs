@@ -40,7 +40,20 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 finalPage: finalPage,
                 exemplar: exemplar);
             }
-            
+
+            foreach ((string name, string surnames) in authors)
+            {
+                Person person = new Person(
+                    name: name,
+                    surnames: surnames);
+
+                Person_Publication person_Publication = new Person_Publication(
+                    person: person,
+                    publication: article);
+
+                article.People.Add(person_Publication);
+                person.Publications.Add(person_Publication);
+            }            
 
             journal.Exemplars.Add(exemplar);
             exemplar.Articles.Add(article);
