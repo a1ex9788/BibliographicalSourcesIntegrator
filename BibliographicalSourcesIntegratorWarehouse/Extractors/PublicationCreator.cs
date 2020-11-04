@@ -14,12 +14,24 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             Journal journal = new Journal(
                     name: journalName);
 
-            Exemplar exemplar = new Exemplar(
+            Exemplar exemplar;
+
+            if (month == -1)
+            {
+                exemplar = new Exemplar(
+                    volume: volume,
+                    number: number,
+                    journal: journal);
+            }
+            else
+            {
+                exemplar = new Exemplar(
                     volume: volume,
                     number: number,
                     month: month,
                     journal: journal);
-
+            }
+            
             Article article;
 
             if (initialPage == -1)
