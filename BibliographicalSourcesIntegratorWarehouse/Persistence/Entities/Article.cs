@@ -19,6 +19,12 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
 
         public Article() : base() { }
 
+        public Article(string title, int year, string url, Exemplar exemplar)
+            : base(title, year, url)
+        {
+            Exemplar = exemplar;
+        }
+
         public Article(string title, int year, string url, int initialPage, int finalPage, Exemplar exemplar)
             : base(title, year, url)
         {

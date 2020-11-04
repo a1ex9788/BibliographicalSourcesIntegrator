@@ -20,16 +20,31 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                     month: month,
                     journal: journal);
 
-            Article article = new Article(
+            Article article;
+
+            if (initialPage == -1)
+            {
+                article = new Article(
+                title: title,
+                year: year,
+                url: url,
+                exemplar: exemplar);
+            }
+            else
+            {
+                article = new Article(
                 title: title,
                 year: year,
                 url: url,
                 initialPage: initialPage,
                 finalPage: finalPage,
                 exemplar: exemplar);
+            }
+            
 
             journal.Exemplars.Add(exemplar);
             exemplar.Articles.Add(article);
+
 
             return article;
         }
