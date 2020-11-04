@@ -24,41 +24,35 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public void ExtractData(string json)
         {
-            try
+            string preparedJson = PrepareJson(json);
+
+            List<DBLPPublicationSchema> publications = JsonConvert.DeserializeObject<List<DBLPPublicationSchema>>(preparedJson);
+
+            foreach (DBLPPublicationSchema dBLPPublication in publications)
             {
-                string preparedJson = PrepareJson(json);
-                
-                List<DBLPPublicationSchema> publications = JsonConvert.DeserializeObject<List<DBLPPublicationSchema>>(preparedJson);
+                Journal journal = new Journal(
+                    name: dBLPPublication.journal);
 
-                foreach (DBLPPublicationSchema dBLPPublication in publications)
-                {
-                    Journal journal = new Journal(
-                        name: dBLPPublication.journal);
+                Exemplar exemplar = new Exemplar(
+                        volume: Convert.ToInt32(dBLPPublication.volume),
+                        number: Convert.ToInt32(dBLPPublication.number),
+                        month: GetMonth(dBLPPublication.mdate),
+                        journal: journal);
 
-                    Exemplar exemplar = new Exemplar(
-                            volume: Convert.ToInt32(dBLPPublication.volume),
-                            number: Convert.ToInt32(dBLPPublication.number),
-                            month: GetMonth(dBLPPublication.mdate),
-                            journal: journal);
+                Article article = new Article(
+                    title: dBLPPublication.title,
+                    year: dBLPPublication.year,
+                    url: dBLPPublication.url,
+                    initialPage: GetInitialPage(dBLPPublication.pages),
+                    finalPage: GetFinalPage(dBLPPublication.pages),
+                    exemplar: exemplar);
 
-                    Article article = new Article(
-                        title: dBLPPublication.title,
-                        year: dBLPPublication.year,
-                        url: dBLPPublication.url,
-                        initialPage: GetInitialPage(dBLPPublication.pages),
-                        finalPage: GetFinalPage(dBLPPublication.pages),
-                        exemplar: exemplar);
+                journal.Exemplars.Add(exemplar);
+                exemplar.Articles.Add(article);
 
-                    journal.Exemplars.Add(exemplar);
-                    exemplar.Articles.Add(article);
+                //publicationConstructor.
 
-                    //publicationConstructor.
-
-                    databaseAccess.SaveArticle(article);
-                }
-            }
-            catch (Exception e) 
-            {
+                databaseAccess.SaveArticle(article);
             }
         }
 
@@ -135,7 +129,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
                 return Convert.ToInt32(pages.Substring(0, slashPosition));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return -1;
             }
@@ -149,13 +143,13 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
                 return Convert.ToInt32(pages.Substring(slashPosition + 1));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return -1;
             }
         }
 
-        static int GetMonth(string mdate) //2020-07-09
+        static int GetMonth(string mdate)
         {
             return Convert.ToInt32(mdate.Substring(5, 2));
         }

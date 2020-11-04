@@ -71,29 +71,50 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 
             if (loadRequest.LoadFromDBLP)
             {
-                string dBLPAnswerJSON = await requestsManager.LoadDataFromDBLP(extractRequest);
+                string jsonDBLPAnswer = await requestsManager.LoadDataFromDBLP(extractRequest);
 
-                _logger.LogInformation("DBLP answer:\n" + dBLPAnswer);
+                _logger.LogInformation("DBLP answer:\n" + jsonDBLPAnswer);
 
-                dBLPExtractor.ExtractData(dBLPAnswerJSON);
+                try
+                {
+                    dBLPExtractor.ExtractData(jsonDBLPAnswer);
+                }
+                catch (Exception)
+                {
+                    _logger.LogError("There was an error while extracting data from DBLP answer.");
+                }
             }
 
             if (loadRequest.LoadFromIEEEXplore)
             {
-                string iEEEXploreAnswerJSON = await requestsManager.LoadDataFromIEEEXplore(extractRequest);
+                string jsonIEEEXploreAnswer = await requestsManager.LoadDataFromIEEEXplore(extractRequest);
 
-                _logger.LogInformation("IEEE Xplore answer:\n" + iEEEXploreAnswer);
+                _logger.LogInformation("IEEE Xplore answer:\n" + jsonIEEEXploreAnswer);
 
-                iEEEXploreExtractor.ExtractData(iEEEXploreAnswerJSON);
+                try
+                {
+                    iEEEXploreExtractor.ExtractData(jsonIEEEXploreAnswer);
+                }
+                catch (Exception)
+                {
+                    _logger.LogError("There was an error while extracting data from IEEEXplore answer.");
+                }
             }
 
             if (loadRequest.LoadFromGoogleScholar)
             {
-                string googleScholarAnswerJSON = await requestsManager.LoadDataFromGoogleScholar(extractRequest);
+                string jsonGoogleScholarAnswer = await requestsManager.LoadDataFromGoogleScholar(extractRequest);
 
-                _logger.LogInformation("Google Scholar answer:\n" + googleScholarAnswer);
+                _logger.LogInformation("Google Scholar answer:\n" + jsonGoogleScholarAnswer);
 
-                bibTeXExtractor.ExtractData(googleScholarAnswerJSON);
+                try
+                {
+                    bibTeXExtractor.ExtractData(jsonGoogleScholarAnswer);
+                }
+                catch (Exception)
+                {
+                    _logger.LogError("There was an error while extracting data from Google Scholar answer.");
+                }
             }
 
             return new LoadAnswer(dBLPAnswer, iEEEXploreAnswer, googleScholarAnswer);
