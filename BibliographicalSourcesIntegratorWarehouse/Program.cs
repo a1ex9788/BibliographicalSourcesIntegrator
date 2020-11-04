@@ -13,7 +13,19 @@ namespace BibliographicalSourcesIntegratorWarehouse
     {
         public static void Main(string[] args)
         {
+            CreateDatabaseIfNotExist();
+
             CreateHostBuilder(args).Build().Run();
+        }
+
+        private static void CreateDatabaseIfNotExist()
+        {
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = @"/C dotnet ef database update";
+            process.StartInfo = startInfo;
+            process.Start();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -30,7 +30,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
             Articles = new List<Article>();
         }
 
-
         public Exemplar(string volume, int number, Journal journal)
         {
             Volume = volume;
@@ -39,6 +38,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
 
             Articles = new List<Article>();
         }
+
         public Exemplar(string volume, int number, int month, Journal journal)
         {
             Volume = volume;
