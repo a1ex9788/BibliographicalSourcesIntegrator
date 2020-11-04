@@ -33,9 +33,11 @@ namespace BibliographicalSourcesIntegratorWarehouse
             services.AddScoped<SearchManager>();
             services.AddScoped<LoadManager>();
             services.AddScoped<RequestsManager>();
+
             services.AddScoped<DBLPExtractor>();
             services.AddScoped<IEEEXploreExtractor>();
             services.AddScoped<BibTeXExtractor>();
+            services.AddScoped<PublicationConstructor>();
 
             services.AddScoped<DatabaseAccess>();
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionStrings")));

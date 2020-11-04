@@ -11,11 +11,13 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 {
     public class DBLPExtractor
     {
+        private readonly PublicationConstructor publicationConstructor;
         private readonly DatabaseAccess databaseAccess;
 
 
-        public DBLPExtractor(DatabaseAccess databaseAccess)
+        public DBLPExtractor(PublicationConstructor publicationConstructor, DatabaseAccess databaseAccess)
         {
+            this.publicationConstructor = publicationConstructor;
             this.databaseAccess = databaseAccess;
         }
 
@@ -30,20 +32,34 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
                 foreach (DBLPPublicationSchema dBLPPublication in publications)
                 {
-                    Article publication = new Article(
+                    Journal journal = new Journal(
+                        name: dBLPPublication.journal);
+
+                    Exemplar exemplar = new Exemplar(
+                            volume: Convert.ToInt32(dBLPPublication.volume),
+                            number: Convert.ToInt32(dBLPPublication.number),
+                            month: GetMonth(dBLPPublication.mdate),
+                            journal: journal);
+
+                    Article article = new Article(
                         title: dBLPPublication.title,
                         year: dBLPPublication.year,
                         url: dBLPPublication.url,
-                        people: null,
                         initialPage: GetInitialPage(dBLPPublication.pages),
                         finalPage: GetFinalPage(dBLPPublication.pages),
-                        exemplar: null
-                    );
+                        exemplar: exemplar);
 
-                    databaseAccess.SaveArticle(publication);
+                    journal.Exemplars.Add(exemplar);
+                    exemplar.Articles.Add(article);
+
+                    //publicationConstructor.
+
+                    databaseAccess.SaveArticle(article);
                 }
             }
-            catch (Exception e) { }
+            catch (Exception e) 
+            {
+            }
         }
 
 
@@ -113,16 +129,35 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         static int GetInitialPage(string pages)
         {
-            int slashPosition = pages.IndexOf('-');
+            try
+            {
+                int slashPosition = pages.IndexOf('-');
 
-            return Convert.ToInt32(pages.Substring(0, slashPosition));
+                return Convert.ToInt32(pages.Substring(0, slashPosition));
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
         }
 
         static int GetFinalPage(string pages)
         {
-            int slashPosition = pages.IndexOf('-');
+            try
+            {
+                int slashPosition = pages.IndexOf('-');
 
-            return Convert.ToInt32(pages.Substring(slashPosition + 1));
+                return Convert.ToInt32(pages.Substring(slashPosition + 1));
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
+        }
+
+        static int GetMonth(string mdate) //2020-07-09
+        {
+            return Convert.ToInt32(mdate.Substring(5, 2));
         }
     }
 

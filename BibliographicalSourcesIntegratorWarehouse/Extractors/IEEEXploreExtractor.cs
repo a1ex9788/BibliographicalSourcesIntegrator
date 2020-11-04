@@ -19,14 +19,14 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
                 foreach (IEEEXplorerPublicationSchema IEEPublication in publications)
                 {
-                    Article publication = new Article(
-                    title: IEEPublication.title,
-                    year: IEEPublication.publication_year,
-                    url: IEEPublication.pdf_url,
-                    people: null,
-                    initialPage: Convert.ToInt32(IEEPublication.start_page),
-                    finalPage: Convert.ToInt32(IEEPublication.end_page),
-                    exemplar: new Exemplar(Convert.ToInt32(IEEPublication.volume), Convert.ToInt32(IEEPublication.article_number), 1, null, null));
+                    // Article publication = new Article(
+                    // title: IEEPublication.title,
+                    // year: IEEPublication.publication_year,
+                    // url: IEEPublication.pdf_url,
+                    // people: null,
+                    // initialPage: Convert.ToInt32(IEEPublication.start_page),
+                    // finalPage: Convert.ToInt32(IEEPublication.end_page),
+                    // exemplar: new Exemplar(Convert.ToInt32(IEEPublication.volume), Convert.ToInt32(IEEPublication.article_number), 1, null, null));
                 }
 
             }
