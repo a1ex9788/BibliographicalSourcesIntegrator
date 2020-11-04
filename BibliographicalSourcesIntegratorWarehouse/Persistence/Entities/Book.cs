@@ -12,6 +12,8 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
         public string Editorial { get; set; }
 
 
+        public Book() : base() { }
+        
         public Book(string title, int year, string url, string editorial)
             : base(title, year, url)
         {

@@ -25,6 +25,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
         public Journal Journal { get; set; }
 
 
+        public Exemplar()
+        {
+            Articles = new List<Article>();
+        }
+
         public Exemplar(int volume, int number, int month, Journal journal)
         {
             Volume = volume;
