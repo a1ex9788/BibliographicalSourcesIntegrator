@@ -52,14 +52,23 @@ namespace DBLPWrapper.LogicManagers
         {
             try
             {
-                // TODO: Utilizar herramientas de XML para filtrar los datos en función de los años
-
                 string xml = File.ReadAllText("../DBLP.XML");
 
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(xml);
 
-                string json = Newtonsoft.Json.JsonConvert.SerializeXmlNode(doc);
+                XmlNode dblpNode = doc.ChildNodes[1];
+
+                XmlNodeList articlesListToRemove = dblpNode.SelectNodes($"/dblp/article[year<{initialYear} or year>{finalYear}]");
+
+                foreach (XmlNode articleToRemove in articlesListToRemove.Cast<XmlNode>())
+                {
+                    dblpNode.RemoveChild(articleToRemove);
+                }
+
+                string json = Newtonsoft.Json.JsonConvert.SerializeXmlNode(dblpNode);
+
+                _logger.LogInformation("Articles found between " + initialYear + " and " + finalYear + ": " + dblpNode.ChildNodes.Count);
 
                 return json;
             }

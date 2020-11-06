@@ -20,7 +20,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "ExtractData/{\"InitialYear\":2000,\"FinalYear\":2010}",
-      "applicationUrl": "https://localhost:50002",
+      "applicationUrl": "http://localhost:50002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
