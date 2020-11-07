@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "launchUrl": "ExtractData/{\"InitialYear\":2000,\"FinalYear\":2010}",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -19,7 +19,7 @@
     "IEEEXploreWrapper": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "launchUrl": "ExtractData/{\"InitialYear\":2000,\"FinalYear\":2010}",
       "applicationUrl": "http://localhost:50004",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

@@ -13,6 +13,7 @@ namespace BibliographicalSourcesIntegratorContracts
             get => "http://localhost:50001";
         }
 
+
         public static string DBLPWrapperAddress
         {
             get => "http://localhost:50002";
@@ -26,6 +27,12 @@ namespace BibliographicalSourcesIntegratorContracts
         public static string IEEEXploreWrapperAddress
         {
             get => "http://localhost:50004";
+        }
+
+
+        public static string IEEEXploreAPIAddress
+        {
+            get => "https://ieeexploreapi.ieee.org";
         }
     }
 }
