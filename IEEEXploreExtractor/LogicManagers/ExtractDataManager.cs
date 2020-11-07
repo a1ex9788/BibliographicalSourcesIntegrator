@@ -58,7 +58,7 @@ namespace IEEEXploreWrapper.LogicManagers
             }
             catch (Exception)
             {
-                _logger.LogError("There was a problem working with the XML file.");
+                _logger.LogError("There was a problem communicating to the IEEEXplore API or working with the answer.");
 
                 return null;
             }
