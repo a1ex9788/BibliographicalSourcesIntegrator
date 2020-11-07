@@ -53,18 +53,33 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         {
             string aux = source;
 
-            string jsonWithoutSpecialChars = aux.Replace("\t", "").Replace("\n", "").Replace("\r", "").Replace("@", "").Replace("$", "dollar");
+            string jsonWithoutSpecialChars = aux.Replace("$", "dollar");
 
-            string jsonWithoutDBLPNode = jsonWithoutSpecialChars.Substring(21);
+            string jsonArticleList = SearchArticleList(jsonWithoutSpecialChars);
 
-            string jsonWithoutEndDBLPNodeBracket = jsonWithoutDBLPNode.Substring(0, jsonWithoutDBLPNode.Length - 2);
+            string jsonWithSquareBracketsInAuthorLists = AddSquareBracketsInAuthorListsIfNeeded(jsonArticleList);
 
-            string jsonWithSquareBrackets = AddSquareBrackets(jsonWithoutEndDBLPNodeBracket);
-
-            return jsonWithSquareBrackets;
+            return jsonWithSquareBracketsInAuthorLists;
         }
 
-        static string AddSquareBrackets(string source)
+        static string SearchArticleList(string source)
+        {
+            string aux = source;
+
+            while (aux.First() != '[')
+            {
+                aux = aux.Remove(0, 1);
+            }
+
+            while (aux.Last() != ']')
+            {
+                aux = aux.Remove(aux.Length-1, 1);
+            }
+
+            return aux;
+        }
+
+        static string AddSquareBracketsInAuthorListsIfNeeded(string source)
         {
             string res = source;
 

@@ -24,11 +24,11 @@ namespace BibliographicalSourcesIntegrator
 
         public async Task<string> LoadDataFromDBLP(ExtractRequest extractRequest)
         {
-            client.BaseAddress = new Uri(ProgramAddresses.DBLPWrapperAddress);
+            //client.BaseAddress = new Uri(ProgramAddresses.DBLPWrapperAddress);
             
-            return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest));
+            //return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest));
 
-            //return File.ReadAllText("../DBLPreal.json");
+            return File.ReadAllText("../DBLPreal.json");
         }
 
         public async Task<string> LoadDataFromIEEEXplore(ExtractRequest extractRequest)
