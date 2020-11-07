@@ -3,17 +3,17 @@
 
 
 
-Set-Location .\DBLPExtractor
+Set-Location .\DBLPWrapper
 
 start dotnet run
 
 
-Set-Location ..\GoogleScholarExtractor
+Set-Location ..\GoogleScholarWrapper
 
 start dotnet run
 
 
-Set-Location ..\IEEEXploreExtractor
+Set-Location ..\IEEEXploreWrapper
 
 start dotnet run
 

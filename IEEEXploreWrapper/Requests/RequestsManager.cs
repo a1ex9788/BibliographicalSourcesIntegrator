@@ -53,8 +53,8 @@ namespace IEEEXploreWrapper.Requests
             // TODO: Hablar con el profesor para ver si tenemos que hacer paginación o con los primeros 200 resultados sobra.
             bool PAGINATION = false;
 
-            InitialYearValue = 2000;
-            FinalYearValue = 2000;
+            InitialYearValue = initialYear;
+            FinalYearValue = finalYear;
             StartRecordValue = 1;
 
             string firstAnswer = await MakeARequest(Request);

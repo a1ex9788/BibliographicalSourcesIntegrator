@@ -7,11 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibliographicalSourcesInteg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibliographicalSourcesIntegratorWarehouse", "BibliographicalSourcesIntegratorWarehouse\BibliographicalSourcesIntegratorWarehouse.csproj", "{71B07BF9-FD77-4F26-A95D-70033757DEE2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBLPWrapper", "DBLPExtractor\DBLPWrapper.csproj", "{DE1849D1-B02C-4693-A1AF-7F57020C6AC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBLPWrapper", "DBLPWrapper\DBLPWrapper.csproj", "{DE1849D1-B02C-4693-A1AF-7F57020C6AC9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IEEEXploreWrapper", "IEEEXploreExtractor\IEEEXploreWrapper.csproj", "{4214C537-0ACA-4040-B886-5B2C4E5F4064}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IEEEXploreWrapper", "IEEEXploreWrapper\IEEEXploreWrapper.csproj", "{4214C537-0ACA-4040-B886-5B2C4E5F4064}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleScholarWrapper", "GoogleScholarExtractor\GoogleScholarWrapper.csproj", "{48F26DFD-48C8-4199-9055-2A9BFACFE95C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleScholarWrapper", "GoogleScholarWrapper\GoogleScholarWrapper.csproj", "{48F26DFD-48C8-4199-9055-2A9BFACFE95C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibliographicalSourcesIntegratorContracts", "BibliographicalSourcesIntegratorContracts\BibliographicalSourcesIntegratorContracts.csproj", "{023EF049-C2EB-41B6-A9D5-6BE9635A2A65}"
 EndProject
