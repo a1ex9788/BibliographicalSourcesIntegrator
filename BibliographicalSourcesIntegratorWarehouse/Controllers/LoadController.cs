@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BibliographicalSourcesIntegratorContracts;
 using BibliographicalSourcesIntegratorWarehouse.Entities;
 using BibliographicalSourcesIntegratorWarehouse.Persistence;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
         }
 
         [HttpGet("{request}")]
-        public async Task<string> Load(string request)
+        public async Task<LoadAnswer> Load(string request)
         {
             _logger.LogInformation("A load request was received: " + request);
 

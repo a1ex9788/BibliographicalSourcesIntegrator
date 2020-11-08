@@ -70,7 +70,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             journal.Exemplars.Add(exemplar);
             exemplar.Articles.Add(article);
 
-
             return article;
         }
 

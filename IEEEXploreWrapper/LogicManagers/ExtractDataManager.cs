@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml;
@@ -56,9 +57,15 @@ namespace IEEEXploreWrapper.LogicManagers
             {
                 return await requestsManager.LoadDataFromDataSources(initialYear, finalYear);
             }
+            catch (HttpRequestException)
+            {
+                _logger.LogError("There was a problem communicating to the IEEEXplore API.");
+
+                return null;
+            }
             catch (Exception)
             {
-                _logger.LogError("There was a problem communicating to the IEEEXplore API or working with the answer.");
+                _logger.LogError("There was a problem working with the IEEEXpore API answer.");
 
                 return null;
             }

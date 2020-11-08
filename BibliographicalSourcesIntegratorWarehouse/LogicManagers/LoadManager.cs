@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -28,7 +29,8 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             _logger = logger;
         }
 
-        public async Task<string> Load(string request)
+
+        public async Task<LoadAnswer> Load(string request)
         {
             LoadRequest loadRequest = GetLoadRequest(request);
 
@@ -37,14 +39,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
                 return null;
             }
 
-            LoadAnswer loadAnswer = await ProcessLoadRequest(loadRequest);
-
-            if (loadAnswer == null)
-            {
-                return null;
-            }
-
-            return JsonSerializer.Serialize(loadAnswer);
+            return await ProcessLoadRequest(loadRequest);
         }
 
 
@@ -71,43 +66,55 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 
             if (loadRequest.LoadFromDBLP)
             {
-                string jsonDBLPAnswer = await requestsManager.LoadDataFromDBLP(extractRequest);
-
                 try
                 {
+                    string jsonDBLPAnswer = await requestsManager.LoadDataFromDBLP(extractRequest);
+
                     dBLPExtractor.ExtractData(jsonDBLPAnswer);
+                }
+                catch (HttpRequestException)
+                {
+                    _logger.LogError("There was an error communicating to the DBLP wrapper.");
                 }
                 catch (Exception)
                 {
-                    _logger.LogError("There was an error while extracting data from DBLP answer.");
+                    _logger.LogError("There was an error while extracting data from the DBLP answer.");
                 }
             }
 
             if (loadRequest.LoadFromIEEEXplore)
             {
-                string jsonIEEEXploreAnswer = await requestsManager.LoadDataFromIEEEXplore(extractRequest);
-
                 try
                 {
+                    string jsonIEEEXploreAnswer = await requestsManager.LoadDataFromIEEEXplore(extractRequest);
+
                     iEEEXploreExtractor.ExtractData(jsonIEEEXploreAnswer);
+                }
+                catch (HttpRequestException)
+                {
+                    _logger.LogError("There was an error communicating to the IEEEXplore wrapper.");
                 }
                 catch (Exception)
                 {
-                    _logger.LogError("There was an error while extracting data from IEEEXplore answer.");
+                    _logger.LogError("There was an error while extracting data from the IEEEXplore answer.");
                 }
             }
 
             if (loadRequest.LoadFromGoogleScholar)
             {
-                string jsonGoogleScholarAnswer = await requestsManager.LoadDataFromGoogleScholar(extractRequest);
-
                 try
                 {
+                    string jsonGoogleScholarAnswer = await requestsManager.LoadDataFromGoogleScholar(extractRequest);
+
                     bibTeXExtractor.ExtractData(jsonGoogleScholarAnswer);
+                }
+                catch (HttpRequestException)
+                {
+                    _logger.LogError("There was an error communicating to the Google Scholar wrapper.");
                 }
                 catch (Exception)
                 {
-                    _logger.LogError("There was an error while extracting data from Google Scholar answer.");
+                    _logger.LogError("There was an error while extracting data from the Google Scholar answer.");
                 }
             }
 

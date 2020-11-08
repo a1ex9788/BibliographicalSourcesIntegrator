@@ -11,13 +11,13 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 {
     public class DBLPExtractor
     {
-        private readonly PublicationCreator publicationConstructor;
+        private readonly PublicationCreator publicationCreator;
         private readonly DatabaseAccess databaseAccess;
 
 
-        public DBLPExtractor(PublicationCreator publicationConstructor, DatabaseAccess databaseAccess)
+        public DBLPExtractor(PublicationCreator publicationCreator, DatabaseAccess databaseAccess)
         {
-            this.publicationConstructor = publicationConstructor;
+            this.publicationCreator = publicationCreator;
             this.databaseAccess = databaseAccess;
         }
 
@@ -32,7 +32,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             foreach (DBLPPublicationSchema dBLPPublication in publications)
             {
-                articles.Add(publicationConstructor.CreateArticle(
+                articles.Add(publicationCreator.CreateArticle(
                     title: dBLPPublication.title,
                     year: dBLPPublication.year,
                     url: dBLPPublication.url,

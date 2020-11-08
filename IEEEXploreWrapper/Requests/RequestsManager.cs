@@ -84,23 +84,14 @@ namespace IEEEXploreWrapper.Requests
 
         async Task<string> MakeARequest(string path)
         {
-            try
-            {
-                HttpResponseMessage response = await client.GetAsync(path);
+            HttpResponseMessage response = await client.GetAsync(path);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadAsStringAsync();
-                }
-                else
-                {
-                    return null;
-                }
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsStringAsync();
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine(e);
-
                 return null;
             }
         }

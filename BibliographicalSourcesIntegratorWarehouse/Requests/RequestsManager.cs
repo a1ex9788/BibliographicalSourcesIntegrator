@@ -52,21 +52,14 @@ namespace BibliographicalSourcesIntegrator
 
         private async Task<string> MakeARequest(string path)
         {
-            try
-            {
-                HttpResponseMessage response = await client.GetAsync(path);
+            HttpResponseMessage response = await client.GetAsync(path);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadAsStringAsync();
-                }
-
-                return null;
-            }
-            catch (Exception)
+            if (response.IsSuccessStatusCode)
             {
-                return null;
+                return await response.Content.ReadAsStringAsync();
             }
+
+            return null;
         }
     }
 }
