@@ -53,7 +53,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         {
             string aux = source;
 
-            string jsonWithoutSpecialChars = aux.Replace("$", "dollar");
+            string jsonWithoutSpecialChars = aux.Replace("@", "").Replace("#", "").Replace("$", "dollar");
 
             string jsonArticleList = SearchArticleList(jsonWithoutSpecialChars);
 
@@ -81,21 +81,26 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         static string AddSquareBracketsInAuthorListsIfNeeded(string source)
         {
+            string auxToSearchAuthorPos = source;
             string res = source;
+            int currentInitialAuthorPos = 0, numberOfAddedSquareBrackets = 0;
 
-            List<int> initialAuthorPositions = GetInitialPositionsOf(res, "author");
-
-            int numberOfAddedSquareBrackets = 0;
-
-            foreach (int initialAuthorPosition in initialAuthorPositions)
+            while (auxToSearchAuthorPos.Contains("author"))
             {
-                int currentPosition = initialAuthorPosition + 9 + numberOfAddedSquareBrackets;
+                int indexOfAuthor = auxToSearchAuthorPos.IndexOf("author");
+                int posToInvestigate = currentInitialAuthorPos + indexOfAuthor;
 
-                if (res[currentPosition] != '[')
+                auxToSearchAuthorPos = auxToSearchAuthorPos.Substring(indexOfAuthor + 1);
+                currentInitialAuthorPos += indexOfAuthor + 1;
+
+
+                int currentFirstSquareBracketPos = source.IndexOf(':', posToInvestigate) + numberOfAddedSquareBrackets + 1;
+
+                if (res[currentFirstSquareBracketPos] != '[')
                 {
-                    res = res.Substring(0, currentPosition) + '[' + res.Substring(currentPosition);
+                    res = res.Substring(0, currentFirstSquareBracketPos) + '[' + res.Substring(currentFirstSquareBracketPos);
 
-                    int initialTitlePosition = res.Substring(currentPosition).IndexOf("\"title") + currentPosition;
+                    int initialTitlePosition = res.Substring(currentFirstSquareBracketPos).IndexOf("\"title") + currentFirstSquareBracketPos;
 
                     int beforeCommaPosition = res.Substring(0, initialTitlePosition).LastIndexOf(',');
 
@@ -103,25 +108,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
                     numberOfAddedSquareBrackets += 2;
                 }
-            }
-
-            return res;
-        }
-
-        static List<int> GetInitialPositionsOf(string source, string word)
-        {
-            List<int> res = new List<int>();
-            string aux = source;
-            int currentInitialPos = 0;
-
-            while (aux.Contains(word))
-            {
-                int indexOfWord = aux.IndexOf(word);
-
-                res.Add(currentInitialPos + indexOfWord);
-                aux = aux.Substring(indexOfWord + 1);
-
-                currentInitialPos += indexOfWord + 1;
             }
 
             return res;
@@ -165,7 +151,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 if (completeName == null)
                 {
                     Author author = JsonConvert.DeserializeObject<Author>(o.ToString());
-                    completeName = author.dollar;
+                    completeName = author.text;
                 }
 
                 name = GetName(completeName);
@@ -245,22 +231,25 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public int GetMonth()
         {
-            return Convert.ToInt32(mdate.Substring(5, 2));
-        }
+            int firstSlashPos = mdate.IndexOf('-');
+            int secondSlashPos = mdate.IndexOf('-', firstSlashPos + 1);
 
+            return Convert.ToInt32(mdate.Substring(firstSlashPos + 1, secondSlashPos - firstSlashPos - 1));
+        }
 
 
         class Author
         {
             string type;
 
-            public string dollar;
+            // Si se utiliza el json de poliformat hay que llamar a este atributo 'dollar'
+            public string text;
 
 
-            public Author(string type, string dollar)
+            public Author(string type, string text)
             {
                 this.type = type;
-                this.dollar = dollar;
+                this.text = text;
             }
         }
     }
