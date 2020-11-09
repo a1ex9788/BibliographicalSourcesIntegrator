@@ -27,7 +27,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             string preparedJson = PrepareJson(json);
 
             List<DBLPPublicationSchema> publications = JsonConvert.DeserializeObject<List<DBLPPublicationSchema>>(preparedJson);
-            int a = publications.Count;
+
             List<Article> articles = new List<Article>();
 
             foreach (DBLPPublicationSchema dBLPPublication in publications)
@@ -85,9 +85,9 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             string res = source;
             int currentInitialAuthorPos = 0, numberOfAddedSquareBrackets = 0;
 
-            while (auxToSearchAuthorPos.Contains("author"))
+            while (auxToSearchAuthorPos.Contains("author\":"))
             {
-                int indexOfAuthor = auxToSearchAuthorPos.IndexOf("author");
+                int indexOfAuthor = auxToSearchAuthorPos.IndexOf("author\":");
                 int posToInvestigate = currentInitialAuthorPos + indexOfAuthor;
 
                 auxToSearchAuthorPos = auxToSearchAuthorPos.Substring(indexOfAuthor + 1);
@@ -140,7 +140,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         {
             List<(string name, string surnames)> authors = new List<(string name, string surnames)>();
 
-            if (authors.Count == 0)
+            if (author == null || author.Count == 0)
             {
                 return authors;
             }
@@ -171,6 +171,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             string GetName(string completeName)
             {
                 string[] splittedName = completeName.Split(' ');
+
+                if (splittedName.Length == 0)
+                {
+                    return "";
+                }
 
                 if (splittedName.Length > 1 && splittedName[1].Contains('.'))
                 {
