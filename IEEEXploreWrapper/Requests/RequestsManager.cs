@@ -37,7 +37,11 @@ namespace IEEEXploreWrapper.Requests
 
         string StartRecordParameter { get => "&start_record=" + StartRecordValue; }
 
-        string Request { get => "?parameter" + ApiKeyParameter + StartYearParameter + EndYearParameter + SortFieldParameter + ShortOrderParameter + MaxRecordsParameter + StartRecordParameter; }
+        string ContentTypeValue { get; set; }
+
+        string ContentTypeParameter { get => "&content_type=" + ContentTypeValue; }
+
+        string Request { get => "?parameter" + ApiKeyParameter + StartYearParameter + EndYearParameter + SortFieldParameter + ShortOrderParameter + MaxRecordsParameter + StartRecordParameter + ContentTypeParameter; }
 
 
         public RequestsManager()
@@ -63,6 +67,22 @@ namespace IEEEXploreWrapper.Requests
             string answer = "{total_records:" + numberOfArticlesFound + ",articles:[";
             AddNewAnswer(firstAnswer);
 
+
+            //////////////////////////////////
+            ContentTypeValue = "Journals";
+            string articlesAnswer = await MakeARequest(Request);
+            AddNewAnswer(articlesAnswer);
+
+            ContentTypeValue = "Books";
+            string booksAnswer = await MakeARequest(Request);
+            AddNewAnswer(booksAnswer);
+
+            ContentTypeValue = "Conferences";
+            string conferencesAnswer = await MakeARequest(Request);
+            AddNewAnswer(conferencesAnswer);
+            //////////////////////////////////////
+
+
             for (StartRecordValue += MaxRecordsValue; PAGINATION && StartRecordValue < numberOfArticlesFound; StartRecordValue += MaxRecordsValue)
             {
                 string newAnswer = await MakeARequest(Request);
@@ -70,7 +90,7 @@ namespace IEEEXploreWrapper.Requests
                 AddNewAnswer(newAnswer);
             }
 
-            return answer.Substring(0, answer.Length - 2) + "]}";
+            return answer.Substring(0, answer.Length - 1) + "]}";
 
 
             void AddNewAnswer(string newAnswer)
@@ -78,7 +98,7 @@ namespace IEEEXploreWrapper.Requests
                 int indexOfOpeningSquareBracket = newAnswer.IndexOf('[');
                 int indexOfClosingSquareBracket = newAnswer.LastIndexOf(']');
 
-                answer += newAnswer.Substring(indexOfOpeningSquareBracket + 1, indexOfClosingSquareBracket - 1 - indexOfOpeningSquareBracket + 1) + ',';
+                answer += newAnswer.Substring(indexOfOpeningSquareBracket + 1, indexOfClosingSquareBracket - 1 - indexOfOpeningSquareBracket) + ',';
             }
         }
 
