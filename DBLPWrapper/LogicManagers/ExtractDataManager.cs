@@ -54,6 +54,8 @@ namespace DBLPWrapper.LogicManagers
             {
                 string xml = File.ReadAllText("../DBLP.XML");
 
+                xml = FixXml(xml);
+
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(xml);
 
@@ -78,6 +80,14 @@ namespace DBLPWrapper.LogicManagers
 
                 return null;
             }
+        }
+
+        // <title>Numerical analysis of CO<sub>2</sub> concentration and recovery from flue gas by a novel vacuum swing adsorption cycle.</title>
+        // <sup>+</sup>
+        // <i>in silico</i>
+        private string FixXml(string source)
+        {
+            return source.Replace("<sub>", "").Replace("</sub>", "").Replace("<sup>", "").Replace("</sup>", "").Replace("<i>", "").Replace("</i>", "");
         }
     }
 }

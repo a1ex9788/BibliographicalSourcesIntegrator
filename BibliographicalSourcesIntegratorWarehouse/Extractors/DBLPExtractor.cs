@@ -27,7 +27,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             string preparedJson = PrepareJson(json);
 
             List<DBLPPublicationSchema> publications = JsonConvert.DeserializeObject<List<DBLPPublicationSchema>>(preparedJson);
-
+            int a = publications.Count;
             List<Article> articles = new List<Article>();
 
             foreach (DBLPPublicationSchema dBLPPublication in publications)
@@ -133,12 +133,17 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public string url { get; set; }
 
-        public int number { get; set; }
+        public string number { get; set; }
 
 
         public List<(string name, string surnames)> GetAuthors()
         {
             List<(string name, string surnames)> authors = new List<(string name, string surnames)>();
+
+            if (authors.Count == 0)
+            {
+                return authors;
+            }
 
             foreach (Object o in author)
             {
@@ -167,7 +172,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             {
                 string[] splittedName = completeName.Split(' ');
 
-                if (splittedName[1].Contains('.'))
+                if (splittedName.Length > 1 && splittedName[1].Contains('.'))
                 {
                     return splittedName.Length > 1 ? splittedName[0] + " " + splittedName[1] : splittedName[0];
                 }
@@ -181,6 +186,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             {
                 string[] splittedName = completeName.Split(' ');
                 string surnames = "";
+
+                if (splittedName.Length <= 1)
+                {
+                    return "";
+                }
 
                 if (splittedName[1].Contains('.'))
                 {

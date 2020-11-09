@@ -38,7 +38,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                     initialPage: Convert.ToInt32(IEEPublication.start_page),
                     finalPage: Convert.ToInt32(IEEPublication.end_page),
                     volume: IEEPublication.volume,
-                    number: Convert.ToInt32(IEEPublication.article_number),
+                    number: IEEPublication.article_number,
                     month: getMonth(IEEPublication.publication_date),
                     journalName: IEEPublication.publisher));
 

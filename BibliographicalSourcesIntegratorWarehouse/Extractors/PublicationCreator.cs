@@ -9,7 +9,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
     public class PublicationCreator
     {
         public Article CreateArticle(string title, int year, string url, List<(string name, string surnames)> authors, 
-            int initialPage, int finalPage, string volume, int number, int month, string journalName)
+            int initialPage, int finalPage, string volume, string number, int month, string journalName)
         {
             Journal journal = new Journal(
                     name: journalName);
