@@ -20,31 +20,40 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             this.databaseAccess = databaseAccess;
         }
 
-        public void ExtractData(string json)
+        public (int numberOfResults, List<string> errorList) ExtractData(string json)
         {
-                string preparedJson = PrepareJson(json);
+            List<string> errorList = new List<string>();
+            List<Article> articles = new List<Article>();
 
-                List<IEEEXplorerPublicationSchema> publications = JsonConvert.DeserializeObject<List<IEEEXplorerPublicationSchema>>(preparedJson);
+            string preparedJson = PrepareJson(json);
 
-                List<Article> articles = new List<Article>();
+            List<IEEEXplorerPublicationSchema> publications = JsonConvert.DeserializeObject<List<IEEEXplorerPublicationSchema>>(preparedJson);
 
-                foreach (IEEEXplorerPublicationSchema IEEPublication in publications)
+            foreach (IEEEXplorerPublicationSchema IEEPublication in publications)
+            {
+                try 
                 {
                     articles.Add(publicationConstructor.CreateArticle(
-                    title: IEEPublication.title,
-                    year: IEEPublication.publication_year,
-                    url: IEEPublication.pdf_url,
-                    authors: IEEPublication.authors.GetAuthors(),
-                    initialPage: Convert.ToInt32(IEEPublication.start_page),
-                    finalPage: Convert.ToInt32(IEEPublication.end_page),
-                    volume: IEEPublication.volume,
-                    number: IEEPublication.article_number,
-                    month: getMonth(IEEPublication.publication_date),
-                    journalName: IEEPublication.publisher));
-
+                        title: IEEPublication.title,
+                        year: IEEPublication.publication_year,
+                        url: IEEPublication.pdf_url,
+                        authors: IEEPublication.authors.GetAuthors(),
+                        initialPage: Convert.ToInt32(IEEPublication.start_page),
+                        finalPage: Convert.ToInt32(IEEPublication.end_page),
+                        volume: IEEPublication.volume,
+                        number: IEEPublication.article_number,
+                        month: getMonth(IEEPublication.publication_date),
+                        journalName: IEEPublication.publisher));
                 }
+                catch (Exception e)
+                {
+                    errorList.Add(e.Message);
+                }
+            }
 
-                databaseAccess.SaveArticles(articles);
+            databaseAccess.SaveArticles(articles);
+
+            return (publications.Count - errorList.Count, errorList);
         }
 
         static string PrepareJson(string json)

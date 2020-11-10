@@ -59,8 +59,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 
         private async Task<LoadAnswer> ProcessLoadRequest(LoadRequest loadRequest)
         {
-            // TODO: ver formato de respuestas
-            string dBLPAnswer = "", iEEEXploreAnswer = "", googleScholarAnswer = "";
+            LoadAnswer loadAnswer = new LoadAnswer();
 
             ExtractRequest extractRequest = new ExtractRequest(loadRequest.InitialYear, loadRequest.FinalYear);
 
@@ -70,7 +69,10 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
                 {
                     string jsonDBLPAnswer = await requestsManager.LoadDataFromDBLP(extractRequest);
 
-                    dBLPExtractor.ExtractData(jsonDBLPAnswer);
+                    (int numberOfResults, List<string> errorList) = dBLPExtractor.ExtractData(jsonDBLPAnswer);
+
+                    loadAnswer.DBLPNumberOfResults = numberOfResults;
+                    loadAnswer.DBLPErrors = errorList;
                 }
                 catch (HttpRequestException)
                 {
@@ -88,7 +90,10 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
                 {
                     string jsonIEEEXploreAnswer = await requestsManager.LoadDataFromIEEEXplore(extractRequest);
 
-                    iEEEXploreExtractor.ExtractData(jsonIEEEXploreAnswer);
+                    (int numberOfResults, List<string> errorList) = iEEEXploreExtractor.ExtractData(jsonIEEEXploreAnswer);
+
+                    loadAnswer.IEEEXploreNumberOfResults = numberOfResults;
+                    loadAnswer.IEEEXploreErrors = errorList;
                 }
                 catch (HttpRequestException)
                 {
@@ -106,7 +111,10 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
                 {
                     string jsonGoogleScholarAnswer = await requestsManager.LoadDataFromGoogleScholar(extractRequest);
 
-                    bibTeXExtractor.ExtractData(jsonGoogleScholarAnswer);
+                    (int numberOfResults, List<string> errorList) = bibTeXExtractor.ExtractData(jsonGoogleScholarAnswer);
+
+                    loadAnswer.GoogleScholarNumberOfResults = numberOfResults;
+                    loadAnswer.GoogleScholarErrors = errorList;
                 }
                 catch (HttpRequestException)
                 {
@@ -118,7 +126,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
                 }
             }
 
-            return new LoadAnswer(dBLPAnswer, iEEEXploreAnswer, googleScholarAnswer);
+            return loadAnswer;
         }
     }
 }

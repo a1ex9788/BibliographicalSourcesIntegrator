@@ -8,20 +8,26 @@ namespace BibliographicalSourcesIntegratorContracts
 {
     public class LoadAnswer
     {
-        public string DBLPAnswer { get; set; }
+        public int DBLPNumberOfResults { get; set; }
+        public List<string> DBLPErrors { get; set; }
 
-        public string IEEXploreAnswer { get; set; }
+        public int IEEEXploreNumberOfResults { get; set; }
+        public List<string> IEEEXploreErrors { get; set; }
 
-        public string GoogleScholarAnswer { get; set; }
+        public int GoogleScholarNumberOfResults { get; set; }
+        public List<string> GoogleScholarErrors { get; set; }
 
 
         public LoadAnswer() { }
 
-        public LoadAnswer(string dBLPAnswer, string iEEXploreAnswer, string googleScholarAnswer)
+        public LoadAnswer(int dBLPNumberOfResults, List<string> dBLPErrors, int iEEEXploreNumberOfResults, List<string> iEEEXploreErrors, int googleScholarNumberOfResults, List<string> googleScholarErrors)
         {
-            DBLPAnswer = dBLPAnswer;
-            IEEXploreAnswer = iEEXploreAnswer;
-            GoogleScholarAnswer = googleScholarAnswer;
+            DBLPNumberOfResults = dBLPNumberOfResults;
+            DBLPErrors = dBLPErrors;
+            IEEEXploreNumberOfResults = iEEEXploreNumberOfResults;
+            IEEEXploreErrors = iEEEXploreErrors;
+            GoogleScholarNumberOfResults = googleScholarNumberOfResults;
+            GoogleScholarErrors = googleScholarErrors;
         }
     }
 }

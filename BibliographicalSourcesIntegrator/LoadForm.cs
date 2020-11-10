@@ -21,10 +21,10 @@ namespace BibliographicalSourcesIntegrator
 
             this.homeForm = homeForm;
 
-            labelDBLPReferencesNumber.Text = "";
-            labelIEEEXploreReferencesNumber.Text = "";
-            labelGoogleScholarReferencesNumber.Text = "";
-            labelTotalReferencesNumber.Text = "";
+            labelDBLPReferencesNumber.Text = "0";
+            labelIEEEXploreReferencesNumber.Text = "0";
+            labelGoogleScholarReferencesNumber.Text = "0";
+            labelTotalReferencesNumber.Text = "0";
             richTextBoxResults.Text = "";
         }
 
@@ -53,13 +53,8 @@ namespace BibliographicalSourcesIntegrator
                 return;
             }
 
-            ResetErrorText();
-            labelDBLPReferencesNumber.Text = "";
-            labelIEEEXploreReferencesNumber.Text = "";
-            labelGoogleScholarReferencesNumber.Text = "";
-            labelTotalReferencesNumber.Text = "";
+            ShowResults(loadAnswer);
         }
-
 
         private void CloseForm(object sender, FormClosedEventArgs e)
         {
@@ -73,10 +68,47 @@ namespace BibliographicalSourcesIntegrator
             richTextBoxResults.Text = errorMessage;
         }
 
-        private void ResetErrorText()
+        private void ShowResults(LoadAnswer loadAnswer)
         {
-            richTextBoxResults.ForeColor = Color.DarkGray;
-            richTextBoxResults.Text = "";
+            ResetErrorText();
+
+            labelDBLPReferencesNumber.Text = loadAnswer.DBLPNumberOfResults.ToString();
+            labelIEEEXploreReferencesNumber.Text = loadAnswer.IEEEXploreNumberOfResults.ToString();
+            labelGoogleScholarReferencesNumber.Text = loadAnswer.GoogleScholarNumberOfResults.ToString();
+
+            labelTotalReferencesNumber.Text = PrepareErrorText();
+
+
+            void ResetErrorText()
+            {
+                richTextBoxResults.ForeColor = Color.DarkGray;
+                richTextBoxResults.Text = "";
+            }
+
+            string PrepareErrorText()
+            {
+                string errors = "";
+
+                errors += "DBLP:";
+                foreach (string error in loadAnswer.DBLPErrors)
+                {
+                    errors += " - " + error + "\n";
+                }
+
+                errors += "IEEEXplore:";
+                foreach (string error in loadAnswer.IEEEXploreErrors)
+                {
+                    errors += " - " + error + "\n";
+                }
+
+                errors += "Google Scholar:";
+                foreach (string error in loadAnswer.GoogleScholarErrors)
+                {
+                    errors += " - " + error + "\n";
+                }
+
+                return errors.Substring(0, errors.Length - 1);
+            }
         }
     }
 }

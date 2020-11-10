@@ -22,30 +22,40 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         }
 
 
-        public void ExtractData(string json)
+        public (int numberOfResults, List<string> errorList) ExtractData(string json)
         {
+            List<string> errorList = new List<string>();
+            List<Article> articles = new List<Article>();
+
             string preparedJson = PrepareJson(json);
 
             List<DBLPPublicationSchema> publications = JsonConvert.DeserializeObject<List<DBLPPublicationSchema>>(preparedJson);
 
-            List<Article> articles = new List<Article>();
-
             foreach (DBLPPublicationSchema dBLPPublication in publications)
             {
-                articles.Add(publicationCreator.CreateArticle(
-                    title: dBLPPublication.title,
-                    year: dBLPPublication.year,
-                    url: dBLPPublication.url,
-                    authors: dBLPPublication.GetAuthors(),
-                    initialPage: dBLPPublication.GetInitialPage(),
-                    finalPage: dBLPPublication.GetFinalPage(),
-                    volume: dBLPPublication.volume,
-                    number: dBLPPublication.number,
-                    month: dBLPPublication.GetMonth(),
-                    journalName: dBLPPublication.journal));
+                try
+                {
+                    articles.Add(publicationCreator.CreateArticle(
+                        title: dBLPPublication.title,
+                        year: dBLPPublication.year,
+                        url: dBLPPublication.url,
+                        authors: dBLPPublication.GetAuthors(),
+                        initialPage: dBLPPublication.GetInitialPage(),
+                        finalPage: dBLPPublication.GetFinalPage(),
+                        volume: dBLPPublication.volume,
+                        number: dBLPPublication.number,
+                        month: dBLPPublication.GetMonth(),
+                        journalName: dBLPPublication.journal));
+                }
+                catch (Exception e)
+                {
+                    errorList.Add(e.Message);
+                }
             }
 
             databaseAccess.SaveArticles(articles);
+
+            return (publications.Count - errorList.Count, errorList);
         }
 
 
