@@ -73,16 +73,105 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             return article;
         }
 
-        public Article CreateCongressComunication(string title, int year, string url, List<(string name, string surnames)> authors,
+        public CongressComunication CreateCongressComunication(string title, int year, string url, List<(string name, string surnames)> authors,
             string congress, int edition, string place, int initialPage, int finalPage)
         {
-            return null;
+
+            CongressComunication conference;
+
+            //Esta fet per al IEEEXplorer
+            if (edition == -1)
+            {
+                if (finalPage == -1)
+                {
+                    conference = new CongressComunication(
+                      title: title,
+                      year: year,
+                      url: url,
+                      congress: congress,
+                      place: place);
+                }
+                else {
+                    conference = new CongressComunication(
+                      title: title,
+                      year: year,
+                      url: url,
+                      congress: congress,
+                      place: place,
+                      initialPage: initialPage,
+                      finalPage: finalPage);
+                }
+                
+            }
+            //Esta fet per al GoogleSchoolar
+            else
+            {
+                conference = new CongressComunication(
+                        title: title,
+                        year: year,
+                        url: url,
+                        congress: congress,
+                        edition: edition,
+                        place: place,
+                        initialPage: initialPage,
+                        finalPage: finalPage);
+            }
+
+            
+
+            foreach ((string name, string surnames) in authors)
+            {
+                Person person = new Person(
+                    name: name,
+                    surnames: surnames);
+
+                Person_Publication person_Publication = new Person_Publication(
+                    person: person,
+                    publication: conference);
+
+                conference.People.Add(person_Publication);
+                person.Publications.Add(person_Publication);
+            }
+
+            return conference;
         }
 
-        public Article CreateBook(string title, int year, string url, List<(string name, string surnames)> authors,
+        public Book CreateBook(string title, int year, string url, List<(string name, string surnames)> authors,
             string editorial)
         {
-            return null;
+            Book book;
+            if(editorial == null)
+            {
+                book = new Book(
+                    title: title,
+                    year: year,
+                    url: url
+                    );
+            } else
+            {
+                book = new Book(
+                    title: title,
+                    year: year,
+                    url: url,
+                    editorial: editorial
+                    );
+            }
+
+            foreach ((string name, string surnames) in authors)
+            {
+                Person person = new Person(
+                    name: name,
+                    surnames: surnames);
+
+                Person_Publication person_Publication = new Person_Publication(
+                    person: person,
+                    publication: book);
+
+                book.People.Add(person_Publication);
+                person.Publications.Add(person_Publication);
+            }
+
+            return book;
         }
     }
 }

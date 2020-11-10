@@ -103,7 +103,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
                 {
                     _logger.LogError("There was an error communicating to the IEEEXplore wrapper.");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     _logger.LogError("There was an error while extracting data from the IEEEXplore answer.");
                 }

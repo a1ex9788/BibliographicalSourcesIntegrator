@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Script.Serialization;
+//using System.Web.Script.Serialization;
 
 namespace IEEEXploreWrapper.Requests
 {
@@ -29,7 +29,7 @@ namespace IEEEXploreWrapper.Requests
 
         string ShortOrderParameter { get => "&sort_order=asc"; }
 
-        int MaxRecordsValue { get => 200; }
+        int MaxRecordsValue { get => 1; }
 
         string MaxRecordsParameter { get => "&max_records=" + MaxRecordsValue; }
 

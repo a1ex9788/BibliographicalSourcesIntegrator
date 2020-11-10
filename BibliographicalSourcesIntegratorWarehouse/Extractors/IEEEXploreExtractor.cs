@@ -24,6 +24,8 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         {
             List<string> errorList = new List<string>();
             List<Article> articles = new List<Article>();
+            List<Book> books = new List<Book>();
+            List<CongressComunication> conferences = new List<CongressComunication>();
 
             string preparedJson = PrepareJson(json);
 
@@ -33,17 +35,42 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             {
                 try 
                 {
-                    articles.Add(publicationConstructor.CreateArticle(
-                        title: IEEPublication.title,
-                        year: IEEPublication.publication_year,
-                        url: IEEPublication.pdf_url,
-                        authors: IEEPublication.authors.GetAuthors(),
-                        initialPage: Convert.ToInt32(IEEPublication.start_page),
-                        finalPage: Convert.ToInt32(IEEPublication.end_page),
-                        volume: IEEPublication.volume,
-                        number: IEEPublication.article_number,
-                        month: getMonth(IEEPublication.publication_date),
-                        journalName: IEEPublication.publisher));
+                    if (IEEPublication.content_type == "Journals")
+                    {
+                        articles.Add(publicationConstructor.CreateArticle(
+                            title: IEEPublication.title,
+                            year: IEEPublication.publication_year,
+                            url: IEEPublication.pdf_url,
+                            authors: IEEPublication.authors.GetAuthors(),
+                            initialPage: getIniPage(IEEPublication),
+                            finalPage: getFinalPage(IEEPublication),
+                            volume: IEEPublication.volume,
+                            number: IEEPublication.article_number,
+                            month: getMonth(IEEPublication.publication_date),
+                            journalName: IEEPublication.publisher));
+                    } else if (IEEPublication.content_type == "Conferences")
+                    {
+                        conferences.Add(publicationConstructor.CreateCongressComunication(
+                            title: IEEPublication.publication_title,
+                            year: IEEPublication.publication_year,
+                            url: IEEPublication.pdf_url,
+                            authors: IEEPublication.authors.GetAuthors(),
+                            edition: -1,
+                            congress: IEEPublication.title,
+                            place: IEEPublication.conference_location,
+                            initialPage: getIniPage(IEEPublication),
+                            finalPage: getFinalPage(IEEPublication)));
+                    } else 
+                    {
+                        books.Add(publicationConstructor.CreateBook(
+                            title: IEEPublication.publication_title,
+                            year: IEEPublication.publication_year,
+                            url: IEEPublication.pdf_url,
+                            authors: IEEPublication.authors.GetAuthors(),
+                            editorial: null
+                            ));
+                    }
+                    
                 }
                 catch (Exception e)
                 {
@@ -51,6 +78,8 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 }
             }
 
+            databaseAccess.SaveBooks(books);
+            databaseAccess.SaveCongressComunications(conferences);
             databaseAccess.SaveArticles(articles);
 
             return (publications.Count - errorList.Count, errorList);
@@ -59,13 +88,31 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         static string PrepareJson(string json)
         {
             string aux = json;
-            string jsonWithoutSpecialChars = aux.Replace("\t", "").Replace("\n", "").Replace("\r", "");
-            string jsonWithoutRootNode = jsonWithoutSpecialChars.Substring(68);
-            string jsonWithoutLastBracket = jsonWithoutRootNode.Remove(jsonWithoutRootNode.Length-1);
-            // jsonWithoutRootNode = '[' + jsonWithoutRootNode;
-            return jsonWithoutLastBracket;
+            int currentInitialArticlesPos = 0;
+
+            int indexOfArticle = aux.IndexOf("[{\"doi\"");
+            int posToInvestigate = currentInitialArticlesPos + indexOfArticle;
+            aux = aux.Substring(posToInvestigate);
+            aux = aux.Remove(aux.Length - 1, 1);
+            return aux;
+
         }
 
+        static int getIniPage(IEEEXplorerPublicationSchema IEEPublication) 
+        {
+            if (IEEPublication.start_page != null)
+            {
+                return Convert.ToInt32(IEEPublication.start_page);
+            } else return -1;
+        }
+        static int getFinalPage(IEEEXplorerPublicationSchema IEEPublication) 
+        {
+            if (IEEPublication.end_page != null)
+            {
+                return Convert.ToInt32(IEEPublication.end_page);
+            }
+            else return -1;
+        }
         static int getMonth(string publicationDate)
         {
             if (publicationDate != null)
@@ -151,8 +198,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             public string publication_date { get; set; }
 
+            public string conference_dates { get; set; }
 
+            public string conference_location { get; set; }
 
+            public string content_type { get; set; }
 
         }
 
@@ -179,7 +229,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                     name = GetName(completeName);
                     surnames = GetSurnames(completeName);
            
-                    authors.Add((name, surnames));
+                    authorsFinal.Add((name, surnames));
                 }
            
                 return authorsFinal;
