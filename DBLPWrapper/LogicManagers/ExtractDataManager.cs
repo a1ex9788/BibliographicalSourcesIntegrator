@@ -70,7 +70,7 @@ namespace DBLPWrapper.LogicManagers
 
                 string json = Newtonsoft.Json.JsonConvert.SerializeXmlNode(dblpNode);
 
-                _logger.LogInformation("Articles found between " + initialYear + " and " + finalYear + ": " + dblpNode.ChildNodes.Count);
+                _logger.LogInformation("Articles between " + initialYear + " and " + finalYear + " found: " + dblpNode.ChildNodes.Count);
 
                 return json;
             }

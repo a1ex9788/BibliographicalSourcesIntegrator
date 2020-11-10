@@ -18,7 +18,12 @@ namespace BibliographicalSourcesIntegratorContracts
         public List<string> GoogleScholarErrors { get; set; }
 
 
-        public LoadAnswer() { }
+        public LoadAnswer()
+        {
+            DBLPErrors = new List<string>();
+            IEEEXploreErrors = new List<string>();
+            GoogleScholarErrors = new List<string>();
+        }
 
         public LoadAnswer(int dBLPNumberOfResults, List<string> dBLPErrors, int iEEEXploreNumberOfResults, List<string> iEEEXploreErrors, int googleScholarNumberOfResults, List<string> googleScholarErrors)
         {
