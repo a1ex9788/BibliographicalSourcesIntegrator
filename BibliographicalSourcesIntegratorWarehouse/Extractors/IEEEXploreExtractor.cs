@@ -100,16 +100,21 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         static int getIniPage(IEEEXplorerPublicationSchema IEEPublication) 
         {
-            if (IEEPublication.start_page != null)
+            int number;
+            bool success = Int32.TryParse(IEEPublication.start_page, out number);
+            if (success)
             {
-                return Convert.ToInt32(IEEPublication.start_page);
-            } else return -1;
+                return number;
+            }
+            else return -1;
         }
         static int getFinalPage(IEEEXplorerPublicationSchema IEEPublication) 
         {
-            if (IEEPublication.end_page != null)
+            int number;
+            bool success = Int32.TryParse(IEEPublication.end_page, out number);
+            if (success)
             {
-                return Convert.ToInt32(IEEPublication.end_page);
+                return number;
             }
             else return -1;
         }
@@ -233,27 +238,36 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 }
            
                 return authorsFinal;
-           
-           
+
+
                 string GetName(string completeName)
                 {
-
                     string[] splittedName = completeName.Split(' ');
 
-                    if (splittedName[1].Contains('.'))
+                    if (splittedName.Length == 0)
                     {
-                        return splittedName.Length > 1 ? splittedName[0] + splittedName[1] : splittedName[0];
+                        return "";
+                    }
+
+                    if (splittedName.Length > 1 && splittedName[1].Contains('.'))
+                    {
+                        return splittedName.Length > 1 ? splittedName[0] + " " + splittedName[1] : splittedName[0];
                     }
                     else
                     {
                         return splittedName[0];
                     }
                 }
-               
+
                 string GetSurnames(string completeName)
                 {
                     string[] splittedName = completeName.Split(' ');
                     string surnames = "";
+
+                    if (splittedName.Length <= 1)
+                    {
+                        return "";
+                    }
 
                     if (splittedName[1].Contains('.'))
                     {
@@ -272,7 +286,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
                     return surnames.TrimEnd();
                 }
-            
+
             }
         }
 

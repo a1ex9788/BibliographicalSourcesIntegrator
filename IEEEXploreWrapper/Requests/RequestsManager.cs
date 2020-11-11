@@ -29,7 +29,7 @@ namespace IEEEXploreWrapper.Requests
 
         string ShortOrderParameter { get => "&sort_order=asc"; }
 
-        int MaxRecordsValue { get => 1; }
+        int MaxRecordsValue { get => 200; }
 
         string MaxRecordsParameter { get => "&max_records=" + MaxRecordsValue; }
 
