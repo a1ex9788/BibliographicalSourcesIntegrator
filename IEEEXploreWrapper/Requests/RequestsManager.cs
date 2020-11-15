@@ -12,7 +12,7 @@ namespace IEEEXploreWrapper.Requests
 {
     public class RequestsManager
     {
-        static HttpClient client = new HttpClient();
+        HttpClient client = new HttpClient();
 
 
         string ApiKeyParameter { get => "&apikey=efv84mzqq6ydx4dbd59jhdcn"; }
