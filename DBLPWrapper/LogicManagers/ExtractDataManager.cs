@@ -30,7 +30,7 @@ namespace DBLPWrapper.LogicManagers
                 return null;
             }
 
-            return ExtractDataFromFile(extractRequest.InitialYear, extractRequest.FinalYear);
+            return ExtractDataFromXmlFile(extractRequest.InitialYear, extractRequest.FinalYear);
         }
 
 
@@ -48,7 +48,7 @@ namespace DBLPWrapper.LogicManagers
             }
         }
 
-        private string ExtractDataFromFile(int initialYear, int finalYear)
+        private string ExtractDataFromXmlFile(int initialYear, int finalYear)
         {
             try
             {
@@ -80,14 +80,15 @@ namespace DBLPWrapper.LogicManagers
 
                 return null;
             }
-        }
 
-        // <title>Numerical analysis of CO<sub>2</sub> concentration and recovery from flue gas by a novel vacuum swing adsorption cycle.</title>
-        // <sup>+</sup>
-        // <i>in silico</i>
-        private string FixXml(string source)
-        {
-            return source.Replace("<sub>", "").Replace("</sub>", "").Replace("<sup>", "").Replace("</sup>", "").Replace("<i>", "").Replace("</i>", "");
+
+            // <title>Numerical analysis of CO<sub>2</sub> concentration and recovery from flue gas by a novel vacuum swing adsorption cycle.</title>
+            // <sup>+</sup>
+            // <i>in silico</i>
+            string FixXml(string source)
+            {
+                return source.Replace("<sub>", "").Replace("</sub>", "").Replace("<sup>", "").Replace("</sup>", "").Replace("<i>", "").Replace("</i>", "");
+            }
         }
     }
 }
