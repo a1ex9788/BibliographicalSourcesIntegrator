@@ -13,11 +13,11 @@ namespace DBLPWrapper.LogicManagers
 {
     public class ExtractDataManager
     {
-        private readonly ILogger<ExtractDataManager> _logger;
+        private readonly ILogger<ExtractDataManager> logger;
 
         public ExtractDataManager(ILogger<ExtractDataManager> logger)
         {
-            _logger = logger;
+            this.logger = logger;
         }
 
 
@@ -42,7 +42,7 @@ namespace DBLPWrapper.LogicManagers
             }
             catch (Exception)
             {
-                _logger.LogError("The request is not an ExtractRequest.");
+                logger.LogError("The request is not an ExtractRequest.");
 
                 return null;
             }
@@ -52,7 +52,7 @@ namespace DBLPWrapper.LogicManagers
         {
             try
             {
-                string xml = File.ReadAllText("../DBLP.XML");
+                string xml = File.ReadAllText("DBLP.XML");
 
                 xml = FixXml(xml);
 
@@ -70,13 +70,13 @@ namespace DBLPWrapper.LogicManagers
 
                 string json = Newtonsoft.Json.JsonConvert.SerializeXmlNode(dblpNode);
 
-                _logger.LogInformation("Articles between " + initialYear + " and " + finalYear + " found: " + dblpNode.ChildNodes.Count);
+                logger.LogInformation("Articles between " + initialYear + " and " + finalYear + " found: " + dblpNode.ChildNodes.Count);
 
                 return json;
             }
             catch (Exception)
             {
-                _logger.LogError("There was a problem working with the XML file.");
+                logger.LogError("There was a problem working with the XML file.");
 
                 return null;
             }

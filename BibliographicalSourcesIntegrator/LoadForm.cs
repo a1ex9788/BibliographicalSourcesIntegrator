@@ -57,31 +57,42 @@ namespace BibliographicalSourcesIntegrator
 
             LoadingForm loadingForm = new LoadingForm();
 
+            ShowLoadingForm();
+
             try
             {
-                new Task(() => loadingForm.ShowDialog()).Start();
-
                 loadAnswer = await RequestsManager.GetRequestsManager().LoadDataFromDataSources(loadRequest);
-
-                loadingForm.Invoke((MethodInvoker)delegate
-                {
-                    loadingForm.Close();
-                });
             }
             catch (HttpRequestException)
             {
-                
-                loadingForm.Invoke((MethodInvoker)delegate
-                {
-                    loadingForm.Close();
-                });
-
                 richTextBoxErrors.Text = "It was not possible to connect to the warehouse.";
 
                 return;
             }
+            finally
+            {
+                CloseLoadingForm();
+            }
 
             ShowResults(loadAnswer, loadRequest.LoadFromDBLP, loadRequest.LoadFromIEEEXplore, loadRequest.LoadFromGoogleScholar);
+
+
+            void ShowLoadingForm()
+            {
+                new Task(() => loadingForm.ShowDialog()).Start();
+
+                this.Enabled = false;
+            }
+
+            void CloseLoadingForm()
+            {
+                loadingForm.Invoke((MethodInvoker)delegate
+                {
+                    loadingForm.Close();
+                });
+
+                this.Enabled = true;
+            }
         }
 
         private void CloseForm(object sender, FormClosedEventArgs e)

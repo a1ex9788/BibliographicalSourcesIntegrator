@@ -1,24 +1,27 @@
 ﻿using BibliographicalSourcesIntegratorWarehouse.Entities;
+using BibliographicalSourcesIntegratorWarehouse.Persistence;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using BibliographicalSourcesIntegratorWarehouse.Persistence;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 {
     public class IEEEXploreExtractor
     {
-        private readonly PublicationCreator publicationConstructor;
+        private readonly PublicationCreator publicationCreator;
         private readonly DatabaseAccess databaseAccess;
+        private readonly ILogger<IEEEXploreExtractor> logger;
 
 
-        public IEEEXploreExtractor(PublicationCreator publicationConstructor, DatabaseAccess databaseAccess)
+        public IEEEXploreExtractor(PublicationCreator publicationCreator, DatabaseAccess databaseAccess, ILogger<IEEEXploreExtractor> logger)
         {
-            this.publicationConstructor = publicationConstructor;
+            this.publicationCreator = publicationCreator;
             this.databaseAccess = databaseAccess;
+            this.logger = logger;
         }
+
 
         public (int numberOfResults, List<string> errorList) ExtractData(string json)
         {
@@ -27,50 +30,56 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             List<Book> books = new List<Book>();
             List<CongressComunication> conferences = new List<CongressComunication>();
 
+            logger.LogInformation("Preparing the json...");
+
             string preparedJson = PrepareJson(json);
+
+            logger.LogInformation("Converting the json to IEEEXplore schema...");
 
             List<IEEEXplorerPublicationSchema> publications = JsonConvert.DeserializeObject<List<IEEEXplorerPublicationSchema>>(preparedJson);
 
-            foreach (IEEEXplorerPublicationSchema IEEPublication in publications)
+            logger.LogInformation("Creating the publications...");
+
+            foreach (IEEEXplorerPublicationSchema ieeePublication in publications)
             {
                 try 
                 {
-                    if (IEEPublication.content_type == "Journals")
+                    if (ieeePublication.content_type == "Journals")
                     {
-                        articles.Add(publicationConstructor.CreateArticle(
-                            title: IEEPublication.title,
-                            year: IEEPublication.publication_year,
-                            url: IEEPublication.pdf_url,
-                            authors: IEEPublication.authors.GetAuthors(),
-                            initialPage: getIniPage(IEEPublication),
-                            finalPage: getFinalPage(IEEPublication),
-                            volume: IEEPublication.volume,
-                            number: IEEPublication.article_number,
-                            month: getMonth(IEEPublication.publication_date),
-                            journalName: IEEPublication.publisher));
-                    } else if (IEEPublication.content_type == "Conferences")
-                    {
-                        conferences.Add(publicationConstructor.CreateCongressComunication(
-                            title: IEEPublication.publication_title,
-                            year: IEEPublication.publication_year,
-                            url: IEEPublication.pdf_url,
-                            authors: IEEPublication.authors.GetAuthors(),
-                            edition: -1,
-                            congress: IEEPublication.title,
-                            place: IEEPublication.conference_location,
-                            initialPage: getIniPage(IEEPublication),
-                            finalPage: getFinalPage(IEEPublication)));
-                    } else 
-                    {
-                        books.Add(publicationConstructor.CreateBook(
-                            title: IEEPublication.publication_title,
-                            year: IEEPublication.publication_year,
-                            url: IEEPublication.pdf_url,
-                            authors: IEEPublication.authors.GetAuthors(),
-                            editorial: null
-                            ));
+                        articles.Add(publicationCreator.CreateArticle(
+                            title: ieeePublication.title,
+                            year: ieeePublication.publication_year,
+                            url: ieeePublication.pdf_url,
+                            authors: ieeePublication.GetAuthors(),
+                            initialPage: ieeePublication.GetIniPage(),
+                            finalPage: ieeePublication.GetFinalPage(),
+                            volume: ieeePublication.volume,
+                            number: ieeePublication.article_number,
+                            month: ieeePublication.GetMonth(),
+                            journalName: ieeePublication.publisher));
                     }
-                    
+                    else if (ieeePublication.content_type == "Conferences")
+                    {
+                        conferences.Add(publicationCreator.CreateCongressComunication(
+                            title: ieeePublication.publication_title,
+                            year: ieeePublication.publication_year,
+                            url: ieeePublication.pdf_url,
+                            authors: ieeePublication.GetAuthors(),
+                            edition: -1,
+                            congress: ieeePublication.title,
+                            place: ieeePublication.conference_location,
+                            initialPage: ieeePublication.GetIniPage(),
+                            finalPage: ieeePublication.GetFinalPage()));
+                    }
+                    else 
+                    {
+                        books.Add(publicationCreator.CreateBook(
+                            title: ieeePublication.publication_title,
+                            year: ieeePublication.publication_year,
+                            url: ieeePublication.pdf_url,
+                            authors: ieeePublication.GetAuthors(),
+                            editorial: null));
+                    }                    
                 }
                 catch (Exception e)
                 {
@@ -78,12 +87,15 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 }
             }
 
+            logger.LogInformation("Saving the publications into the database...");
+
             databaseAccess.SaveBooks(books);
             databaseAccess.SaveCongressComunications(conferences);
             databaseAccess.SaveArticles(articles);
 
             return (publications.Count - errorList.Count, errorList);
         }
+
 
         static string PrepareJson(string json)
         {
@@ -94,88 +106,8 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             int posToInvestigate = currentInitialArticlesPos + indexOfArticle;
             aux = aux.Substring(posToInvestigate);
             aux = aux.Remove(aux.Length - 1, 1);
+            
             return aux;
-
-        }
-
-        static int getIniPage(IEEEXplorerPublicationSchema IEEPublication) 
-        {
-            int number;
-            bool success = Int32.TryParse(IEEPublication.start_page, out number);
-            if (success)
-            {
-                return number;
-            }
-            else return -1;
-        }
-        static int getFinalPage(IEEEXplorerPublicationSchema IEEPublication) 
-        {
-            int number;
-            bool success = Int32.TryParse(IEEPublication.end_page, out number);
-            if (success)
-            {
-                return number;
-            }
-            else return -1;
-        }
-        static int getMonth(string publicationDate)
-        {
-            if (publicationDate != null)
-            {
-
-                if (publicationDate.Contains("January"))
-                {
-                    return 1;
-                }
-                else if (publicationDate.Contains("February"))
-                {
-                    return 2;
-                }
-                else if (publicationDate.Contains("March"))
-                {
-                    return 3;
-                }
-                else if (publicationDate.Contains("April"))
-                {
-                    return 4;
-                }
-                else if (publicationDate.Contains("May"))
-                {
-                    return 5;
-                }
-                else if (publicationDate.Contains("June"))
-                {
-                    return 6;
-                }
-                else if (publicationDate.Contains("July"))
-                {
-                    return 7;
-                }
-                else if (publicationDate.Contains("August"))
-                {
-                    return 8;
-                }
-                else if (publicationDate.Contains("September"))
-                {
-                    return 9;
-                }
-                else if (publicationDate.Contains("October"))
-                {
-                    return 10;
-                }
-                else if (publicationDate.Contains("November"))
-                {
-                    return 11;
-                }
-                else
-                {
-                    return 12;
-                }
-            }
-            else { return -1; }
-
-
-
         }
 
 
@@ -209,7 +141,102 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             public string content_type { get; set; }
 
+
+            public int GetIniPage()
+            {
+                int number;
+                bool success = Int32.TryParse(start_page, out number);
+
+                if (success)
+                {
+                    return number;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            public int GetFinalPage()
+            {
+                int number;
+                bool success = Int32.TryParse(end_page, out number);
+
+                if (success)
+                {
+                    return number;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            public int GetMonth()
+            {
+                if (publication_date != null)
+                {
+                    if (publication_date.Contains("January"))
+                    {
+                        return 1;
+                    }
+                    else if (publication_date.Contains("February"))
+                    {
+                        return 2;
+                    }
+                    else if (publication_date.Contains("March"))
+                    {
+                        return 3;
+                    }
+                    else if (publication_date.Contains("April"))
+                    {
+                        return 4;
+                    }
+                    else if (publication_date.Contains("May"))
+                    {
+                        return 5;
+                    }
+                    else if (publication_date.Contains("June"))
+                    {
+                        return 6;
+                    }
+                    else if (publication_date.Contains("July"))
+                    {
+                        return 7;
+                    }
+                    else if (publication_date.Contains("August"))
+                    {
+                        return 8;
+                    }
+                    else if (publication_date.Contains("September"))
+                    {
+                        return 9;
+                    }
+                    else if (publication_date.Contains("October"))
+                    {
+                        return 10;
+                    }
+                    else if (publication_date.Contains("November"))
+                    {
+                        return 11;
+                    }
+                    else
+                    {
+                        return 12;
+                    }
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            public List<(string name, string surnames)> GetAuthors()
+            {
+                return authors.GetAuthors();
+            }
         }
+
 
         class Author
         {
@@ -226,17 +253,17 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                     string name = "";
                     string surnames = "";
                     string completeName = "";
-           
-                    
+
+
                     Author2 author = JsonConvert.DeserializeObject<Author2>(o.ToString());
                     completeName = author.full_name;
 
                     name = GetName(completeName);
                     surnames = GetSurnames(completeName);
-           
+
                     authorsFinal.Add((name, surnames));
                 }
-           
+
                 return authorsFinal;
 
 
@@ -288,27 +315,27 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 }
 
             }
-        }
 
-        class Author2
-        {
-            string authorUrl;
 
-            public string full_name;
-
-            string id;
-
-            string author_order;
-
-            public Author2(string authorUrl, string full_name, string id, string author_order)
+            class Author2
             {
-                this.authorUrl = authorUrl;
-                this.full_name = full_name;
-                this.id = id;
-                this.author_order = author_order;
+                string authorUrl;
+
+                public string full_name;
+
+                string id;
+
+                string author_order;
+
+
+                public Author2(string authorUrl, string full_name, string id, string author_order)
+                {
+                    this.authorUrl = authorUrl;
+                    this.full_name = full_name;
+                    this.id = id;
+                    this.author_order = author_order;
+                }
             }
         }
-
-
     }
 }
