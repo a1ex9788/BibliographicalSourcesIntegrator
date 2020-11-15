@@ -32,17 +32,17 @@
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.labelDBLPReferencesNumber = new System.Windows.Forms.Label();
             this.labelIEEEXploreReferencesNumber = new System.Windows.Forms.Label();
             this.labelGoogleScholarReferencesNumber = new System.Windows.Forms.Label();
             this.labelTotalReferencesNumber = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
-            this.richTextBoxResults = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxErrors = new System.Windows.Forms.RichTextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -144,58 +144,6 @@
             this.tableLayoutPanel8.Size = new System.Drawing.Size(397, 173);
             this.tableLayoutPanel8.TabIndex = 6;
             // 
-            // label6
-            // 
-            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label6.AutoSize = true;
-            this.tableLayoutPanel8.SetColumnSpan(this.label6, 3);
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(3, 43);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(122, 16);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Loaded references";
-            // 
-            // label9
-            // 
-            this.label9.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(32, 89);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(35, 13);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "DBLP";
-            // 
-            // label10
-            // 
-            this.label10.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(116, 89);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(64, 13);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "IEEE Xplore";
-            // 
-            // label11
-            // 
-            this.label11.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(207, 89);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(80, 13);
-            this.label11.TabIndex = 4;
-            this.label11.Text = "Google Scholar";
-            // 
-            // label8
-            // 
-            this.label8.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(331, 89);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(31, 13);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "Total";
-            // 
             // labelDBLPReferencesNumber
             // 
             this.labelDBLPReferencesNumber.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -236,11 +184,63 @@
             this.labelTotalReferencesNumber.TabIndex = 8;
             this.labelTotalReferencesNumber.Text = "label15";
             // 
+            // label8
+            // 
+            this.label8.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(331, 89);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(31, 13);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "Total";
+            // 
+            // label11
+            // 
+            this.label11.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(207, 89);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(80, 13);
+            this.label11.TabIndex = 4;
+            this.label11.Text = "Google Scholar";
+            // 
+            // label10
+            // 
+            this.label10.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(116, 89);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(64, 13);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "IEEE Xplore";
+            // 
+            // label9
+            // 
+            this.label9.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(32, 89);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(35, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "DBLP";
+            // 
+            // label6
+            // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label6.AutoSize = true;
+            this.tableLayoutPanel8.SetColumnSpan(this.label6, 3);
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(3, 43);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(122, 16);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Loaded references";
+            // 
             // tableLayoutPanel9
             // 
             this.tableLayoutPanel9.ColumnCount = 1;
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel9.Controls.Add(this.richTextBoxResults, 0, 1);
+            this.tableLayoutPanel9.Controls.Add(this.richTextBoxErrors, 0, 1);
             this.tableLayoutPanel9.Controls.Add(this.label5, 0, 0);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 221);
@@ -251,15 +251,16 @@
             this.tableLayoutPanel9.Size = new System.Drawing.Size(397, 171);
             this.tableLayoutPanel9.TabIndex = 7;
             // 
-            // richTextBoxResults
+            // richTextBoxErrors
             // 
-            this.richTextBoxResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxResults.ForeColor = System.Drawing.Color.DarkGray;
-            this.richTextBoxResults.Location = new System.Drawing.Point(3, 22);
-            this.richTextBoxResults.Name = "richTextBoxResults";
-            this.richTextBoxResults.Size = new System.Drawing.Size(391, 146);
-            this.richTextBoxResults.TabIndex = 3;
-            this.richTextBoxResults.Text = "fdgsfdgsfdgsfdg";
+            this.richTextBoxErrors.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxErrors.ForeColor = System.Drawing.Color.Red;
+            this.richTextBoxErrors.Location = new System.Drawing.Point(3, 22);
+            this.richTextBoxErrors.Name = "richTextBoxErrors";
+            this.richTextBoxErrors.ReadOnly = true;
+            this.richTextBoxErrors.Size = new System.Drawing.Size(391, 146);
+            this.richTextBoxErrors.TabIndex = 3;
+            this.richTextBoxErrors.Text = "fdgsfdgsfdgsfdg";
             // 
             // label5
             // 
@@ -425,11 +426,6 @@
             // numericUpDownInitialYear
             // 
             this.numericUpDownInitialYear.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.numericUpDownInitialYear.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
             this.numericUpDownInitialYear.Location = new System.Drawing.Point(99, 104);
             this.numericUpDownInitialYear.Maximum = new decimal(new int[] {
             2020,
@@ -437,7 +433,7 @@
             0,
             0});
             this.numericUpDownInitialYear.Minimum = new decimal(new int[] {
-            1900,
+            2000,
             0,
             0,
             0});
@@ -449,15 +445,11 @@
             0,
             0,
             0});
+            this.numericUpDownInitialYear.ValueChanged += new System.EventHandler(this.NumericUpDownInitialYearValueChanged);
             // 
             // numericUpDownFinalYear
             // 
             this.numericUpDownFinalYear.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.numericUpDownFinalYear.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
             this.numericUpDownFinalYear.Location = new System.Drawing.Point(99, 180);
             this.numericUpDownFinalYear.Maximum = new decimal(new int[] {
             2020,
@@ -465,7 +457,7 @@
             0,
             0});
             this.numericUpDownFinalYear.Minimum = new decimal(new int[] {
-            1900,
+            2000,
             0,
             0,
             0});
@@ -477,6 +469,7 @@
             0,
             0,
             0});
+            this.numericUpDownFinalYear.ValueChanged += new System.EventHandler(this.NumericUpDownFinalYearValueChanged);
             // 
             // label4
             // 
@@ -551,7 +544,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.NumericUpDown numericUpDownInitialYear;
         private System.Windows.Forms.NumericUpDown numericUpDownFinalYear;
-        private System.Windows.Forms.RichTextBox richTextBoxResults;
+        private System.Windows.Forms.RichTextBox richTextBoxErrors;
         private System.Windows.Forms.Label label5;
     }
 }

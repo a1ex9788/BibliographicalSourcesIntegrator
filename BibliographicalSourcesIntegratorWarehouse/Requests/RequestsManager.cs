@@ -13,7 +13,7 @@ namespace BibliographicalSourcesIntegrator
 {
     public class RequestsManager
     {
-        static HttpClient client = new HttpClient();
+        HttpClient client = new HttpClient();
 
         public RequestsManager()
         {
@@ -42,11 +42,9 @@ namespace BibliographicalSourcesIntegrator
 
         public async Task<string> LoadDataFromGoogleScholar(ExtractRequest extractRequest)
         {
-            //client.BaseAddress = new Uri(ProgramAddresses.GoogleScholarWrapperAddress);
+            client.BaseAddress = new Uri(ProgramAddresses.GoogleScholarWrapperAddress);
 
-            //return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest));
-
-            return "";
+            return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest));
         }
 
 
