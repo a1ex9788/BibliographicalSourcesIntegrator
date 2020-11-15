@@ -74,7 +74,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
                     loadAnswer.DBLPNumberOfResults = numberOfResults;
                     loadAnswer.DBLPErrors = errorList;
 
-                    _logger.LogInformation("Publications between " + loadRequest.InitialYear + " and " + loadRequest.FinalYear + " found: " + numberOfResults);
+                    _logger.LogInformation("Publications between " + loadRequest.InitialYear + " and " + loadRequest.FinalYear + " loaded: " + numberOfResults);
                 }
                 catch (HttpRequestException)
                 {
@@ -97,7 +97,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
                     loadAnswer.IEEEXploreNumberOfResults = numberOfResults;
                     loadAnswer.IEEEXploreErrors = errorList;
 
-                    _logger.LogInformation("Publications between " + loadRequest.InitialYear + " and " + loadRequest.FinalYear + " found: " + numberOfResults);
+                    _logger.LogInformation("Publications between " + loadRequest.InitialYear + " and " + loadRequest.FinalYear + " loaded: " + numberOfResults);
                 }
                 catch (HttpRequestException)
                 {
@@ -120,7 +120,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
                     loadAnswer.GoogleScholarNumberOfResults = numberOfResults;
                     loadAnswer.GoogleScholarErrors = errorList;
 
-                    _logger.LogInformation("Publications between " + loadRequest.InitialYear + " and " + loadRequest.FinalYear + " found: " + numberOfResults);
+                    _logger.LogInformation("Publications between " + loadRequest.InitialYear + " and " + loadRequest.FinalYear + " loaded: " + numberOfResults);
                 }
                 catch (HttpRequestException)
                 {

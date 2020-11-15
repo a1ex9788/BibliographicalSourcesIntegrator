@@ -13,11 +13,11 @@ namespace DBLPWrapper.LogicManagers
 {
     public class ExtractDataManager
     {
-        private readonly ILogger<ExtractDataManager> _logger;
+        private readonly ILogger<ExtractDataManager> logger;
 
         public ExtractDataManager(ILogger<ExtractDataManager> logger)
         {
-            _logger = logger;
+            this.logger = logger;
         }
 
 
@@ -30,7 +30,7 @@ namespace DBLPWrapper.LogicManagers
                 return null;
             }
 
-            return ExtractDataFromFile(extractRequest.InitialYear, extractRequest.FinalYear);
+            return ExtractDataFromXmlFile(extractRequest.InitialYear, extractRequest.FinalYear);
         }
 
 
@@ -42,17 +42,17 @@ namespace DBLPWrapper.LogicManagers
             }
             catch (Exception)
             {
-                _logger.LogError("The request is not an ExtractRequest.");
+                logger.LogError("The request is not an ExtractRequest.");
 
                 return null;
             }
         }
 
-        private string ExtractDataFromFile(int initialYear, int finalYear)
+        private string ExtractDataFromXmlFile(int initialYear, int finalYear)
         {
             try
             {
-                string xml = File.ReadAllText("../DBLP.XML");
+                string xml = File.ReadAllText("DBLP.XML");
 
                 xml = FixXml(xml);
 
@@ -70,24 +70,25 @@ namespace DBLPWrapper.LogicManagers
 
                 string json = Newtonsoft.Json.JsonConvert.SerializeXmlNode(dblpNode);
 
-                _logger.LogInformation("Articles between " + initialYear + " and " + finalYear + " found: " + dblpNode.ChildNodes.Count);
+                logger.LogInformation("Articles between " + initialYear + " and " + finalYear + " found: " + dblpNode.ChildNodes.Count);
 
                 return json;
             }
             catch (Exception)
             {
-                _logger.LogError("There was a problem working with the XML file.");
+                logger.LogError("There was a problem working with the XML file.");
 
                 return null;
             }
-        }
 
-        // <title>Numerical analysis of CO<sub>2</sub> concentration and recovery from flue gas by a novel vacuum swing adsorption cycle.</title>
-        // <sup>+</sup>
-        // <i>in silico</i>
-        private string FixXml(string source)
-        {
-            return source.Replace("<sub>", "").Replace("</sub>", "").Replace("<sup>", "").Replace("</sup>", "").Replace("<i>", "").Replace("</i>", "");
+
+            // <title>Numerical analysis of CO<sub>2</sub> concentration and recovery from flue gas by a novel vacuum swing adsorption cycle.</title>
+            // <sup>+</sup>
+            // <i>in silico</i>
+            string FixXml(string source)
+            {
+                return source.Replace("<sub>", "").Replace("</sub>", "").Replace("<sup>", "").Replace("</sup>", "").Replace("<i>", "").Replace("</i>", "");
+            }
         }
     }
 }

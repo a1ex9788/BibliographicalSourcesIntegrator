@@ -1,11 +1,10 @@
 ﻿using BibliographicalSourcesIntegratorWarehouse.Entities;
 using BibliographicalSourcesIntegratorWarehouse.Persistence;
-using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 {
@@ -13,12 +12,14 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
     {
         private readonly PublicationCreator publicationCreator;
         private readonly DatabaseAccess databaseAccess;
+        private readonly ILogger<DBLPExtractor> logger;
 
 
-        public DBLPExtractor(PublicationCreator publicationCreator, DatabaseAccess databaseAccess)
+        public DBLPExtractor(PublicationCreator publicationCreator, DatabaseAccess databaseAccess, ILogger<DBLPExtractor> logger)
         {
             this.publicationCreator = publicationCreator;
             this.databaseAccess = databaseAccess;
+            this.logger = logger;
         }
 
 
@@ -27,6 +28,8 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             List<string> errorList = new List<string>();
             List<Article> articles = new List<Article>();
 
+            logger.LogInformation("Preparing the json...");
+
             string preparedJson = PrepareJson(json);
 
             if (preparedJson == null)
@@ -34,7 +37,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 return (0, errorList);
             }
 
+            logger.LogInformation("Converting the json to DBLP schema...");
+
             List<DBLPPublicationSchema> publications = JsonConvert.DeserializeObject<List<DBLPPublicationSchema>>(preparedJson);
+
+            logger.LogInformation("Creating the publications...");
 
             foreach (DBLPPublicationSchema dBLPPublication in publications)
             {
@@ -58,6 +65,8 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 }
             }
 
+            logger.LogInformation("Saving the publications into the database...");
+
             databaseAccess.SaveArticles(articles);
 
             return (publications.Count - errorList.Count, errorList);
@@ -80,62 +89,63 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             string jsonWithSquareBracketsInAuthorLists = AddSquareBracketsInAuthorListsIfNeeded(jsonArticleList);
 
             return jsonWithSquareBracketsInAuthorLists;
-        }
 
-        static string SearchArticleList(string source)
-        {
-            if (!source.Contains('[') || !source.Contains(']'))
+
+            static string SearchArticleList(string source)
             {
-                return null;
-            }
-
-            string aux = source;
-
-            while (aux.First() != '[')
-            {
-                aux = aux.Remove(0, 1);
-            }
-
-            while (aux.Last() != ']')
-            {
-                aux = aux.Remove(aux.Length-1, 1);
-            }
-
-            return aux;
-        }
-
-        static string AddSquareBracketsInAuthorListsIfNeeded(string source)
-        {
-            string auxToSearchAuthorPos = source;
-            string res = source;
-            int currentInitialAuthorPos = 0, numberOfAddedSquareBrackets = 0;
-
-            while (auxToSearchAuthorPos.Contains("author\":"))
-            {
-                int indexOfAuthor = auxToSearchAuthorPos.IndexOf("author\":");
-                int posToInvestigate = currentInitialAuthorPos + indexOfAuthor;
-
-                auxToSearchAuthorPos = auxToSearchAuthorPos.Substring(indexOfAuthor + 1);
-                currentInitialAuthorPos += indexOfAuthor + 1;
-
-
-                int currentFirstSquareBracketPos = source.IndexOf(':', posToInvestigate) + numberOfAddedSquareBrackets + 1;
-
-                if (res[currentFirstSquareBracketPos] != '[')
+                if (!source.Contains('[') || !source.Contains(']'))
                 {
-                    res = res.Substring(0, currentFirstSquareBracketPos) + '[' + res.Substring(currentFirstSquareBracketPos);
-
-                    int initialTitlePosition = res.Substring(currentFirstSquareBracketPos).IndexOf("\"title") + currentFirstSquareBracketPos;
-
-                    int beforeCommaPosition = res.Substring(0, initialTitlePosition).LastIndexOf(',');
-
-                    res = res.Substring(0, beforeCommaPosition) + ']' + res.Substring(beforeCommaPosition);
-
-                    numberOfAddedSquareBrackets += 2;
+                    return null;
                 }
+
+                string aux = source;
+
+                while (aux.First() != '[')
+                {
+                    aux = aux.Remove(0, 1);
+                }
+
+                while (aux.Last() != ']')
+                {
+                    aux = aux.Remove(aux.Length - 1, 1);
+                }
+
+                return aux;
             }
 
-            return res;
+            static string AddSquareBracketsInAuthorListsIfNeeded(string source)
+            {
+                string auxToSearchAuthorPos = source;
+                string res = source;
+                int currentInitialAuthorPos = 0, numberOfAddedSquareBrackets = 0;
+
+                while (auxToSearchAuthorPos.Contains("author\":"))
+                {
+                    int indexOfAuthor = auxToSearchAuthorPos.IndexOf("author\":");
+                    int posToInvestigate = currentInitialAuthorPos + indexOfAuthor;
+
+                    auxToSearchAuthorPos = auxToSearchAuthorPos.Substring(indexOfAuthor + 1);
+                    currentInitialAuthorPos += indexOfAuthor + 1;
+
+
+                    int currentFirstSquareBracketPos = source.IndexOf(':', posToInvestigate) + numberOfAddedSquareBrackets + 1;
+
+                    if (res[currentFirstSquareBracketPos] != '[')
+                    {
+                        res = res.Substring(0, currentFirstSquareBracketPos) + '[' + res.Substring(currentFirstSquareBracketPos);
+
+                        int initialTitlePosition = res.Substring(currentFirstSquareBracketPos).IndexOf("\"title") + currentFirstSquareBracketPos;
+
+                        int beforeCommaPosition = res.Substring(0, initialTitlePosition).LastIndexOf(',');
+
+                        res = res.Substring(0, beforeCommaPosition) + ']' + res.Substring(beforeCommaPosition);
+
+                        numberOfAddedSquareBrackets += 2;
+                    }
+                }
+
+                return res;
+            }
         }
     }
 
