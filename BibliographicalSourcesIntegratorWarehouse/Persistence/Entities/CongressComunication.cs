@@ -28,6 +28,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
             Congress = congress;
             Place = place;
         }
+
         public CongressComunication(string title, int year, string url, string congress, string place, int initialPage, int finalPage)
             : base(title, year, url)
         {
@@ -36,6 +37,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
             InitialPage = initialPage;
             FinalPage = finalPage;
         }
+
         public CongressComunication(string title, int year, string url, string congress, int edition, string place, int initialPage, int finalPage)
             : base(title, year, url)
         {

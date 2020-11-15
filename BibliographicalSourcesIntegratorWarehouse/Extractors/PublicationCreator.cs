@@ -37,20 +37,20 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             if (initialPage == -1)
             {
                 article = new Article(
-                title: title,
-                year: year,
-                url: url,
-                exemplar: exemplar);
+                    title: title,
+                    year: year,
+                    url: url,
+                    exemplar: exemplar);
             }
             else
             {
                 article = new Article(
-                title: title,
-                year: year,
-                url: url,
-                initialPage: initialPage,
-                finalPage: finalPage,
-                exemplar: exemplar);
+                    title: title,
+                    year: year,
+                    url: url,
+                    initialPage: initialPage,
+                    finalPage: finalPage,
+                    exemplar: exemplar);
             }
 
             foreach ((string name, string surnames) in authors)
@@ -85,21 +85,21 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 if (finalPage == -1)
                 {
                     conference = new CongressComunication(
-                      title: title,
-                      year: year,
-                      url: url,
-                      congress: congress,
-                      place: place);
+                        title: title,
+                        year: year,
+                        url: url,
+                        congress: congress,
+                        place: place);
                 }
                 else {
                     conference = new CongressComunication(
-                      title: title,
-                      year: year,
-                      url: url,
-                      congress: congress,
-                      place: place,
-                      initialPage: initialPage,
-                      finalPage: finalPage);
+                        title: title,
+                        year: year,
+                        url: url,
+                        congress: congress,
+                        place: place,
+                        initialPage: initialPage,
+                        finalPage: finalPage);
                 }
                 
             }
@@ -107,14 +107,14 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             else
             {
                 conference = new CongressComunication(
-                        title: title,
-                        year: year,
-                        url: url,
-                        congress: congress,
-                        edition: edition,
-                        place: place,
-                        initialPage: initialPage,
-                        finalPage: finalPage);
+                    title: title,
+                    year: year,
+                    url: url,
+                    congress: congress,
+                    edition: edition,
+                    place: place,
+                    initialPage: initialPage,
+                    finalPage: finalPage);
             }
 
             
