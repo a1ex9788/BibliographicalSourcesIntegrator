@@ -53,7 +53,7 @@ namespace GoogleScholarWrapper.LogicManagers
         }
 
         private async Task<string> ExtractDataFromGoogleScholarWithSelenium(int initialYear, int finalYear)
-        {
+        {   
             //String exePath = "";
             //System.setProperty("webdriver.chrome.driver", exePath);
             ChromeOptions options = new ChromeOptions();
@@ -66,26 +66,38 @@ namespace GoogleScholarWrapper.LogicManagers
             {
 
                 driver.Url = "https://scholar.google.es/";
-
                 //IWebElement cookiesWindow = driver.FindElement(By.Id("introAgreeButton"));
                 // if (cookiesWindow != null) { cookiesWindow.Click(); }
-       
                 IWebElement optionsTool = driver.FindElement(By.Id("gs_hdr_mnu"));
                 optionsTool.Click();
+                
                 IWebElement advancedSearch = driver.FindElement(By.Id("gs_hp_drw_adv"));
                 advancedSearch.Click();
+               
                 IWebElement initYear = driver.FindElement(By.Id("gs_asd_ylo"));
                 initYear.SendKeys(Convert.ToString(initialYear));
                 IWebElement finYear = driver.FindElement(By.Id("gs_asd_yhi"));
                 finYear.SendKeys(Convert.ToString(finalYear));
                 IWebElement search = driver.FindElement(By.Id("gs_asd_psb"));
                 search.Click();
-                IWebElement citar = driver.FindElementByXPath("//*[@id='gs_res_ccl_mid']/div[1]/div[2]/div[3]/a[2]");
-                citar.Click();
-                String link_prueba = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]").GetAttribute("href");
-                IWebElement BibTeX = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]");
-                BibTeX.Click();
-                String BibTeX_file = driver.FindElementByXPath("/html/body/pre").Text;
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+
+                String BibTeX_file = "";
+                List<IWebElement> elements = new List<IWebElement>();
+                elements = driver.FindElements(By.XPath("//*[contains(@class,'gs_r gs_or gs_scl')]")).ToList();
+                int i = 1;
+                foreach (IWebElement element in elements)
+                {
+                    IWebElement citar = driver.FindElementByXPath("//*[@id='gs_res_ccl_mid']/div["+i+"]/div[2]/div[3]/a[2]");
+                    citar.Click();
+                    String link_prueba = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]").GetAttribute("href");
+                    IWebElement BibTeX = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]");
+                    BibTeX.Click();
+                    BibTeX_file += driver.FindElementByXPath("/html/body/pre").Text + "\n";
+                    driver.Navigate().Back();
+                    driver.Navigate().Back();
+                    i++;
+                }
 
                 return BibTeX_file;
             }          
