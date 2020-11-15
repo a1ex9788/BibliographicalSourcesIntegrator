@@ -5,7 +5,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,6 +16,9 @@ namespace BibliographicalSourcesIntegrator
     public partial class LoadForm : Form
     {
         private Form homeForm;
+
+        private int currentInitialYear, currentFinalYear;
+
 
         public LoadForm(Form homeForm)
         {
@@ -25,7 +30,10 @@ namespace BibliographicalSourcesIntegrator
             labelIEEEXploreReferencesNumber.Text = "0";
             labelGoogleScholarReferencesNumber.Text = "0";
             labelTotalReferencesNumber.Text = "0";
-            richTextBoxResults.Text = "";
+            richTextBoxErrors.Text = "";
+
+            currentInitialYear = Convert.ToInt32(numericUpDownInitialYear.Value);
+            currentFinalYear = Convert.ToInt32(numericUpDownFinalYear.Value);
         }
 
 
@@ -39,17 +47,37 @@ namespace BibliographicalSourcesIntegrator
 
             if (!loadDBLP && !loadIEEEXplore && !loadGoogleScholar)
             {
-                ShowError("Any source selected, please select one or more.");
+                richTextBoxErrors.Text = "Any source selected, please select at least one.";
 
                 return;
             }
 
             LoadRequest loadRequest = new LoadRequest(loadDBLP, loadIEEEXplore, loadGoogleScholar, initialYear, finalYear);
+            LoadAnswer loadAnswer;
 
-            LoadAnswer loadAnswer = await RequestsManager.GetRequestsManager().LoadDataFromDataSources(loadRequest);
+            LoadingForm loadingForm = new LoadingForm();
 
-            if (loadAnswer == null)
+            try
             {
+                new Task(() => loadingForm.ShowDialog()).Start();
+
+                loadAnswer = await RequestsManager.GetRequestsManager().LoadDataFromDataSources(loadRequest);
+
+                loadingForm.Invoke((MethodInvoker)delegate
+                {
+                    loadingForm.Close();
+                });
+            }
+            catch (HttpRequestException)
+            {
+                
+                loadingForm.Invoke((MethodInvoker)delegate
+                {
+                    loadingForm.Close();
+                });
+
+                richTextBoxErrors.Text = "It was not possible to connect to the warehouse.";
+
                 return;
             }
 
@@ -61,29 +89,19 @@ namespace BibliographicalSourcesIntegrator
             homeForm.Show();
         }
 
-
-        private void ShowError(string errorMessage)
-        {
-            richTextBoxResults.ForeColor = Color.Red;
-            richTextBoxResults.Text = errorMessage;
-        }
-
         private void ShowResults(LoadAnswer loadAnswer)
         {
-            ResetErrorText();
+            int dblpNumberOfResults = loadAnswer.DBLPNumberOfResults;
+            int ieeeXploreNumberOfResults = loadAnswer.IEEEXploreNumberOfResults;
+            int googleScholarNumberOfResults = loadAnswer.GoogleScholarNumberOfResults;
 
-            labelDBLPReferencesNumber.Text = loadAnswer.DBLPNumberOfResults.ToString();
-            labelIEEEXploreReferencesNumber.Text = loadAnswer.IEEEXploreNumberOfResults.ToString();
-            labelGoogleScholarReferencesNumber.Text = loadAnswer.GoogleScholarNumberOfResults.ToString();
+            labelDBLPReferencesNumber.Text = dblpNumberOfResults.ToString();
+            labelIEEEXploreReferencesNumber.Text = ieeeXploreNumberOfResults.ToString();
+            labelGoogleScholarReferencesNumber.Text = googleScholarNumberOfResults.ToString();
+            labelTotalReferencesNumber.Text = (dblpNumberOfResults + ieeeXploreNumberOfResults + googleScholarNumberOfResults).ToString();
 
-            labelTotalReferencesNumber.Text = PrepareErrorText();
+            richTextBoxErrors.Text = PrepareErrorText();
 
-
-            void ResetErrorText()
-            {
-                richTextBoxResults.ForeColor = Color.DarkGray;
-                richTextBoxResults.Text = "";
-            }
 
             string PrepareErrorText()
             {
@@ -109,6 +127,32 @@ namespace BibliographicalSourcesIntegrator
 
                 return errors.Substring(0, errors.Length - 1);
             }
+        }
+
+        private void NumericUpDownInitialYearValueChanged(object sender, EventArgs e)
+        {
+            int newInitialYear = Convert.ToInt32(numericUpDownInitialYear.Value);
+
+            if (newInitialYear > currentFinalYear)
+            {
+                currentFinalYear++;
+                numericUpDownFinalYear.Value = currentFinalYear;
+            }
+
+            currentInitialYear = newInitialYear;
+        }
+
+        private void NumericUpDownFinalYearValueChanged(object sender, EventArgs e)
+        {
+            int newFinalYear = Convert.ToInt32(numericUpDownFinalYear.Value);
+
+            if (newFinalYear < currentInitialYear)
+            {
+                currentInitialYear--;
+                numericUpDownInitialYear.Value = currentInitialYear;
+            }
+
+            currentFinalYear = newFinalYear;
         }
     }
 }
