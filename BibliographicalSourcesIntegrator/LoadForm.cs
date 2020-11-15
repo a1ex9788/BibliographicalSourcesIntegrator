@@ -81,7 +81,7 @@ namespace BibliographicalSourcesIntegrator
                 return;
             }
 
-            ShowResults(loadAnswer);
+            ShowResults(loadAnswer, loadRequest.LoadFromDBLP, loadRequest.LoadFromIEEEXplore, loadRequest.LoadFromGoogleScholar);
         }
 
         private void CloseForm(object sender, FormClosedEventArgs e)
@@ -89,7 +89,7 @@ namespace BibliographicalSourcesIntegrator
             homeForm.Show();
         }
 
-        private void ShowResults(LoadAnswer loadAnswer)
+        private void ShowResults(LoadAnswer loadAnswer, bool loadDBLP, bool loadIEEEXplore, bool loadGoogleScholar)
         {
             int dblpNumberOfResults = loadAnswer.DBLPNumberOfResults;
             int ieeeXploreNumberOfResults = loadAnswer.IEEEXploreNumberOfResults;
@@ -107,25 +107,34 @@ namespace BibliographicalSourcesIntegrator
             {
                 string errors = "";
 
-                errors += "DBLP:";
-                foreach (string error in loadAnswer.DBLPErrors)
+                if (loadDBLP && loadAnswer.DBLPErrors.Count > 0)
                 {
-                    errors += " - " + error + "\n";
+                    errors += "DBLP:\n";
+                    foreach (string error in loadAnswer.DBLPErrors)
+                    {
+                        errors += " - " + error + "\n";
+                    }
                 }
 
-                errors += "IEEEXplore:";
-                foreach (string error in loadAnswer.IEEEXploreErrors)
+                if (loadIEEEXplore && loadAnswer.IEEEXploreErrors.Count > 0)
                 {
-                    errors += " - " + error + "\n";
+                    errors += "IEEEXplore:\n";
+                    foreach (string error in loadAnswer.IEEEXploreErrors)
+                    {
+                        errors += " - " + error + "\n";
+                    }
                 }
 
-                errors += "Google Scholar:";
-                foreach (string error in loadAnswer.GoogleScholarErrors)
+                if (loadGoogleScholar && loadAnswer.GoogleScholarErrors.Count > 0)
                 {
-                    errors += " - " + error + "\n";
+                    errors += "Google Scholar:\n";
+                    foreach (string error in loadAnswer.GoogleScholarErrors)
+                    {
+                        errors += " - " + error + "\n";
+                    }
                 }
 
-                return errors.Substring(0, errors.Length - 1);
+                return errors;
             }
         }
 

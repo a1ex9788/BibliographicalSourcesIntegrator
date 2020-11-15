@@ -29,6 +29,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             string preparedJson = PrepareJson(json);
 
+            if (preparedJson == null)
+            {
+                return (0, errorList);
+            }
+
             List<DBLPPublicationSchema> publications = JsonConvert.DeserializeObject<List<DBLPPublicationSchema>>(preparedJson);
 
             foreach (DBLPPublicationSchema dBLPPublication in publications)
@@ -67,6 +72,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             string jsonArticleList = SearchArticleList(jsonWithoutSpecialChars);
 
+            if (jsonArticleList == null)
+            {
+                return null;
+            }
+
             string jsonWithSquareBracketsInAuthorLists = AddSquareBracketsInAuthorListsIfNeeded(jsonArticleList);
 
             return jsonWithSquareBracketsInAuthorLists;
@@ -74,6 +84,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         static string SearchArticleList(string source)
         {
+            if (!source.Contains('[') || !source.Contains(']'))
+            {
+                return null;
+            }
+
             string aux = source;
 
             while (aux.First() != '[')
