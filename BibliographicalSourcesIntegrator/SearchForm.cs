@@ -30,7 +30,7 @@ namespace BibliographicalSourcesIntegrator
             int finalYear = (int) numericUpDownFinalYear.Value;
             bool searchArticle = checkBoxArticle.Checked;
             bool searchBook = checkBoxBook.Checked;
-            bool searchCongress = checkBoxCongress.Checked;
+            bool searchCongress = checkBoxCongressComunication.Checked;
 
             await RequestsManager.GetRequestsManager().SearchDataInWarehouse();
 
@@ -45,14 +45,19 @@ namespace BibliographicalSourcesIntegrator
             numericUpDownFinalYear.Text = "";
             checkBoxArticle.Text = "";
             checkBoxBook.Text = "";
-            checkBoxCongress.Text = "";
-            listViewResults.Items.Clear();
+            checkBoxCongressComunication.Text = "";
+            richTextBoxResults.Text = "";
         }
 
 
         private void CloseForm(object sender, FormClosedEventArgs e)
         {
             homeForm.Show();
+        }
+
+        private void SearchDataButtonClick(object sender, EventArgs e)
+        {
+
         }
     }
 }
