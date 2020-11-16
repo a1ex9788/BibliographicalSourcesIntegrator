@@ -434,7 +434,7 @@
             0,
             0});
             this.numericUpDownInitialYear.Minimum = new decimal(new int[] {
-            2000,
+            1900,
             0,
             0,
             0});
@@ -458,7 +458,7 @@
             0,
             0});
             this.numericUpDownFinalYear.Minimum = new decimal(new int[] {
-            2000,
+            1900,
             0,
             0,
             0});

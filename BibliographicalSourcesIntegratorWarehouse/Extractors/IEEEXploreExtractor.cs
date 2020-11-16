@@ -23,7 +23,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         }
 
 
-        public (int numberOfResults, List<string> errorList) ExtractData(string json)
+        public (int, List<string>) ExtractData(string json)
         {
             List<string> errorList = new List<string>();
             List<Article> articles = new List<Article>();
@@ -100,11 +100,9 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         static string PrepareJson(string json)
         {
             string aux = json;
-            int currentInitialArticlesPos = 0;
 
-            int indexOfArticle = aux.IndexOf("[{\"doi\"");
-            int posToInvestigate = currentInitialArticlesPos + indexOfArticle;
-            aux = aux.Substring(posToInvestigate);
+            int indexOfArticle = aux.IndexOf("[");
+            aux = aux.Substring(indexOfArticle);
             aux = aux.Remove(aux.Length - 1, 1);
             
             return aux;

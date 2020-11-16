@@ -65,23 +65,13 @@ namespace IEEEXploreWrapper.Requests
             int numberOfArticlesFound = GetNumberOfArticlesFound(firstAnswer);
 
             string answer = "{total_records:" + numberOfArticlesFound + ",articles:[";
+
+            if (numberOfArticlesFound == 0)
+            {
+                return answer + "]}";
+            }
+
             AddNewAnswer(firstAnswer);
-
-
-            //////////////////////////////////
-            ContentTypeValue = "Journals";
-            string articlesAnswer = await MakeARequest(Request);
-            AddNewAnswer(articlesAnswer);
-
-            ContentTypeValue = "Books";
-            string booksAnswer = await MakeARequest(Request);
-            AddNewAnswer(booksAnswer);
-
-            ContentTypeValue = "Conferences";
-            string conferencesAnswer = await MakeARequest(Request);
-            AddNewAnswer(conferencesAnswer);
-            //////////////////////////////////////
-
 
             for (StartRecordValue += MaxRecordsValue; PAGINATION && StartRecordValue < numberOfArticlesFound; StartRecordValue += MaxRecordsValue)
             {

@@ -23,7 +23,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         }
 
 
-        public (int numberOfResults, List<string> errorList) ExtractData(string json)
+        public (int, List<string>) ExtractData(string json)
         {
             List<string> errorList = new List<string>();
             List<Article> articles = new List<Article>();
