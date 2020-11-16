@@ -56,8 +56,10 @@ namespace GoogleScholarWrapper.LogicManagers
         {   
             //String exePath = "";
             //System.setProperty("webdriver.chrome.driver", exePath);
+            
             ChromeOptions options = new ChromeOptions();
             options.AddArguments("--start-maximized");
+            //options.AddArguments("--incognito");
             ChromeDriver driver = new ChromeDriver(options);
 
        
@@ -88,14 +90,30 @@ namespace GoogleScholarWrapper.LogicManagers
                 int i = 1;
                 foreach (IWebElement element in elements)
                 {
-                    IWebElement citar = driver.FindElementByXPath("//*[@id='gs_res_ccl_mid']/div["+i+"]/div[2]/div[3]/a[2]");
-                    citar.Click();
-                    String link_prueba = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]").GetAttribute("href");
-                    IWebElement BibTeX = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]");
-                    BibTeX.Click();
-                    BibTeX_file += driver.FindElementByXPath("/html/body/pre").Text + "\n";
-                    driver.Navigate().Back();
-                    driver.Navigate().Back();
+
+                    try
+                    {
+                        IWebElement citar = driver.FindElementByXPath("//*[@id='gs_res_ccl_mid']/div[" + i + "]/div[2]/div[3]/a[2]");
+
+                        if (citar != null)
+                        {
+                            citar.Click();
+                            String link_prueba = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]").GetAttribute("href");
+                            IWebElement BibTeX = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]");
+                            BibTeX.Click();
+                            BibTeX_file += driver.FindElementByXPath("/html/body/pre").Text + "\n";
+                            driver.Navigate().Back();
+                            driver.Navigate().Back();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        driver.Url = "https://scholar.google.es/scholar?as_q=&as_epq=&as_oq=&as_eq=&as_occt=any&as_sauthors=&as_publication=&as_ylo=2000&as_yhi=2010&hl=es&as_sdt=0%2C5";
+                        //driver.Navigate().Back();
+                        _logger.LogError("Ruta incorrecta");
+                        
+                    }
+                    if (i == 4) i = i++;
                     i++;
                 }
 
