@@ -35,17 +35,69 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             logger.LogInformation("Preparing the json...");
 
-            string preparedJson = PrepareJson(json);
+            //string pruebaJson = json;
+            //string preparedJson = PrepareJson(json);
 
             logger.LogInformation("Converting the json to IEEEXplore schema...");
-
-            List<BibTeXPublicationSchema> publications = JsonConvert.DeserializeObject<List<BibTeXPublicationSchema>>(preparedJson);
+                                                                                                                    //preparedJson
+            List<BibTeXPublicationSchema> publications = JsonConvert.DeserializeObject<List<BibTeXPublicationSchema>>(json);
 
             logger.LogInformation("Creating the publications...");
 
+            /*foreach (BibTeXPublicationSchema googleScholarPublication in publications)
+            {
+                try 
+                {
+                    if (googleScholarPublication.content_type == "Journals")
+                    {
+                        articles.Add(publicationCreator.CreateArticle(
+                            title: googleScholarPublication.title,
+                            year: googleScholarPublication.year,
+                            //url: googleScholarPublication.pdf_url,
+                            authors: googleScholarPublication.GetAuthors(),
+                            initialPage: googleScholarPublication.GetInitialPage(),
+                            finalPage: googleScholarPublication.GetFinalPage(),
+                            volume: googleScholarPublication.volume,
+                            number: googleScholarPublication.article_number,
+                            month: googleScholarPublication.GetMonth(),
+                            journalName: googleScholarPublication.publisher)); ;
+                    }
+                    else if (googleScholarPublication.content_type == "Conferences")
+                    {
+                        conferences.Add(publicationCreator.CreateCongressComunication(
+                            title: googleScholarPublication.publication_title,
+                            year: googleScholarPublication.publication_year,
+                            url: googleScholarPublication.pdf_url,
+                            authors: googleScholarPublication.GetAuthors(),
+                            edition: null,
+                            congress: googleScholarPublication.title,
+                            place: googleScholarPublication.conference_location,
+                            initialPage: googleScholarPublication.start_page,
+                            finalPage: googleScholarPublication.end_page));
+                    }
+                    else 
+                    {
+                        books.Add(publicationCreator.CreateBook(
+                            title: googleScholarPublication.publication_title,
+                            year: googleScholarPublication.publication_year,
+                            url: googleScholarPublication.pdf_url,
+                            authors: googleScholarPublication.GetAuthors(),
+                            editorial: null));
+                    }                    
+                }
+                catch (Exception e)
+                {
+                    errorList.Add(e.Message);
+                }
+            } 
 
-            // Leer json, aplicar mappings y guardar en la BD
-            return (0, null);
+            logger.LogInformation("Saving the publications into the database...");
+
+            databaseAccess.SaveBooks(books);
+            databaseAccess.SaveCongressComunications(conferences);
+            databaseAccess.SaveArticles(articles); */
+
+            return (publications.Count - errorList.Count, errorList);
         }
 
         private string PrepareJson(string json)
@@ -62,11 +114,13 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public string pages { get; set; }
 
-        public List<Object> authors { get; set; }
+        public string author { get; set; }
+
+        //public List<Object> authors { get; set; }
 
         public string journal { get; set; }
 
-        public string book_title { get; set; } //Esto es para incollection y inproceedings
+        public string booktitle { get; set; } //Esto es para incollection y inproceedings
 
         public string publisher { get; set; }
 
@@ -75,9 +129,37 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         public string article_number { get; set; }
 
 
+        public string GetInitialPage()
+        {
+            try
+            {
+                int slashPosition = pages.IndexOf('-');
 
+                return pages.Substring(0, slashPosition);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public string GetFinalPage()
+        {
+            try
+            {
+                int slashPosition = pages.IndexOf('-');
+
+                return pages.Substring(slashPosition + 1);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
     }
+
+
 
 
 }
