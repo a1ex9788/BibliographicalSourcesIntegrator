@@ -8,50 +8,25 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 {
     public class PublicationCreator
     {
-        public Article CreateArticle(string title, int year, string url, List<(string name, string surnames)> authors, 
-            int initialPage, int finalPage, string volume, string number, int month, string journalName)
+        public Article CreateArticle(string title, string year, string url, List<(string name, string surnames)> authors,
+            string initialPage, string finalPage, string volume, string number, string month, string journalName)
         {
             Journal journal = new Journal(
                     name: journalName);
 
-            Exemplar exemplar;
+            Exemplar exemplar = new Exemplar(
+                volume: volume,
+                number: number,
+                month: month,
+                journal: journal);
 
-            if (month == -1)
-            {
-                exemplar = new Exemplar(
-                    volume: volume,
-                    number: number,
-                    journal: journal);
-            }
-            else
-            {
-                exemplar = new Exemplar(
-                    volume: volume,
-                    number: number,
-                    month: month,
-                    journal: journal);
-            }
-            
-            Article article;
-
-            if (initialPage == -1)
-            {
-                article = new Article(
-                    title: title,
-                    year: year,
-                    url: url,
-                    exemplar: exemplar);
-            }
-            else
-            {
-                article = new Article(
-                    title: title,
-                    year: year,
-                    url: url,
-                    initialPage: initialPage,
-                    finalPage: finalPage,
-                    exemplar: exemplar);
-            }
+            Article article = new Article(
+                title: title,
+                year: year,
+                url: url,
+                initialPage: initialPage,
+                finalPage: finalPage,
+                exemplar: exemplar);
 
             foreach ((string name, string surnames) in authors)
             {
@@ -73,51 +48,18 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             return article;
         }
 
-        public CongressComunication CreateCongressComunication(string title, int year, string url, List<(string name, string surnames)> authors,
-            string congress, int edition, string place, int initialPage, int finalPage)
+        public CongressComunication CreateCongressComunication(string title, string year, string url, List<(string name, string surnames)> authors,
+            string congress, string edition, string place, string initialPage, string finalPage)
         {
-
-            CongressComunication conference;
-
-            //Esta fet per al IEEEXplorer
-            if (edition == -1)
-            {
-                if (finalPage == -1)
-                {
-                    conference = new CongressComunication(
-                        title: title,
-                        year: year,
-                        url: url,
-                        congress: congress,
-                        place: place);
-                }
-                else {
-                    conference = new CongressComunication(
-                        title: title,
-                        year: year,
-                        url: url,
-                        congress: congress,
-                        place: place,
-                        initialPage: initialPage,
-                        finalPage: finalPage);
-                }
-                
-            }
-            //Esta fet per al GoogleSchoolar
-            else
-            {
-                conference = new CongressComunication(
-                    title: title,
-                    year: year,
-                    url: url,
-                    congress: congress,
-                    edition: edition,
-                    place: place,
-                    initialPage: initialPage,
-                    finalPage: finalPage);
-            }
-
-            
+            CongressComunication conference = new CongressComunication(
+                title: title,
+                year: year,
+                url: url,
+                congress: congress,
+                edition: edition,
+                place: place,
+                initialPage: initialPage,
+                finalPage: finalPage);
 
             foreach ((string name, string surnames) in authors)
             {
@@ -136,26 +78,14 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             return conference;
         }
 
-        public Book CreateBook(string title, int year, string url, List<(string name, string surnames)> authors,
+        public Book CreateBook(string title, string year, string url, List<(string name, string surnames)> authors,
             string editorial)
         {
-            Book book;
-            if(editorial == null)
-            {
-                book = new Book(
-                    title: title,
-                    year: year,
-                    url: url
-                    );
-            } else
-            {
-                book = new Book(
-                    title: title,
-                    year: year,
-                    url: url,
-                    editorial: editorial
-                    );
-            }
+            Book book = new Book(
+                title: title,
+                year: year,
+                url: url,
+                editorial: editorial);
 
             foreach ((string name, string surnames) in authors)
             {

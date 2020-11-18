@@ -17,7 +17,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
 
         public string Number { get; set; }
 
-        public int Month { get; set; }
+        public string Month { get; set; }
 
 
         public ICollection<Article> Articles { get; set; }
@@ -39,7 +39,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
             Articles = new List<Article>();
         }
 
-        public Exemplar(string volume, string number, int month, Journal journal)
+        public Exemplar(string volume, string number, string month, Journal journal)
         {
             Volume = volume;
             Number = number;

@@ -51,8 +51,8 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                             year: ieeePublication.publication_year,
                             url: ieeePublication.pdf_url,
                             authors: ieeePublication.GetAuthors(),
-                            initialPage: ieeePublication.GetIniPage(),
-                            finalPage: ieeePublication.GetFinalPage(),
+                            initialPage: ieeePublication.start_page,
+                            finalPage: ieeePublication.end_page,
                             volume: ieeePublication.volume,
                             number: ieeePublication.article_number,
                             month: ieeePublication.GetMonth(),
@@ -65,11 +65,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                             year: ieeePublication.publication_year,
                             url: ieeePublication.pdf_url,
                             authors: ieeePublication.GetAuthors(),
-                            edition: -1,
+                            edition: null,
                             congress: ieeePublication.title,
                             place: ieeePublication.conference_location,
-                            initialPage: ieeePublication.GetIniPage(),
-                            finalPage: ieeePublication.GetFinalPage()));
+                            initialPage: ieeePublication.start_page,
+                            finalPage: ieeePublication.end_page));
                     }
                     else 
                     {
@@ -121,7 +121,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             public string publication_title { get; set; }
 
-            public int publication_year { get; set; }
+            public string publication_year { get; set; }
 
             public string start_page { get; set; }
 
@@ -140,98 +140,21 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             public string content_type { get; set; }
 
 
-            public int GetIniPage()
-            {
-                int number;
-                bool success = Int32.TryParse(start_page, out number);
-
-                if (success)
-                {
-                    return number;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-
-            public int GetFinalPage()
-            {
-                int number;
-                bool success = Int32.TryParse(end_page, out number);
-
-                if (success)
-                {
-                    return number;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-
-            public int GetMonth()
-            {
-                if (publication_date != null)
-                {
-                    if (publication_date.Contains("January"))
-                    {
-                        return 1;
-                    }
-                    else if (publication_date.Contains("February"))
-                    {
-                        return 2;
-                    }
-                    else if (publication_date.Contains("March"))
-                    {
-                        return 3;
-                    }
-                    else if (publication_date.Contains("April"))
-                    {
-                        return 4;
-                    }
-                    else if (publication_date.Contains("May"))
-                    {
-                        return 5;
-                    }
-                    else if (publication_date.Contains("June"))
-                    {
-                        return 6;
-                    }
-                    else if (publication_date.Contains("July"))
-                    {
-                        return 7;
-                    }
-                    else if (publication_date.Contains("August"))
-                    {
-                        return 8;
-                    }
-                    else if (publication_date.Contains("September"))
-                    {
-                        return 9;
-                    }
-                    else if (publication_date.Contains("October"))
-                    {
-                        return 10;
-                    }
-                    else if (publication_date.Contains("November"))
-                    {
-                        return 11;
-                    }
-                    else
-                    {
-                        return 12;
-                    }
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-
             public List<(string name, string surnames)> GetAuthors()
             {
                 return authors.GetAuthors();
+            }
+
+            public string GetMonth()
+            {
+                char separator = ' ';
+
+                if (publication_date.Contains('-'))
+                {
+                    separator = '-';   
+                }
+
+                return publication_date.Substring(0, publication_date.IndexOf(separator));
             }
         }
 

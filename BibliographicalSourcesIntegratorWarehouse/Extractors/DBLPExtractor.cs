@@ -160,7 +160,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public string pages { get; set; }
 
-        public int year { get; set; }
+        public string year { get; set; }
 
         public string volume { get; set; }
 
@@ -251,40 +251,68 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             }
         }
 
-        public int GetInitialPage()
+        public string GetInitialPage()
         {
             try
             {
                 int slashPosition = pages.IndexOf('-');
 
-                return Convert.ToInt32(pages.Substring(0, slashPosition));
+                return pages.Substring(0, slashPosition);
             }
             catch (Exception)
             {
-                return -1;
+                return null;
             }
         }
 
-        public int GetFinalPage()
+        public string GetFinalPage()
         {
             try
             {
                 int slashPosition = pages.IndexOf('-');
 
-                return Convert.ToInt32(pages.Substring(slashPosition + 1));
+                return pages.Substring(slashPosition + 1);
             }
             catch (Exception)
             {
-                return -1;
+                return null;
             }
         }
 
-        public int GetMonth()
+        public string GetMonth()
         {
             int firstSlashPos = mdate.IndexOf('-');
             int secondSlashPos = mdate.IndexOf('-', firstSlashPos + 1);
 
-            return Convert.ToInt32(mdate.Substring(firstSlashPos + 1, secondSlashPos - firstSlashPos - 1));
+            switch (mdate.Substring(firstSlashPos + 1, secondSlashPos - firstSlashPos - 1))
+            {
+                case "01":
+                    return "January";
+                case "02":
+                    return "February";
+                case "03":
+                    return "March";
+                case "04":
+                    return "April";
+                case "05":
+                    return "May";
+                case "06":
+                    return "June";
+                case "07":
+                    return "July";
+                case "08":
+                    return "August";
+                case "09":
+                    return "September";
+                case "10":
+                    return "October";
+                case "11":
+                    return "November";
+                case "12":
+                    return "December";
+                default:
+                    return null;
+            }
         }
 
 

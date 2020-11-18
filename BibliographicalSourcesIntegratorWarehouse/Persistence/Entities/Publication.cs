@@ -15,7 +15,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
 
         public string Title { get; set; }
 
-        public int Year { get; set; }
+        public string Year { get; set; }
 
         public string Url { get; set; }
 
@@ -28,7 +28,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
             People = new List<Person_Publication>();
         }
 
-        public Publication(string title, int year, string url)
+        public Publication(string title, string year, string url)
         {
             Title = title;
             Year = year;

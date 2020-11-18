@@ -9,9 +9,9 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
 {
     public class Article : Publication
     {
-        public int InitialPage { get; set; }
+        public string InitialPage { get; set; }
 
-        public int FinalPage { get; set; }
+        public string FinalPage { get; set; }
 
 
         public Exemplar Exemplar { get; set; }
@@ -19,13 +19,13 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
 
         public Article() : base() { }
 
-        public Article(string title, int year, string url, Exemplar exemplar)
+        public Article(string title, string year, string url, Exemplar exemplar)
             : base(title, year, url)
         {
             Exemplar = exemplar;
         }
 
-        public Article(string title, int year, string url, int initialPage, int finalPage, Exemplar exemplar)
+        public Article(string title, string year, string url, string initialPage, string finalPage, Exemplar exemplar)
             : base(title, year, url)
         {
             InitialPage = initialPage;
