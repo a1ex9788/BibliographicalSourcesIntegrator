@@ -31,7 +31,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             List<Book> books = new List<Book>();
             List<CongressComunication> conferences = new List<CongressComunication>(); //inproceedings
 
-            //Faltaría saber que son los "incollection"
+            //Faltaría saber que son los "incollection" pueden ser libros
 
             logger.LogInformation("Preparing the json...");
 
@@ -59,7 +59,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                             title: googleScholarPublication.title,
                             year: googleScholarPublication.year,
                             url: googleScholarPublication.url,
-                            authors:  null, //googleScholarPublication.GetAuthors(), Falta tratar
+                            authors: googleScholarPublication.GetAuthors(), //Falta tratar split("and") 
                             editorial: null));                 
                 }
                 catch (Exception e)
@@ -76,7 +76,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                         title: googleScholarPublication.title,
                         year: googleScholarPublication.year,
                         url: googleScholarPublication.url,
-                        authors: null, //googleScholarPublication.GetAuthors(), 
+                        authors: googleScholarPublication.GetAuthors(), 
                         initialPage: googleScholarPublication.GetInitialPage(),
                         finalPage: googleScholarPublication.GetFinalPage(),
                         volume: googleScholarPublication.volume,
@@ -99,7 +99,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                         title: googleScholarPublication.title,
                         year: googleScholarPublication.year,
                         url: googleScholarPublication.url,
-                        authors: null, //googleScholarPublication.GetAuthors(),
+                        authors: googleScholarPublication.GetAuthors(),
                         edition: null,
                         congress: googleScholarPublication.booktitle, //Este no estic segur
                         place: googleScholarPublication.place,
@@ -117,51 +117,18 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             logger.LogInformation("Saving the publications into the database...");
 
-          /*  databaseAccess.SaveBooks(books);
+            /*databaseAccess.SaveBooks(books);
             databaseAccess.SaveCongressComunications(conferences);
-            databaseAccess.SaveArticles(articles); */
+            databaseAccess.SaveArticles(articles);*/
 
             return ((booksPublications.Count + articlesPublications.Count + inproceedingsPublications.Count) - errorList.Count, errorList);
         }
 
-       /*private string PrepareJsonBooks(string json, string tipo)
-        {
-            string aux = json;
-            string articlesList = "";
-           
-           //int pos = aux.IndexOf("books");
-           int pos = aux.IndexOf(tipo);
-
-            if (pos == -1) //No hay libros
-            {
-                return null;
-            }
-            else
-            {
-                articlesList = aux.Substring(pos);
-                logger.LogInformation(articlesList);
-                int pos4 = articlesList.IndexOf(":");
-                int pos5 = articlesList.IndexOf("[");
-                logger.LogInformation("pos4:   **************   " + pos4  + "      pos5: **************    " + pos5);
-                if (articlesList.IndexOf("[") == pos4 + 5)
-                {
-                    logger.LogInformation(articlesList);
-                    int pos2 = articlesList.IndexOf("[");
-                    int pos3 = articlesList.IndexOf("]");
-                    logger.LogInformation("pos2:   " + pos2 + "  pos3:  " + pos3);
-                    articlesList = articlesList.Substring(pos2, (pos3 - pos2) + 1);
-                }
-                
-
-            }
-
-            return articlesList;
-        } */
 
         private string PrepareJson(string json, string tipo)   //FUNCIONA  para Books y Articles
         {
             string aux = json;
-            string articlesList = "";
+            string publicationList = "";
 
             int pos = aux.IndexOf(tipo);
 
@@ -171,18 +138,18 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             }
             else
             {
-                articlesList = aux.Substring(pos);
-                int pos2 = articlesList.IndexOf("["); //Inicio de la lista
-                int pos3 = articlesList.IndexOf("]"); //Final de la lista
-                articlesList = articlesList.Substring(pos2, (pos3 - pos2) + 1);
+                publicationList = aux.Substring(pos);
+                int pos2 = publicationList.IndexOf("["); //Inicio de la lista
+                int pos3 = publicationList.IndexOf("]"); //Final de la lista
+                publicationList = publicationList.Substring(pos2, (pos3 - pos2) + 1);
             }
-            return articlesList;
+            return publicationList;
         }
 
         private string PrepareJson2(string json, string tipo)   //FUNCIONA  para inproceedings y incollection
         {
             string aux = json;
-            string articlesList = "";
+            string publicationList = "";
 
             int pos = aux.IndexOf(tipo);
 
@@ -194,11 +161,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             {
                 aux = aux.Substring(pos);
                 int pos2 = aux.IndexOf("{"); //Inicio de la lista
-                articlesList = "[";
+                publicationList = "[";
                 int pos3 = aux.IndexOf("}"); //Final de la lista
-                articlesList = articlesList + aux.Substring(pos2, (pos3 - pos2) + 1) + "]";
+                publicationList = publicationList + aux.Substring(pos2, (pos3 - pos2) + 1) + "]";
             }
-            return articlesList;
+            return publicationList;
         }
 
     }
@@ -213,11 +180,9 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public string author { get; set; }
 
-        //public List<Object> authors { get; set; }
-
         public string journal { get; set; }
 
-        public string booktitle { get; set; } //Esto es para incollection y inproceedings
+        public string booktitle { get; set; }
 
         public string publisher { get; set; }
 
@@ -250,7 +215,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             {
                 int slashPosition = pages.IndexOf('-');
 
-                return pages.Substring(slashPosition + 1);
+                return pages.Substring(slashPosition + 2);
             }
             catch (Exception)
             {
@@ -258,6 +223,30 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             }
         }
 
+        public List<(string name, string surnames)> GetAuthors()
+        {
+            List<(string name, string surnames)> authors = new List<(string name, string surnames)>();
+
+            if (author == null)
+            {
+                return authors;
+            }
+
+            string[] aux = author.Split("and");
+
+            foreach (string s in aux)
+            {
+                string name = "";
+                string surnames = "";
+                int pos = s.IndexOf(",");
+                surnames = s.Substring(0, pos);
+                name = s.Substring(pos + 1);
+
+                authors.Add((name, surnames));
+            }
+
+            return authors;
+        }
     }
 
 
