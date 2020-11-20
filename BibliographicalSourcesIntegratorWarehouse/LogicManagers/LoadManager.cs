@@ -126,7 +126,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 
                 _logger.LogError(errorMessage);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 string errorMessage = "There was an error while extracting data from the " + sourceName + " answer.";
 
