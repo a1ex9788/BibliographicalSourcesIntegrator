@@ -33,5 +33,16 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
 
             Publications = new List<Person_Publication>();
         }
+
+
+        public override bool Equals(object obj)
+        {
+            Person other = obj as Person;
+
+            bool a = Name == null ? other.Name == null : Name.Equals(other.Name);
+            bool b = Surnames == null ? other.Surnames == null : Surnames.Equals(other.Surnames);
+
+            return a && b;
+        }
     }
 }

@@ -32,5 +32,18 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
             FinalPage = finalPage;
             Exemplar = exemplar;
         }
+
+
+        public override bool Equals(object obj)
+        {
+            Article other = obj as Article;
+
+            bool a = InitialPage == null ? other.InitialPage == null : InitialPage.Equals(other.InitialPage);
+            bool b = FinalPage == null ? other.FinalPage == null : FinalPage.Equals(other.FinalPage);
+            bool c = Exemplar == null ? other.Exemplar == null : Exemplar.Equals(other.Exemplar);
+            bool d = base.Equals(obj);
+
+            return a && b && c && d;
+        }
     }
 }

@@ -48,5 +48,18 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
 
             Articles = new List<Article>();
         }
+
+
+        public override bool Equals(object obj)
+        {
+            Exemplar other = obj as Exemplar;
+
+            bool a = Volume == null ? other.Volume == null : Volume.Equals(other.Volume);
+            bool b = Number == null ? other.Number == null : Number.Equals(other.Number);
+            bool c = Month == null ? other.Month == null : Month.Equals(other.Month);
+            bool d = Journal == null ? other.Journal == null : Journal.Equals(other.Journal);
+
+            return a && b && c && d;
+        }
     }
 }

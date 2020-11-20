@@ -36,5 +36,36 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
 
             context.SaveChanges();
         }
+
+
+        public Article GetArticle(Article article)
+        {
+            return context.Articles.FirstOrDefault(a => a.Equals(article));
+        }
+
+        public CongressComunication GetCongressComunication(CongressComunication congressComunication)
+        {
+            return context.CongressComunications.FirstOrDefault(cc => cc.Equals(congressComunication));
+        }
+
+        public Book GetBook(Book book)
+        {
+            return context.Books.FirstOrDefault(b => b.Equals(book));
+        }
+
+        public Person GetPerson(Person person)
+        {
+            return context.People.FirstOrDefault(p => p.Equals(person));
+        }
+
+        public Exemplar GetExemplar(Exemplar exemplar)
+        {
+            return context.Exemplars.FirstOrDefault(e => e.Equals(exemplar));
+        }
+
+        public Journal GetJournal(Journal journal)
+        {
+            return context.Journals.FirstOrDefault(j => j.Equals(journal));
+        }
     }
 }

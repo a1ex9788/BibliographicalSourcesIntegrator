@@ -30,5 +30,15 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
 
             Exemplars = new List<Exemplar>();
         }
+
+
+        public override bool Equals(object obj)
+        {
+            Journal other = obj as Journal;
+
+            bool a = Name == null ? other.Name == null : Name.Equals((obj as Journal).Name);
+
+            return a;
+        }
     }
 }
