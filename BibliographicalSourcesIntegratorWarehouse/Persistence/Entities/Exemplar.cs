@@ -20,23 +20,16 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
         public string Month { get; set; }
 
 
-        public ICollection<Article> Articles { get; set; }
-
         public Journal Journal { get; set; }
 
 
-        public Exemplar()
-        {
-            Articles = new List<Article>();
-        }
+        public Exemplar() { }
 
         public Exemplar(string volume, string number, Journal journal)
         {
             Volume = volume;
             Number = number;
             Journal = journal;
-
-            Articles = new List<Article>();
         }
 
         public Exemplar(string volume, string number, string month, Journal journal)
@@ -45,8 +38,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
             Number = number;
             Month = month;
             Journal = journal;
-
-            Articles = new List<Article>();
         }
 
 

@@ -18,20 +18,12 @@ namespace BibliographicalSourcesIntegratorWarehouse.Entities
         public string Surnames { get; set; }
 
 
-        public ICollection<Person_Publication> Publications { get; set; }
-
-
-        public Person()
-        {
-            Publications = new List<Person_Publication>();
-        }
+        public Person() { }
 
         public Person(string name, string surnames)
         {
             Name = name;
             Surnames = surnames;
-
-            Publications = new List<Person_Publication>();
         }
 
 

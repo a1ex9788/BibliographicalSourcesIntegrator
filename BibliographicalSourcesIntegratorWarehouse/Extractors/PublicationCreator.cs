@@ -65,9 +65,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             CreateAuthors(authors, article);
 
-            journal.Exemplars.Add(exemplar);
-            exemplar.Articles.Add(article);
-
             return article;
         }
 
@@ -129,7 +126,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                     publication: publication);
 
                 publication.People.Add(person_Publication);
-                person.Publications.Add(person_Publication);
             }
         }
 
