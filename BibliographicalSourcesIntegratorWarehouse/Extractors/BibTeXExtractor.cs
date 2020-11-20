@@ -197,30 +197,36 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public string GetInitialPage()
         {
-            try
-            {
-                int slashPosition = pages.IndexOf('-');
-
-                return pages.Substring(0, slashPosition);
-            }
-            catch (Exception)
+            if (pages == null)
             {
                 return null;
             }
+
+            int slashPosition = pages.IndexOf('-');
+
+            if (slashPosition == -1)
+            {
+                return pages;
+            }
+
+            return pages.Substring(0, slashPosition);
         }
 
         public string GetFinalPage()
         {
-            try
-            {
-                int slashPosition = pages.IndexOf('-');
-
-                return pages.Substring(slashPosition + 2);
-            }
-            catch (Exception)
+            if (pages == null)
             {
                 return null;
             }
+
+            int slashPosition = pages.IndexOf('-');
+
+            if (slashPosition == -1)
+            {
+                return null;
+            }
+
+            return pages.Substring(slashPosition + 1);
         }
 
         public List<(string name, string surnames)> GetAuthors()
