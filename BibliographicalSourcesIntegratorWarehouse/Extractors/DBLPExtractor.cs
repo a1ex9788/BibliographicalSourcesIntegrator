@@ -26,7 +26,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         public (int, List<string>) ExtractData(string json)
         {
             List<string> errorList = new List<string>();
-            List<Article> articles = new List<Article>();
+            List<Article> articlesToSave = new List<Article>();
 
             logger.LogInformation("Preparing the json...");
 
@@ -47,7 +47,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             {
                 try
                 {
-                    articles.Add(publicationCreator.CreateArticle(
+                    Article article = publicationCreator.CreateArticle(
                         title: dBLPPublication.title,
                         year: dBLPPublication.year,
                         url: dBLPPublication.url,
@@ -57,7 +57,12 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                         volume: dBLPPublication.volume,
                         number: dBLPPublication.number,
                         month: dBLPPublication.GetMonth(),
-                        journalName: dBLPPublication.journal));
+                        journalName: dBLPPublication.journal);
+
+                    if (databaseAccess.GetArticle(article) == null)
+                    {
+                        articlesToSave.Add(article);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -67,9 +72,9 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             logger.LogInformation("Saving the publications into the database...");
 
-            databaseAccess.SaveArticles(articles);
+            databaseAccess.SaveArticles(articlesToSave);
 
-            return (publications.Count - errorList.Count, errorList);
+            return (articlesToSave.Count(), errorList);
         }
 
 

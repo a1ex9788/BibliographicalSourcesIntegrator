@@ -25,20 +25,16 @@ namespace BibliographicalSourcesIntegrator
             InitializeComponent();
 
             this.homeForm = homeForm;
-
-            labelDBLPReferencesNumber.Text = "0";
-            labelIEEEXploreReferencesNumber.Text = "0";
-            labelGoogleScholarReferencesNumber.Text = "0";
-            labelTotalReferencesNumber.Text = "0";
-            richTextBoxErrors.Text = "";
+            InitializeResults();
 
             currentInitialYear = Convert.ToInt32(numericUpDownInitialYear.Value);
             currentFinalYear = Convert.ToInt32(numericUpDownFinalYear.Value);
         }
 
-
         private async void LoadDataButtonClick(object sender, EventArgs e)
         {
+            InitializeResults();
+
             bool loadDBLP = checkBoxDBLP.Checked;
             bool loadIEEEXplore = checkBoxIEEEXplore.Checked;
             bool loadGoogleScholar = checkBoxGoogleScholar.Checked;
@@ -173,6 +169,15 @@ namespace BibliographicalSourcesIntegrator
             }
 
             currentFinalYear = newFinalYear;
+        }
+
+        private void InitializeResults()
+        {
+            labelDBLPReferencesNumber.Text = "0";
+            labelIEEEXploreReferencesNumber.Text = "0";
+            labelGoogleScholarReferencesNumber.Text = "0";
+            labelTotalReferencesNumber.Text = "0";
+            richTextBoxErrors.Text = "";
         }
     }
 }
