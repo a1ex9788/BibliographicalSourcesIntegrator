@@ -27,9 +27,9 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         public (int, List<string>) ExtractData(string json)
         {
             List<string> errorList = new List<string>();
-            List<Article> articles = new List<Article>();
-            List<Book> books = new List<Book>();
-            List<CongressComunication> conferences = new List<CongressComunication>(); //inproceedings
+            List<Article> articlesToSave = new List<Article>();
+            List<Book> booksToSave = new List<Book>();
+            List<CongressComunication> conferencesToSave = new List<CongressComunication>(); //inproceedings
 
             //Faltaría saber que son los "incollection" pueden ser libros
 
@@ -55,12 +55,17 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             {
                 try 
                 {
-                    books.Add(publicationCreator.CreateBook(
+                    Book book = publicationCreator.CreateBook(
                             title: googleScholarPublication.title,
                             year: googleScholarPublication.year,
                             url: googleScholarPublication.url,
                             authors: googleScholarPublication.GetAuthors(), //Falta tratar split("and") 
-                            editorial: null));                 
+                            editorial: null);
+
+                    if (databaseAccess.GetBook(book) == null)
+                    {
+                        booksToSave.Add(book);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -72,7 +77,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             {
                 try
                 {
-                    articles.Add(publicationCreator.CreateArticle(
+                    Article article = publicationCreator.CreateArticle(
                         title: googleScholarPublication.title,
                         year: googleScholarPublication.year,
                         url: googleScholarPublication.url,
@@ -82,8 +87,12 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                         volume: googleScholarPublication.volume,
                         number: googleScholarPublication.number,
                         month: null,
-                        journalName: googleScholarPublication.publisher));
+                        journalName: googleScholarPublication.publisher);
 
+                    if (databaseAccess.GetArticle(article) == null)
+                    {
+                        articlesToSave.Add(article);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -95,7 +104,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             {
                 try
                 {
-                    conferences.Add(publicationCreator.CreateCongressComunication(
+                    CongressComunication conference = publicationCreator.CreateCongressComunication(
                         title: googleScholarPublication.title,
                         year: googleScholarPublication.year,
                         url: googleScholarPublication.url,
@@ -104,7 +113,12 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                         congress: googleScholarPublication.booktitle, //Este no estic segur
                         place: googleScholarPublication.place,
                         initialPage: googleScholarPublication.GetInitialPage(),
-                        finalPage: googleScholarPublication.GetFinalPage()));
+                        finalPage: googleScholarPublication.GetFinalPage());
+
+                    if (databaseAccess.GetCongressComunication(conference) == null)
+                    {
+                        conferencesToSave.Add(conference);
+                    }
 
                 }
                 catch (Exception e)
@@ -117,11 +131,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             logger.LogInformation("Saving the publications into the database...");
 
-            /*databaseAccess.SaveBooks(books);
-            databaseAccess.SaveCongressComunications(conferences);
-            databaseAccess.SaveArticles(articles);*/
+            databaseAccess.SaveBooks(booksToSave);
+            databaseAccess.SaveCongressComunications(conferencesToSave);
+            databaseAccess.SaveArticles(articlesToSave);
 
-            return ((booksPublications.Count + articlesPublications.Count + inproceedingsPublications.Count) - errorList.Count, errorList);
+            return (booksToSave.Count + conferencesToSave.Count + articlesToSave.Count, errorList);
         }
 
 

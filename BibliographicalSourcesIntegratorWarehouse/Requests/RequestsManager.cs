@@ -13,29 +13,35 @@ namespace BibliographicalSourcesIntegrator
 {
     public class RequestsManager
     {
-        HttpClient client = new HttpClient();
+        HttpClient DBLPclient = new HttpClient();
+        HttpClient IEEEXclient = new HttpClient();
+        HttpClient BibTeXclient = new HttpClient();
 
         public RequestsManager()
         {
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("aplication/json"));
+            DBLPclient.DefaultRequestHeaders.Accept.Clear();
+            DBLPclient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("aplication/json"));
+            IEEEXclient.DefaultRequestHeaders.Accept.Clear();
+            IEEEXclient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("aplication/json"));
+            BibTeXclient.DefaultRequestHeaders.Accept.Clear();
+            BibTeXclient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("aplication/json"));
         }
 
 
         public async Task<string> LoadDataFromDBLP(ExtractRequest extractRequest)
         {
-            client.BaseAddress = new Uri(ProgramAddresses.DBLPWrapperAddress);
+            DBLPclient.BaseAddress = new Uri(ProgramAddresses.DBLPWrapperAddress);
             
-            return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest));
+            return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest), DBLPclient);
 
             //return File.ReadAllText("../DBLPreal.json");
         }
 
         public async Task<string> LoadDataFromIEEEXplore(ExtractRequest extractRequest)
         {
-            client.BaseAddress = new Uri(ProgramAddresses.IEEEXploreWrapperAddress);
+            IEEEXclient.BaseAddress = new Uri(ProgramAddresses.IEEEXploreWrapperAddress);
 
-            return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest));
+            return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest), IEEEXclient);
 
             //return File.ReadAllText("../IEEEXmini.json");
         }
@@ -43,7 +49,7 @@ namespace BibliographicalSourcesIntegrator
         //public async Task<string> LoadDataFromGoogleScholar(ExtractRequest extractRequest)
          public async Task<string> LoadDataFromGoogleScholar(ExtractRequest extractRequest)
         {
-            client.BaseAddress = new Uri(ProgramAddresses.GoogleScholarWrapperAddress);
+            BibTeXclient.BaseAddress = new Uri(ProgramAddresses.GoogleScholarWrapperAddress);
 
            // return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest));
 
@@ -51,7 +57,7 @@ namespace BibliographicalSourcesIntegrator
         }
 
 
-        private async Task<string> MakeARequest(string path)
+        private async Task<string> MakeARequest(string path, HttpClient client)
         {
             HttpResponseMessage response = await client.GetAsync(path);
 

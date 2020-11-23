@@ -26,9 +26,9 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         public (int, List<string>) ExtractData(string json)
         {
             List<string> errorList = new List<string>();
-            List<Article> articles = new List<Article>();
-            List<Book> books = new List<Book>();
-            List<CongressComunication> conferences = new List<CongressComunication>();
+            List<Article> articlesToSave = new List<Article>();
+            List<Book> booksToSave = new List<Book>();
+            List<CongressComunication> conferencesToSave = new List<CongressComunication>();
 
             logger.LogInformation("Preparing the json...");
 
@@ -46,7 +46,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 {
                     if (ieeePublication.content_type == "Journals")
                     {
-                        articles.Add(publicationCreator.CreateArticle(
+                       Article article = publicationCreator.CreateArticle(
                             title: ieeePublication.title,
                             year: ieeePublication.publication_year,
                             url: ieeePublication.pdf_url,
@@ -56,11 +56,16 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                             volume: ieeePublication.volume,
                             number: ieeePublication.article_number,
                             month: ieeePublication.GetMonth(),
-                            journalName: ieeePublication.publisher));
+                            journalName: ieeePublication.publisher);
+
+                        if (databaseAccess.GetArticle(article) == null)
+                        {
+                            articlesToSave.Add(article);
+                        }
                     }
                     else if (ieeePublication.content_type == "Conferences")
                     {
-                        conferences.Add(publicationCreator.CreateCongressComunication(
+                        CongressComunication conference = publicationCreator.CreateCongressComunication(
                             title: ieeePublication.publication_title,
                             year: ieeePublication.publication_year,
                             url: ieeePublication.pdf_url,
@@ -69,16 +74,27 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                             congress: ieeePublication.title,
                             place: ieeePublication.conference_location,
                             initialPage: ieeePublication.start_page,
-                            finalPage: ieeePublication.end_page));
+                            finalPage: ieeePublication.end_page);
+
+                        if (databaseAccess.GetCongressComunication(conference) == null)
+                        {
+                            conferencesToSave.Add(conference);
+                        }
                     }
                     else 
                     {
-                        books.Add(publicationCreator.CreateBook(
+                       Book book = publicationCreator.CreateBook(
                             title: ieeePublication.publication_title,
                             year: ieeePublication.publication_year,
                             url: ieeePublication.pdf_url,
                             authors: ieeePublication.GetAuthors(),
-                            editorial: null));
+                            editorial: null);
+
+                        if (databaseAccess.GetBook(book) == null)
+                        {
+                            booksToSave.Add(book);
+                        }
+
                     }                    
                 }
                 catch (Exception e)
@@ -89,11 +105,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             logger.LogInformation("Saving the publications into the database...");
 
-            databaseAccess.SaveBooks(books);
-            databaseAccess.SaveCongressComunications(conferences);
-            databaseAccess.SaveArticles(articles);
+            databaseAccess.SaveBooks(booksToSave);
+            databaseAccess.SaveCongressComunications(conferencesToSave);
+            databaseAccess.SaveArticles(articlesToSave);
 
-            return (publications.Count - errorList.Count, errorList);
+            return (booksToSave.Count + conferencesToSave.Count + articlesToSave.Count, errorList);
         }
 
 
