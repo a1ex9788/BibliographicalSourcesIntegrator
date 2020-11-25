@@ -56,16 +56,22 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             if (searchRequest.SearchArticles)
             {
                 searchAnswer.Articles = databaseAccess.GetArticles(searchRequest.Title, searchRequest.Author, searchRequest.InitialYear, searchRequest.FinalYear);
+
+                _logger.LogInformation("Articles found: " + searchAnswer.Articles.Count);
             }
 
             if (searchRequest.SearchBooks)
             {
                 searchAnswer.Books = databaseAccess.GetBooks(searchRequest.Title, searchRequest.Author, searchRequest.InitialYear, searchRequest.FinalYear);
+
+                _logger.LogInformation("Books found: " + searchAnswer.Books.Count);
             }
 
             if (searchRequest.SearchCongressComunications)
             {
                 searchAnswer.CongressComunications = databaseAccess.GetCongressComunications(searchRequest.Title, searchRequest.Author, searchRequest.InitialYear, searchRequest.FinalYear);
+
+                _logger.LogInformation("Congress Comunications found: " + searchAnswer.CongressComunications.Count);
             }
 
             return searchAnswer;

@@ -30,7 +30,6 @@
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
-            this.richTextBoxResults = new System.Windows.Forms.RichTextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -55,6 +54,13 @@
             this.numericUpDownFinalYear = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.numericUpDownInitialYear = new System.Windows.Forms.NumericUpDown();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPageArticles = new System.Windows.Forms.TabPage();
+            this.tabPageBooks = new System.Windows.Forms.TabPage();
+            this.tabPageCongressComunications = new System.Windows.Forms.TabPage();
+            this.richTextBoxArticles = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxBooks = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxCongressComunications = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -67,6 +73,10 @@
             this.tableLayoutPanel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFinalYear)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInitialYear)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPageArticles.SuspendLayout();
+            this.tabPageBooks.SuspendLayout();
+            this.tabPageCongressComunications.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -90,8 +100,8 @@
             // 
             this.tableLayoutPanel7.ColumnCount = 1;
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel7.Controls.Add(this.richTextBoxResults, 0, 1);
             this.tableLayoutPanel7.Controls.Add(this.label7, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this.tabControl1, 0, 1);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel7.Location = new System.Drawing.Point(467, 137);
             this.tableLayoutPanel7.Margin = new System.Windows.Forms.Padding(25, 50, 50, 50);
@@ -103,19 +113,6 @@
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel7.Size = new System.Drawing.Size(367, 394);
             this.tableLayoutPanel7.TabIndex = 4;
-            // 
-            // richTextBoxResults
-            // 
-            this.richTextBoxResults.BackColor = System.Drawing.Color.White;
-            this.richTextBoxResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxResults.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.richTextBoxResults.Location = new System.Drawing.Point(3, 42);
-            this.richTextBoxResults.Name = "richTextBoxResults";
-            this.richTextBoxResults.ReadOnly = true;
-            this.tableLayoutPanel7.SetRowSpan(this.richTextBoxResults, 2);
-            this.richTextBoxResults.Size = new System.Drawing.Size(361, 349);
-            this.richTextBoxResults.TabIndex = 6;
-            this.richTextBoxResults.Text = "fdgsfdgsfdgsfdg";
             // 
             // label7
             // 
@@ -409,7 +406,7 @@
             0,
             0});
             this.numericUpDownFinalYear.Minimum = new decimal(new int[] {
-            2000,
+            1900,
             0,
             0,
             0});
@@ -421,6 +418,7 @@
             0,
             0,
             0});
+            this.numericUpDownFinalYear.ValueChanged += new System.EventHandler(this.NumericUpDownFinalYearValueChanged);
             // 
             // label8
             // 
@@ -442,7 +440,7 @@
             0,
             0});
             this.numericUpDownInitialYear.Minimum = new decimal(new int[] {
-            2000,
+            1900,
             0,
             0,
             0});
@@ -454,6 +452,83 @@
             0,
             0,
             0});
+            this.numericUpDownInitialYear.ValueChanged += new System.EventHandler(this.NumericUpDownInitialYearValueChanged);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPageArticles);
+            this.tabControl1.Controls.Add(this.tabPageBooks);
+            this.tabControl1.Controls.Add(this.tabPageCongressComunications);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(3, 42);
+            this.tabControl1.Name = "tabControl1";
+            this.tableLayoutPanel7.SetRowSpan(this.tabControl1, 2);
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(361, 349);
+            this.tabControl1.TabIndex = 6;
+            // 
+            // tabPageArticles
+            // 
+            this.tabPageArticles.Controls.Add(this.richTextBoxArticles);
+            this.tabPageArticles.Location = new System.Drawing.Point(4, 22);
+            this.tabPageArticles.Name = "tabPageArticles";
+            this.tabPageArticles.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageArticles.Size = new System.Drawing.Size(353, 323);
+            this.tabPageArticles.TabIndex = 0;
+            this.tabPageArticles.Text = "Articles";
+            this.tabPageArticles.UseVisualStyleBackColor = true;
+            // 
+            // tabPageBooks
+            // 
+            this.tabPageBooks.Controls.Add(this.richTextBoxBooks);
+            this.tabPageBooks.Location = new System.Drawing.Point(4, 22);
+            this.tabPageBooks.Name = "tabPageBooks";
+            this.tabPageBooks.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageBooks.Size = new System.Drawing.Size(353, 323);
+            this.tabPageBooks.TabIndex = 1;
+            this.tabPageBooks.Text = "Books";
+            this.tabPageBooks.UseVisualStyleBackColor = true;
+            // 
+            // tabPageCongressComunications
+            // 
+            this.tabPageCongressComunications.Controls.Add(this.richTextBoxCongressComunications);
+            this.tabPageCongressComunications.Location = new System.Drawing.Point(4, 22);
+            this.tabPageCongressComunications.Name = "tabPageCongressComunications";
+            this.tabPageCongressComunications.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCongressComunications.Size = new System.Drawing.Size(353, 323);
+            this.tabPageCongressComunications.TabIndex = 2;
+            this.tabPageCongressComunications.Text = "Congress Comunications";
+            this.tabPageCongressComunications.UseVisualStyleBackColor = true;
+            // 
+            // richTextBoxArticles
+            // 
+            this.richTextBoxArticles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxArticles.Location = new System.Drawing.Point(3, 3);
+            this.richTextBoxArticles.Name = "richTextBoxArticles";
+            this.richTextBoxArticles.ReadOnly = true;
+            this.richTextBoxArticles.Size = new System.Drawing.Size(347, 317);
+            this.richTextBoxArticles.TabIndex = 0;
+            this.richTextBoxArticles.Text = "";
+            // 
+            // richTextBoxBooks
+            // 
+            this.richTextBoxBooks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxBooks.Location = new System.Drawing.Point(3, 3);
+            this.richTextBoxBooks.Name = "richTextBoxBooks";
+            this.richTextBoxBooks.ReadOnly = true;
+            this.richTextBoxBooks.Size = new System.Drawing.Size(347, 317);
+            this.richTextBoxBooks.TabIndex = 1;
+            this.richTextBoxBooks.Text = "";
+            // 
+            // richTextBoxCongressComunications
+            // 
+            this.richTextBoxCongressComunications.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxCongressComunications.Location = new System.Drawing.Point(3, 3);
+            this.richTextBoxCongressComunications.Name = "richTextBoxCongressComunications";
+            this.richTextBoxCongressComunications.ReadOnly = true;
+            this.richTextBoxCongressComunications.Size = new System.Drawing.Size(347, 317);
+            this.richTextBoxCongressComunications.TabIndex = 1;
+            this.richTextBoxCongressComunications.Text = "";
             // 
             // SearchForm
             // 
@@ -486,6 +561,10 @@
             this.tableLayoutPanel8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFinalYear)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInitialYear)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPageArticles.ResumeLayout(false);
+            this.tabPageBooks.ResumeLayout(false);
+            this.tabPageCongressComunications.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -499,7 +578,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.RichTextBox richTextBoxResults;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
@@ -519,6 +597,13 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxTitle;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPageArticles;
+        private System.Windows.Forms.TabPage tabPageBooks;
+        private System.Windows.Forms.TabPage tabPageCongressComunications;
+        private System.Windows.Forms.RichTextBox richTextBoxArticles;
+        private System.Windows.Forms.RichTextBox richTextBoxBooks;
+        private System.Windows.Forms.RichTextBox richTextBoxCongressComunications;
     }
 }
 

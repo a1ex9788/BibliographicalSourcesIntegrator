@@ -2,6 +2,8 @@
 using BibliographicalSourcesIntegratorContracts.Entities;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,16 +14,23 @@ namespace BibliographicalSourcesIntegrator
     {
         private Form homeForm;
 
+        private int currentInitialYear, currentFinalYear;
+
+
         public SearchForm(Form homeForm)
         {
             InitializeComponent();
 
             this.homeForm = homeForm;
+
+            richTextBoxArticles.Text = "";
         }
 
 
         private async void SearchButtonClick(object sender, EventArgs e)
         {
+            richTextBoxArticles.Text = "";
+
             bool searchArticle = checkBoxArticle.Checked;
             bool searchBook = checkBoxBook.Checked;
             bool searchCongress = checkBoxCongressComunication.Checked;
@@ -32,7 +41,12 @@ namespace BibliographicalSourcesIntegrator
 
             if (!searchArticle && !searchBook && !searchCongress)
             {
-                richTextBoxResults.Text = "Any publication type selected, please select at least one.";
+                richTextBoxArticles.ForeColor = Color.Red;
+                richTextBoxArticles.Text = "Any publication type selected, please select at least one.";
+                richTextBoxBooks.ForeColor = Color.Red;
+                richTextBoxBooks.Text = "Any publication type selected, please select at least one.";
+                richTextBoxCongressComunications.ForeColor = Color.Red;
+                richTextBoxCongressComunications.Text = "Any publication type selected, please select at least one.";
 
                 return;
             }
@@ -50,17 +64,21 @@ namespace BibliographicalSourcesIntegrator
             }
             catch (HttpRequestException)
             {
-                richTextBoxResults.Text = "It was not possible to connect to the warehouse.";
+                richTextBoxArticles.ForeColor = Color.Red;
+                richTextBoxArticles.Text = "It was not possible to connect to the warehouse.";
+                richTextBoxBooks.ForeColor = Color.Red;
+                richTextBoxBooks.Text = "It was not possible to connect to the warehouse.";
+                richTextBoxCongressComunications.ForeColor = Color.Red;
+                richTextBoxCongressComunications.Text = "It was not possible to connect to the warehouse.";
+
+                CloseLoadingForm();
 
                 return;
-            }
-            finally
-            {
-                CloseLoadingForm();
             }
 
             ShowResults(searchAnswer, searchArticle, searchBook, searchCongress);
 
+            CloseLoadingForm();
 
             void ShowLoadingForm()
             {
@@ -82,44 +100,90 @@ namespace BibliographicalSourcesIntegrator
 
         private void ShowResults(SearchAnswer searchAnswer, bool searchArticle, bool searchBook, bool searchCongress)
         {
-            string text = "";
+            richTextBoxArticles.ForeColor = Color.Black;
+            richTextBoxBooks.ForeColor = Color.Black;
+            richTextBoxCongressComunications.ForeColor = Color.Black;
 
             if (searchArticle)
             {
-                text += "ARTICLES:\n";
+                string text = "";
 
-                foreach (Article a in searchAnswer.Articles)
+                for (int i = 0; i < searchAnswer.Articles.Count; i++)
                 {
-                    PreparePublication(a);
+                    Article a = searchAnswer.Articles[i];
+
+                    text += $"{i+1}.- {a.Title}\n";
+                    text += $"Year: {a.Year}\n";
+                    text += a.Url == null ? "" : $"Url: {a.Url}\n";
+                    text += a.InitialPage == null && a.FinalPage == null ? "" : $"Pages: {a.InitialPage} - {a.FinalPage}\n";
+                    text += a.Exemplar == null ? "" : $"Volume: {a.Exemplar.Volume}\n";
+                    text += a.Exemplar == null ? "" : $"Number: {a.Exemplar.Number}\n";
+                    text += a.Exemplar == null ? "" : $"Month: {a.Exemplar.Month}\n";
+                    text += a.Exemplar == null ? "" : $"Journal: {a.Exemplar.Journal.Name}\n";
+                    text += PrepareAuthors(a.People);
+                    text += "\n";
                 }
+
+                richTextBoxArticles.Text = text == "" ? "No articles found." : text;
             }
 
             if (searchBook)
             {
-                text += "BOOKS:\n";
+                string text = "";
 
-                foreach (Book b in searchAnswer.Books)
+                for (int i = 0; i < searchAnswer.Books.Count; i++)
                 {
-                    PreparePublication(b);
+                    Book b = searchAnswer.Books[i];
+
+                    text += $"{i+1}.- {b.Title}\n";
+                    text += $"Year: {b.Year}\n";
+                    text += b.Url == null ? "" : $"Url: {b.Url}\n";
+                    text += b.Editorial == null ? "" : $"Editorial: {b.Editorial}\n";
+                    text += PrepareAuthors(b.People);
+                    text += "\n";
                 }
+
+                richTextBoxBooks.Text = text == "" ? "No books found." : text;
             }
 
             if (searchCongress)
             {
-                text += "CONGRESS COMUNICATIONS:\n";
+                string text = "";
 
-                foreach (CongressComunication cc in searchAnswer.CongressComunications)
+                for (int i = 0; i < searchAnswer.CongressComunications.Count; i++)
                 {
-                    PreparePublication(cc);
+                    CongressComunication cc = searchAnswer.CongressComunications[i];
+
+                    text += $"{i+1}.- {cc.Title}\n";
+                    text += $"Year: {cc.Year}\n";
+                    text += cc.Url == null ? "" : $"Url: {cc.Url}\n";
+                    text += cc.Congress == null ? "" : $"Congress: {cc.Congress}\n";
+                    text += cc.Edition == null ? "" : $"Edition: {cc.Edition}\n";
+                    text += cc.Place == null ? "" : $"Place: {cc.Place}\n";
+                    text += cc.InitialPage == null && cc.FinalPage == null ? "" : $"Pages: {cc.InitialPage} - {cc.FinalPage}\n";
+                    text += PrepareAuthors(cc.People);
+                    text += "\n";
                 }
+
+                richTextBoxCongressComunications.Text = text == "" ? "No congress comunications found." : text;
             }
 
-            richTextBoxResults.Text = text;
 
-
-            void PreparePublication(Publication publication)
+            string PrepareAuthors(ICollection<Person_Publication> people)
             {
-                text += " - " + publication.Title + " " + publication.Year + "\n";
+                if (people.Count == 0)
+                {
+                    return "";
+                }
+
+                string text = "Authors: ";
+
+                foreach (Person person in people.Select(p => p.Person))
+                {
+                    text += person.Name + " " + person.Surnames + ", ";
+                }
+
+                return text.Substring(0, text.Length - 2);
             }
         }
 
@@ -132,13 +196,40 @@ namespace BibliographicalSourcesIntegrator
             checkBoxArticle.Text = "";
             checkBoxBook.Text = "";
             checkBoxCongressComunication.Text = "";
-            richTextBoxResults.Text = "";
+            richTextBoxArticles.Text = "";
         }
 
 
         private void CloseForm(object sender, FormClosedEventArgs e)
         {
             homeForm.Show();
+        }
+
+
+        private void NumericUpDownInitialYearValueChanged(object sender, EventArgs e)
+        {
+            int newInitialYear = Convert.ToInt32(numericUpDownInitialYear.Value);
+
+            if (newInitialYear > currentFinalYear)
+            {
+                currentFinalYear++;
+                numericUpDownFinalYear.Value = currentFinalYear;
+            }
+
+            currentInitialYear = newInitialYear;
+        }
+
+        private void NumericUpDownFinalYearValueChanged(object sender, EventArgs e)
+        {
+            int newFinalYear = Convert.ToInt32(numericUpDownFinalYear.Value);
+
+            if (newFinalYear < currentInitialYear)
+            {
+                currentInitialYear--;
+                numericUpDownInitialYear.Value = currentInitialYear;
+            }
+
+            currentFinalYear = newFinalYear;
         }
     }
 }

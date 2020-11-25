@@ -240,7 +240,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 return null;
             }
 
-            return pages.Substring(slashPosition + 1);
+            return pages.Substring(slashPosition + 2);
         }
 
         public List<(string name, string surnames)> GetAuthors()
@@ -256,11 +256,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             foreach (string s in aux)
             {
-                string name = "";
-                string surnames = "";
-                int pos = s.IndexOf(",");
-                surnames = s.Substring(0, pos);
-                name = s.Substring(pos + 1);
+                string author = s.TrimStart().TrimEnd();
+
+                int pos = author.IndexOf(",");
+                string surnames = author.Substring(0, pos);
+                string name = author.Substring(pos + 2);
 
                 authors.Add((name, surnames));
             }

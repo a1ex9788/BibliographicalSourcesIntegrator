@@ -31,6 +31,7 @@ namespace BibliographicalSourcesIntegrator
             currentFinalYear = Convert.ToInt32(numericUpDownFinalYear.Value);
         }
 
+
         private async void LoadDataButtonClick(object sender, EventArgs e)
         {
             InitializeResults();
