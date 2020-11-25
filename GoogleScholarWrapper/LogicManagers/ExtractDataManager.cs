@@ -1,4 +1,5 @@
 ﻿using BibliographicalSourcesIntegratorContracts;
+using BibtexLibrary;
 using Microsoft.Extensions.Logging;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -53,8 +54,16 @@ namespace GoogleScholarWrapper.LogicManagers
         }
 
         private async Task<string> ExtractDataFromGoogleScholarWithSelenium(int initialYear, int finalYear)
-        {   
-            //String exePath = "";
+        {
+
+            String BibTeX_file = "@book{halbwachs2004memoria,title ={ La memoria colectiva}, author ={ Halbwachs, Maurice}, volume ={ 6},year ={ 2004}, publisher ={ Prensas de la Universidad de Zaragoza}}"; // @article{hernandez2010metodologia, title ={Metodologia de la},author ={Hern{\'a}ndez, Roberto and Fern{\'a}ndez, Carlos and Baptista, Pilar},journal ={Ciudad de M{\'e}xico: Mc Graw Hill},volume ={ 12},pages ={ 20},year ={ 2010}}";
+            //BibtexFile file = BibtexLibrary.BibtexImporter.FromString(BibTeX_file);
+            StreamWriter sw = new StreamWriter("..\\archivoBibTeX.bib");
+            sw.WriteLine(BibTeX_file);
+            sw.Close();
+            //pandoc-citeproc --bib2json archivoBibTeX.bib > archivoBibTeX.json;
+            return BibTeX_file;
+          /*  //String exePath = "";
             //System.setProperty("webdriver.chrome.driver", exePath);
             
             ChromeOptions options = new ChromeOptions();
@@ -115,8 +124,12 @@ namespace GoogleScholarWrapper.LogicManagers
                     }
                     if (i == 4) i = i++;
                     i++;
-                }
+                } 
 
+                // pandoc-citeproc --bib2json
+                BibtexFile file = BibtexLibrary.BibtexImporter.FromString(BibTeX_file);
+                 //Latext document =  File.WriteAllText("../", BibTeX_file);   
+                //BibTeX_file = BibTeX_file.Replace("@", "").Replace("title=", "\"title\":").Replace("author=", "\"author\":").Replace("journal=", "\"journal\":").Replace("pages=", "\"pages\":").Replace("year=", "\"year\":");
                 return BibTeX_file;
             }          
             catch (Exception e)
@@ -131,6 +144,8 @@ namespace GoogleScholarWrapper.LogicManagers
                 //Thread.Sleep(2000);
                // driver.Close(); //Cerrar Chrome con Selenium
             }
+           */
+
         }
     }
 }
