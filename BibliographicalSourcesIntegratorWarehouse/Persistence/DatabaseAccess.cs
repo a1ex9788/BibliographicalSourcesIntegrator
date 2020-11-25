@@ -95,29 +95,81 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
 
         public List<Article> GetArticles(string title, string author, int initialYear, int finalYear)
         {
-            return context.Articles.Where(a =>
+            List<Article> articles = context.Articles.Where(a =>
                 a.Title.Contains(title) &&
                 a.People.Any(p => (p.Person.Name + " " + p.Person.Surnames).Contains(author)) &&
                 a.Year >= initialYear &&
                 a.Year <= finalYear).ToList();
+
+            foreach (Article article in articles)
+            {
+                article.People = context.People_Publications.Where(pp => pp.PublicationId == article.Id).ToList();
+
+                foreach (Person_Publication person_Publication in article.People)
+                {
+                    person_Publication.Publication = null;
+                    person_Publication.PublicationId = -1;
+
+                    person_Publication.Person = context.People.FirstOrDefault(p => p.Id == person_Publication.PersonId);
+                }
+
+                try
+                {
+                    article.Exemplar = context.Exemplars.First(e => e.Id == article.ExemplarId);
+                    article.Exemplar.Journal = context.Journals.First(j => j.Id == article.Exemplar.JournalId);
+                }
+                catch (Exception) { }
+            }
+
+            return articles;
         }
 
         public List<Book> GetBooks(string title, string author, int initialYear, int finalYear)
         {
-            return context.Books.Where(b =>
+            List<Book> books = context.Books.Where(b =>
                 b.Title.Contains(title) &&
                 b.People.Any(p => (p.Person.Name + " " + p.Person.Surnames).Contains(author)) &&
                 b.Year >= initialYear &&
                 b.Year <= finalYear).ToList();
+
+            foreach (Book book in books)
+            {
+                book.People = context.People_Publications.Where(pp => pp.PublicationId == book.Id).ToList();
+
+                foreach (Person_Publication person_Publication in book.People)
+                {
+                    person_Publication.Publication = null;
+                    person_Publication.PublicationId = -1;
+
+                    person_Publication.Person = context.People.FirstOrDefault(p => p.Id == person_Publication.PersonId);
+                }
+            }
+
+            return books;
         }
 
         public List<CongressComunication> GetCongressComunications(string title, string author, int initialYear, int finalYear)
         {
-            return context.CongressComunications.Where(cc =>
+            List<CongressComunication> congressComunications = context.CongressComunications.Where(cc =>
                 cc.Title.Contains(title) &&
                 cc.People.Any(p => (p.Person.Name + " " + p.Person.Surnames).Contains(author)) &&
                 cc.Year >= initialYear &&
                 cc.Year <= finalYear).ToList();
+
+            foreach (CongressComunication congressComunication in congressComunications)
+            {
+                congressComunication.People = context.People_Publications.Where(pp => pp.PublicationId == congressComunication.Id).ToList();
+
+                foreach (Person_Publication person_Publication in congressComunication.People)
+                {
+                    person_Publication.Publication = null;
+                    person_Publication.PublicationId = -1;
+
+                    person_Publication.Person = context.People.FirstOrDefault(p => p.Id == person_Publication.PersonId);
+                }
+            }
+
+            return congressComunications;
         }
     }
 }

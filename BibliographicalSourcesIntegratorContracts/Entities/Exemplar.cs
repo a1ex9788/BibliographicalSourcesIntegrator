@@ -20,6 +20,8 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
         public string Month { get; set; }
 
 
+        public int JournalId { get; set; }
+        
         public Journal Journal { get; set; }
 
 

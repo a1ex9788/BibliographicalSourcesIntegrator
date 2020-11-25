@@ -2,7 +2,7 @@
 
 namespace BibliographicalSourcesIntegratorWarehouse.Migrations
 {
-    public partial class Initialschema : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,7 +42,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                     Volume = table.Column<string>(nullable: true),
                     Number = table.Column<string>(nullable: true),
                     Month = table.Column<string>(nullable: true),
-                    JournalId = table.Column<int>(nullable: true)
+                    JournalId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,7 +52,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                         column: x => x.JournalId,
                         principalTable: "Journals",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,11 +83,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                         column: x => x.ExemplarId,
                         principalTable: "Exemplars",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Person_Publication",
+                name: "People_Publications",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -97,15 +97,15 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Person_Publication", x => x.Id);
+                    table.PrimaryKey("PK_People_Publications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Person_Publication_People_PersonId",
+                        name: "FK_People_Publications_People_PersonId",
                         column: x => x.PersonId,
                         principalTable: "People",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Person_Publication_Publications_PublicationId",
+                        name: "FK_People_Publications_Publications_PublicationId",
                         column: x => x.PublicationId,
                         principalTable: "Publications",
                         principalColumn: "Id",
@@ -118,13 +118,13 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                 column: "JournalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Person_Publication_PersonId",
-                table: "Person_Publication",
+                name: "IX_People_Publications_PersonId",
+                table: "People_Publications",
                 column: "PersonId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Person_Publication_PublicationId",
-                table: "Person_Publication",
+                name: "IX_People_Publications_PublicationId",
+                table: "People_Publications",
                 column: "PublicationId");
 
             migrationBuilder.CreateIndex(
@@ -136,7 +136,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Person_Publication");
+                name: "People_Publications");
 
             migrationBuilder.DropTable(
                 name: "People");

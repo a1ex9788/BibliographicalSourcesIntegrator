@@ -14,6 +14,8 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
         public string FinalPage { get; set; }
 
 
+        public int ExemplarId { get; set; }
+
         public Exemplar Exemplar { get; set; }
 
 

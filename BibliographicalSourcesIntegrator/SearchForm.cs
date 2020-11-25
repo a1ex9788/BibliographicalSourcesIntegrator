@@ -16,6 +16,8 @@ namespace BibliographicalSourcesIntegrator
 
         private int currentInitialYear, currentFinalYear;
 
+        List<TabPage> tabs = new List<TabPage>();
+
 
         public SearchForm(Form homeForm)
         {
@@ -24,6 +26,11 @@ namespace BibliographicalSourcesIntegrator
             this.homeForm = homeForm;
 
             richTextBoxArticles.Text = "";
+
+            foreach (TabPage tabPage in tabControlResults.TabPages)
+            {
+                tabs.Add(tabPage);
+            }
         }
 
 
@@ -125,6 +132,15 @@ namespace BibliographicalSourcesIntegrator
                 }
 
                 richTextBoxArticles.Text = text == "" ? "No articles found." : text;
+
+                if (!tabControlResults.TabPages.Contains(tabs[0]))
+                {
+                    tabControlResults.TabPages.Add(tabs[0]);
+                }
+            }
+            else
+            {
+                tabControlResults.TabPages.Remove(tabs[0]);
             }
 
             if (searchBook)
@@ -135,7 +151,7 @@ namespace BibliographicalSourcesIntegrator
                 {
                     Book b = searchAnswer.Books[i];
 
-                    text += $"{i+1}.- {b.Title}\n";
+                    text += $"{i + 1}.- {b.Title}\n";
                     text += $"Year: {b.Year}\n";
                     text += b.Url == null ? "" : $"Url: {b.Url}\n";
                     text += b.Editorial == null ? "" : $"Editorial: {b.Editorial}\n";
@@ -144,6 +160,15 @@ namespace BibliographicalSourcesIntegrator
                 }
 
                 richTextBoxBooks.Text = text == "" ? "No books found." : text;
+
+                if (!tabControlResults.TabPages.Contains(tabs[1]))
+                {
+                    tabControlResults.TabPages.Add(tabs[1]);
+                }
+            }
+            else
+            {
+                tabControlResults.TabPages.Remove(tabs[1]);
             }
 
             if (searchCongress)
@@ -166,6 +191,15 @@ namespace BibliographicalSourcesIntegrator
                 }
 
                 richTextBoxCongressComunications.Text = text == "" ? "No congress comunications found." : text;
+
+                if (!tabControlResults.TabPages.Contains(tabs[2]))
+                {
+                    tabControlResults.TabPages.Add(tabs[2]);
+                }
+            }
+            else
+            {
+                tabControlResults.TabPages.Remove(tabs[2]);
             }
 
 
@@ -183,7 +217,7 @@ namespace BibliographicalSourcesIntegrator
                     text += person.Name + " " + person.Surnames + ", ";
                 }
 
-                return text.Substring(0, text.Length - 2);
+                return text.Substring(0, text.Length - 2) + "\n";
             }
         }
 
