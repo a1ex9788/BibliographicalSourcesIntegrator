@@ -34,9 +34,16 @@ namespace BibliographicalSourcesIntegrator
         }
 
 
-        public async Task<string> SearchDataInWarehouse()
+        public async Task<SearchAnswer> SearchDataInWarehouse(SearchRequest searchRequest)
         {
-            return await MakeARequest("no se encara");
+            string answer = await MakeARequest("Search/" + new JavaScriptSerializer().Serialize(searchRequest));
+
+            if (answer == null)
+            {
+                return null;
+            }
+
+            return new JavaScriptSerializer().Deserialize<SearchAnswer>(answer);
         }
 
         public async Task<LoadAnswer> LoadDataFromDataSources(LoadRequest loadRequest)

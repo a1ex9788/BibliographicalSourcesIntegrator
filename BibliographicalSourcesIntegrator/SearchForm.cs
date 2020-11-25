@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using BibliographicalSourcesIntegratorContracts;
+using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -24,17 +20,62 @@ namespace BibliographicalSourcesIntegrator
 
         private async void SearchButtonClick(object sender, EventArgs e)
         {
-            string author = textBoxAuthor.Text;
-            string title = textBoxTitle.Text;
-            int initialYear = (int) numericUpDownInitialYear.Value;
-            int finalYear = (int) numericUpDownFinalYear.Value;
             bool searchArticle = checkBoxArticle.Checked;
             bool searchBook = checkBoxBook.Checked;
             bool searchCongress = checkBoxCongressComunication.Checked;
+            int initialYear = (int) numericUpDownInitialYear.Value;
+            int finalYear = (int) numericUpDownFinalYear.Value;
+            string author = textBoxAuthor.Text;
+            string title = textBoxTitle.Text;
 
-            await RequestsManager.GetRequestsManager().SearchDataInWarehouse();
+            if (!searchArticle && !searchBook && !searchCongress)
+            {
+                richTextBoxResults.Text = "Any publication type selected, please select at least one.";
+
+                return;
+            }
+
+            SearchRequest searchRequest = new SearchRequest(searchArticle, searchBook, searchCongress, initialYear, finalYear, author, title);
+            SearchAnswer searchAnswer;
+
+            LoadingForm loadingForm = new LoadingForm();
+
+            ShowLoadingForm();
+
+            try
+            {
+                searchAnswer = await RequestsManager.GetRequestsManager().SearchDataInWarehouse(searchRequest);
+            }
+            catch (HttpRequestException)
+            {
+                richTextBoxResults.Text = "It was not possible to connect to the warehouse.";
+
+                return;
+            }
+            finally
+            {
+                CloseLoadingForm();
+            }
 
             //listViewResults.Items.Add();
+
+
+            void ShowLoadingForm()
+            {
+                new Task(() => loadingForm.ShowDialog()).Start();
+
+                this.Enabled = false;
+            }
+
+            void CloseLoadingForm()
+            {
+                loadingForm.Invoke((MethodInvoker)delegate
+                {
+                    loadingForm.Close();
+                });
+
+                this.Enabled = true;
+            }
         }
 
         private void CleanSearchButtonClick(object sender, EventArgs e)
@@ -53,11 +94,6 @@ namespace BibliographicalSourcesIntegrator
         private void CloseForm(object sender, FormClosedEventArgs e)
         {
             homeForm.Show();
-        }
-
-        private void SearchDataButtonClick(object sender, EventArgs e)
-        {
-
         }
     }
 }

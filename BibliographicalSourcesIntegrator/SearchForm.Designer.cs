@@ -168,7 +168,7 @@
             this.button1.TabIndex = 6;
             this.button1.Text = "Search";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.SearchDataButtonClick);
+            this.button1.Click += new System.EventHandler(this.SearchButtonClick);
             // 
             // label4
             // 
