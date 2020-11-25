@@ -60,6 +60,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
                 cc.FinalPage == congressComunication.FinalPage);
         }
 
+        
         public Book GetBook(Book book)
         {
             return context.Books.FirstOrDefault(b =>
@@ -89,6 +90,34 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
         {
             return context.Journals.FirstOrDefault(j =>
                 j.Name == journal.Name);
+        }
+
+
+        public List<Article> GetArticles(string title, string author, int initialYear, int finalYear)
+        {
+            return context.Articles.Where(a =>
+                a.Title.Contains(title) &&
+                a.People.Any(p => (p.Person.Name + " " + p.Person.Surnames).Contains(author)) &&
+                a.Year >= initialYear &&
+                a.Year <= finalYear).ToList();
+        }
+
+        public List<Book> GetBooks(string title, string author, int initialYear, int finalYear)
+        {
+            return context.Books.Where(b =>
+                b.Title.Contains(title) &&
+                b.People.Any(p => (p.Person.Name + " " + p.Person.Surnames).Contains(author)) &&
+                b.Year >= initialYear &&
+                b.Year <= finalYear).ToList();
+        }
+
+        public List<CongressComunication> GetCongressComunications(string title, string author, int initialYear, int finalYear)
+        {
+            return context.CongressComunications.Where(cc =>
+                cc.Title.Contains(title) &&
+                cc.People.Any(p => (p.Person.Name + " " + p.Person.Surnames).Contains(author)) &&
+                cc.Year >= initialYear &&
+                cc.Year <= finalYear).ToList();
         }
     }
 }

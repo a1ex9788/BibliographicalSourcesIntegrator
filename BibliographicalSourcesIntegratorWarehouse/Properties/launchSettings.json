@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "Load/{\"LoadFromDBLP\":false,\"LoadFromIEEEXplore\":false,\"LoadFromGoogleScholar\":true,\"InitialYear\":2000,\"FinalYear\":2010}",
+      "launchUrl": "Search/{\"SearchArticles\":true,\"SearchBooks\":false,\"SearchCongressComunications\":false,\"InitialYear\":2000,\"FinalYear\":2010,\"Author\":\"\",\"Title\":\"\"}",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

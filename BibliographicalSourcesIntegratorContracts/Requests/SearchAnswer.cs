@@ -9,10 +9,10 @@ namespace BibliographicalSourcesIntegratorContracts
 {
     public class SearchAnswer
     {
-        public List<Article> SearchArticles { get; set; }
+        public List<Article> Articles { get; set; }
 
-        public List<Book> SearchBooks { get; set; }
+        public List<Book> Books { get; set; }
 
-        public List<CongressComunication> SearchCongressComunications { get; set; }
+        public List<CongressComunication> CongressComunications { get; set; }
     }
 }

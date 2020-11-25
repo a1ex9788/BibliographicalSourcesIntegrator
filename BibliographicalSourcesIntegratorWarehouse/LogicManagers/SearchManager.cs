@@ -51,8 +51,24 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 
         private SearchAnswer ProcessSearchRequest(SearchRequest searchRequest)
         {
-            //Llamar BD
-            return null;
+            SearchAnswer searchAnswer = new SearchAnswer();
+
+            if (searchRequest.SearchArticles)
+            {
+                searchAnswer.Articles = databaseAccess.GetArticles(searchRequest.Title, searchRequest.Author, searchRequest.InitialYear, searchRequest.FinalYear);
+            }
+
+            if (searchRequest.SearchBooks)
+            {
+                searchAnswer.Books = databaseAccess.GetBooks(searchRequest.Title, searchRequest.Author, searchRequest.InitialYear, searchRequest.FinalYear);
+            }
+
+            if (searchRequest.SearchCongressComunications)
+            {
+                searchAnswer.CongressComunications = databaseAccess.GetCongressComunications(searchRequest.Title, searchRequest.Author, searchRequest.InitialYear, searchRequest.FinalYear);
+            }
+
+            return searchAnswer;
         }
     }
 }
