@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BibliographicalSourcesIntegratorContracts;
-using BibliographicalSourcesIntegratorWarehouse.Entities;
-using BibliographicalSourcesIntegratorWarehouse.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

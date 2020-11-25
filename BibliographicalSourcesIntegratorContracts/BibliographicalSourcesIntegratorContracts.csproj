@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
@@ -42,13 +43,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExtractRequest.cs" />
-    <Compile Include="LoadAnswer.cs" />
-    <Compile Include="LoadRequest.cs" />
-    <Compile Include="ProgramAddresses.cs" />
+    <Compile Include="Entities\Article.cs" />
+    <Compile Include="Entities\Book.cs" />
+    <Compile Include="Entities\CongressComunication.cs" />
+    <Compile Include="Entities\Exemplar.cs" />
+    <Compile Include="Entities\Journal.cs" />
+    <Compile Include="Entities\Person.cs" />
+    <Compile Include="Entities\Person_Publication.cs" />
+    <Compile Include="Entities\Publication.cs" />
+    <Compile Include="Requests\ExtractRequest.cs" />
+    <Compile Include="Requests\LoadAnswer.cs" />
+    <Compile Include="Requests\LoadRequest.cs" />
+    <Compile Include="Requests\ProgramAddresses.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchAnswer.cs" />
-    <Compile Include="SearchRequest.cs" />
+    <Compile Include="Requests\SearchAnswer.cs" />
+    <Compile Include="Requests\SearchRequest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

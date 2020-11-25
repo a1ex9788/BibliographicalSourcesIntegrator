@@ -13,11 +13,13 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
     public class SearchManager
     {
         private readonly ILogger<SearchManager> _logger;
+        private readonly DatabaseAccess databaseAccess;
 
 
-        public SearchManager(ILogger<SearchManager> logger)
+        public SearchManager(ILogger<SearchManager> logger, DatabaseAccess databaseAccess)
         {
             _logger = logger;
+            this.databaseAccess = databaseAccess;
         }
 
 

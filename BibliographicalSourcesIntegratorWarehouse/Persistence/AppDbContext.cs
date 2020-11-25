@@ -1,4 +1,4 @@
-﻿using BibliographicalSourcesIntegratorWarehouse.Entities;
+﻿using BibliographicalSourcesIntegratorContracts.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

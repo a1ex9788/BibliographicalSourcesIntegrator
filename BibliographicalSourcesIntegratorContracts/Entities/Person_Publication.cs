@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BibliographicalSourcesIntegratorWarehouse.Entities
+namespace BibliographicalSourcesIntegratorContracts.Entities
 {
     public class Person_Publication
     {

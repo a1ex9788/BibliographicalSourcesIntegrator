@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace BibliographicalSourcesIntegratorWarehouse.Entities
+namespace BibliographicalSourcesIntegratorContracts.Entities
 {
     public class Book : Publication
     {
