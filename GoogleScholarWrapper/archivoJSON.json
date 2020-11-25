@@ -1,0 +1,245 @@
+[
+  {
+    "author": [
+      {
+        "family": "Kuhn",
+        "given": "Thomas S"
+      }
+    ],
+    "id": "kuhn2019estructura",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "publisher": "Fondo de cultura económica",
+    "title": "La estructura de las revoluciones cientı́ficas",
+    "type": "book"
+  },
+  {
+    "author": [
+      {
+        "family": "Owaida",
+        "given": "Muhsen"
+      },
+      {
+        "family": "Alonso",
+        "given": "Gustavo"
+      },
+      {
+        "family": "Fogliarini",
+        "given": "Laura"
+      },
+      {
+        "family": "Hock-Koon",
+        "given": "Anthony"
+      },
+      {
+        "family": "Melet",
+        "given": "Pierre-Etienne"
+      }
+    ],
+    "container-title": "Proceedings of the VLDB Endowment",
+    "id": "owaida2019lowering",
+    "issue": "1",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "page": "71-85",
+    "publisher": "VLDB Endowment",
+    "title": "Lowering the latency of data processing pipelines through fpga based hardware acceleration",
+    "type": "article-journal",
+    "volume": "13"
+  },
+  {
+    "author": [
+      {
+        "family": "Sheetz",
+        "given": "Steven D"
+      },
+      {
+        "family": "Kavanaugh",
+        "given": "Andrea L"
+      },
+      {
+        "family": "Fox",
+        "given": "Edward A"
+      },
+      {
+        "family": "Hassan",
+        "given": "Riham"
+      },
+      {
+        "family": "Yang",
+        "given": "Seungwon"
+      },
+      {
+        "family": "Magdy",
+        "given": "Mohamed"
+      },
+      {
+        "family": "Shoemaker",
+        "given": "Donald J"
+      }
+    ],
+    "container-title": "ISCRAM",
+    "id": "sheetz2019information",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "title": "Information uses and gratifications related to crisis: Student perceptions since the egyptian uprising.",
+    "title-short": "Information uses and gratifications related to crisis",
+    "type": "paper-conference"
+  },
+  {
+    "author": [
+      {
+        "family": "Mrdjen",
+        "given": "Dunja"
+      },
+      {
+        "family": "Fox",
+        "given": "Edward J"
+      },
+      {
+        "family": "Bukhari",
+        "given": "Syed A"
+      },
+      {
+        "family": "Montine",
+        "given": "Kathleen S"
+      },
+      {
+        "family": "Bendall",
+        "given": "Sean C"
+      },
+      {
+        "family": "Montine",
+        "given": "Thomas J"
+      }
+    ],
+    "container-title": "Acta Neuropathologica",
+    "id": "mrdjen2019basis",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "page": "1-21",
+    "publisher": "Springer",
+    "title": "The basis of cellular and regional vulnerability in alzheimer’s disease",
+    "type": "article-journal"
+  },
+  {
+    "author": [
+      {
+        "family": "Anthopoulos",
+        "given": "Leonidas"
+      },
+      {
+        "family": "Janssen",
+        "given": "Marijn"
+      },
+      {
+        "family": "Weerakkody",
+        "given": "Vishanth"
+      }
+    ],
+    "container-title": "Smart cities and smart spaces: Concepts, methodologies, tools, and applications",
+    "id": "anthopoulos2019unified",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "page": "247-264",
+    "publisher": "IGI Global",
+    "title": "A unified smart city model (uscm) for smart city conceptualization and benchmarking",
+    "type": "chapter"
+  },
+  {
+    "author": [
+      {
+        "family": "Scholl",
+        "given": "Hans Jochen"
+      },
+      {
+        "family": "Bolı́var",
+        "given": "Manuel Pedro Rodrı́guez"
+      }
+    ],
+    "container-title": "Information Polity",
+    "id": "scholl2019mapping",
+    "issue": "Preprint",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "page": "1-20",
+    "publisher": "IOS Press",
+    "title": "Mapping potential impact areas of blockchain use in the public sector",
+    "type": "article-journal"
+  },
+  {
+    "author": [
+      {
+        "family": "Lindgren",
+        "given": "Ida"
+      },
+      {
+        "family": "Janssen",
+        "given": "Marijn"
+      },
+      {
+        "family": "Lee",
+        "given": "Habin"
+      },
+      {
+        "family": "Polini",
+        "given": "Andrea"
+      },
+      {
+        "family": "Bolı́var",
+        "given": "Manuel Pedro Rodrı́guez"
+      },
+      {
+        "family": "Scholl",
+        "given": "Hans Jochen"
+      },
+      {
+        "family": "Tambouris",
+        "given": "Efthimios"
+      }
+    ],
+    "id": "lindgren2019electronic",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "publisher": "Springer",
+    "title": "Electronic government: 18th ifip wg 8.5 international conference, egov 2019, san benedetto del tronto, italy, september 2–4, 2019, proceedings",
+    "title-short": "Electronic government",
+    "type": "book",
+    "volume": "11685"
+  }
+]

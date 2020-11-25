@@ -57,22 +57,19 @@ namespace GoogleScholarWrapper.LogicManagers
         {
             Process process = new Process();
 
-            process.StartInfo.FileName = "cmd.exe";
-            process.StartInfo.Arguments = "/c" + "dir > pene.txt";
-
-            process.Start();
-            process.WaitForExit();
-
-
-
-
+          
 
             String BibTeX_file = "@book{halbwachs2004memoria,title ={ La memoria colectiva}, author ={ Halbwachs, Maurice}, volume ={ 6},year ={ 2004}, publisher ={ Prensas de la Universidad de Zaragoza}}"; // @article{hernandez2010metodologia, title ={Metodologia de la},author ={Hern{\'a}ndez, Roberto and Fern{\'a}ndez, Carlos and Baptista, Pilar},journal ={Ciudad de M{\'e}xico: Mc Graw Hill},volume ={ 12},pages ={ 20},year ={ 2010}}";
             //BibtexFile file = BibtexLibrary.BibtexImporter.FromString(BibTeX_file);
-            StreamWriter sw = new StreamWriter("..\\archivoBibTeX.bib");
-            sw.WriteLine(BibTeX_file);
-            sw.Close();
-            //pandoc-citeproc --bib2json archivoBibTeX.bib > archivoBibTeX.json;
+            //StreamWriter sw = new StreamWriter("..\\GoogleScholarWrapper\\archivoBibTeX.bib");
+            //sw.WriteLine(BibTeX_file);
+            //sw.Close();
+
+            string command = "pandoc-citeproc --bib2json archivoBibTeX_aux2.bib > archivoJSON.json";
+            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.Arguments = "/c" + command;
+            process.Start();
+            process.WaitForExit();
             return BibTeX_file;
             /*  //String exePath = "";
               //System.setProperty("webdriver.chrome.driver", exePath);
