@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BibtexLibrary" Version="1.3.0" />
     <PackageReference Include="Pandoc.Windows" Version="2.1.0" />
     <PackageReference Include="Selenium.Chrome.WebDriver" Version="85.0.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
@@ -13,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BibliographicalSourcesIntegratorWarehouse\BibliographicalSourcesIntegratorWarehouse.csproj" />
+    <ProjectReference Include="..\BibtexConverter\BibtexConverter.csproj" />
   </ItemGroup>
 
 

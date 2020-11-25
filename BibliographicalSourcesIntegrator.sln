@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleScholarWrapper", "Goo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibliographicalSourcesIntegratorContracts", "BibliographicalSourcesIntegratorContracts\BibliographicalSourcesIntegratorContracts.csproj", "{023EF049-C2EB-41B6-A9D5-6BE9635A2A65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibtexConverter", "BibtexConverter\BibtexConverter.csproj", "{BF7DBA5D-8094-43C5-B782-4E8323ACA8BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{023EF049-C2EB-41B6-A9D5-6BE9635A2A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{023EF049-C2EB-41B6-A9D5-6BE9635A2A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{023EF049-C2EB-41B6-A9D5-6BE9635A2A65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF7DBA5D-8094-43C5-B782-4E8323ACA8BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF7DBA5D-8094-43C5-B782-4E8323ACA8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF7DBA5D-8094-43C5-B782-4E8323ACA8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF7DBA5D-8094-43C5-B782-4E8323ACA8BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
