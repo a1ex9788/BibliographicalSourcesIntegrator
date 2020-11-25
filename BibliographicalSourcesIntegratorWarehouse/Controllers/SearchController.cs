@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BibliographicalSourcesIntegratorWarehouse.Entities;
-using BibliographicalSourcesIntegratorWarehouse.Persistence;
+using BibliographicalSourcesIntegratorContracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -22,12 +21,12 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             this.searchManager = searchManager;
         }
 
-        [HttpGet("request")]
-        public void Search(string request)
+        [HttpGet("{request}")]
+        public SearchAnswer Search(string request)
         {
             _logger.LogInformation("A search request was received: " + request);
 
-            searchManager.Search();
+            return searchManager.Search(request);
         }
     }
 }
