@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BibliographicalSourcesIntegratorWarehouse\BibliographicalSourcesIntegratorWarehouse.csproj" />
-    <ProjectReference Include="..\BibtexConverter\BibtexConverter.csproj" />
   </ItemGroup>
 
 
