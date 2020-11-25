@@ -15,7 +15,7 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
 
         public string Title { get; set; }
 
-        public string Year { get; set; }
+        public int Year { get; set; }
 
         public string Url { get; set; }
 
@@ -28,7 +28,7 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
             People = new List<Person_Publication>();
         }
 
-        public Publication(string title, string year, string url)
+        public Publication(string title, int year, string url)
         {
             Title = title;
             Year = year;
@@ -43,7 +43,7 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
             Publication other = obj as Publication;
 
             bool a = Title == null ? (obj as Publication).Title == null : Title.Equals((obj as Publication).Title);
-            bool b = Year == null ? (obj as Publication).Year == null : Year.Equals((obj as Publication).Year);
+            bool b = Year == 0 ? (obj as Publication).Year == 0 : Year.Equals((obj as Publication).Year);
             bool c = Url == null ? (obj as Publication).Url == null : Url.Equals((obj as Publication).Url);
 
             return a && b && c;

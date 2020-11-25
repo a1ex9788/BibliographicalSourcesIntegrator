@@ -165,7 +165,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public string pages { get; set; }
 
-        public string year { get; set; }
+        public int year { get; set; }
 
         public string volume { get; set; }
 

@@ -31,7 +31,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         }
 
 
-        public Article CreateArticle(string title, string year, string url, List<(string name, string surnames)> authors,
+        public Article CreateArticle(string title, int year, string url, List<(string name, string surnames)> authors,
             string initialPage, string finalPage, string volume, string number, string month, string journalName)
         {
             Journal journal = CreateEntity(
@@ -68,7 +68,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             return article;
         }
 
-        public CongressComunication CreateCongressComunication(string title, string year, string url, List<(string name, string surnames)> authors,
+        public CongressComunication CreateCongressComunication(string title, int year, string url, List<(string name, string surnames)> authors,
             string congress, string edition, string place, string initialPage, string finalPage)
         {
             CongressComunication conference = CreateEntity(
@@ -90,7 +90,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             return conference;
         }
 
-        public Book CreateBook(string title, string year, string url, List<(string name, string surnames)> authors,
+        public Book CreateBook(string title, int year, string url, List<(string name, string surnames)> authors,
             string editorial)
         {
             Book book = CreateEntity(

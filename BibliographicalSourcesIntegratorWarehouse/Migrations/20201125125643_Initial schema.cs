@@ -2,7 +2,7 @@
 
 namespace BibliographicalSourcesIntegratorWarehouse.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initialschema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,9 +39,9 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Volume = table.Column<int>(nullable: false),
-                    Number = table.Column<int>(nullable: false),
-                    Month = table.Column<int>(nullable: false),
+                    Volume = table.Column<string>(nullable: true),
+                    Number = table.Column<string>(nullable: true),
+                    Month = table.Column<string>(nullable: true),
                     JournalId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -65,16 +65,15 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                     Year = table.Column<int>(nullable: false),
                     Url = table.Column<string>(nullable: true),
                     Discriminator = table.Column<string>(nullable: false),
-                    InitialPage = table.Column<int>(nullable: true),
-                    FinalPage = table.Column<int>(nullable: true),
+                    InitialPage = table.Column<string>(nullable: true),
+                    FinalPage = table.Column<string>(nullable: true),
                     ExemplarId = table.Column<int>(nullable: true),
                     Editorial = table.Column<string>(nullable: true),
-                    Pages = table.Column<int>(nullable: true),
                     Congress = table.Column<string>(nullable: true),
-                    Edition = table.Column<int>(nullable: true),
+                    Edition = table.Column<string>(nullable: true),
                     Place = table.Column<string>(nullable: true),
-                    CongressComunication_InitialPage = table.Column<int>(nullable: true),
-                    CongressComunication_FinalPage = table.Column<int>(nullable: true)
+                    CongressComunication_InitialPage = table.Column<string>(nullable: true),
+                    CongressComunication_FinalPage = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

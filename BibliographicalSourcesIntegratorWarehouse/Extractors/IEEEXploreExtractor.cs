@@ -48,7 +48,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                     {
                        Article article = publicationCreator.CreateArticle(
                             title: ieeePublication.title,
-                            year: ieeePublication.publication_year,
+                            year: Convert.ToInt32(ieeePublication.publication_year),
                             url: ieeePublication.pdf_url,
                             authors: ieeePublication.GetAuthors(),
                             initialPage: ieeePublication.start_page,
@@ -67,7 +67,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                     {
                         CongressComunication conference = publicationCreator.CreateCongressComunication(
                             title: ieeePublication.publication_title,
-                            year: ieeePublication.publication_year,
+                            year: Convert.ToInt32(ieeePublication.publication_year),
                             url: ieeePublication.pdf_url,
                             authors: ieeePublication.GetAuthors(),
                             edition: null,
@@ -85,7 +85,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                     {
                        Book book = publicationCreator.CreateBook(
                             title: ieeePublication.publication_title,
-                            year: ieeePublication.publication_year,
+                            year: Convert.ToInt32(ieeePublication.publication_year),
                             url: ieeePublication.pdf_url,
                             authors: ieeePublication.GetAuthors(),
                             editorial: null);

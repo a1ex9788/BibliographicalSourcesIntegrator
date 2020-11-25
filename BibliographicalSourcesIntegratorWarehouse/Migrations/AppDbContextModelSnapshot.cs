@@ -4,16 +4,14 @@ using BibliographicalSourcesIntegratorWarehouse.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20201109175305_El número de Exemplar a string.")]
-    partial class ElnúmerodeExemplarastring
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +19,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("BibliographicalSourcesIntegratorWarehouse.Entities.Exemplar", b =>
+            modelBuilder.Entity("BibliographicalSourcesIntegratorContracts.Entities.Exemplar", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,8 +29,8 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                     b.Property<int?>("JournalId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Month")
-                        .HasColumnType("int");
+                    b.Property<string>("Month")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Number")
                         .HasColumnType("nvarchar(max)");
@@ -47,7 +45,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                     b.ToTable("Exemplars");
                 });
 
-            modelBuilder.Entity("BibliographicalSourcesIntegratorWarehouse.Entities.Journal", b =>
+            modelBuilder.Entity("BibliographicalSourcesIntegratorContracts.Entities.Journal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -62,7 +60,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                     b.ToTable("Journals");
                 });
 
-            modelBuilder.Entity("BibliographicalSourcesIntegratorWarehouse.Entities.Person", b =>
+            modelBuilder.Entity("BibliographicalSourcesIntegratorContracts.Entities.Person", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,7 +78,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                     b.ToTable("People");
                 });
 
-            modelBuilder.Entity("BibliographicalSourcesIntegratorWarehouse.Entities.Person_Publication", b =>
+            modelBuilder.Entity("BibliographicalSourcesIntegratorContracts.Entities.Person_Publication", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,7 +100,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                     b.ToTable("Person_Publication");
                 });
 
-            modelBuilder.Entity("BibliographicalSourcesIntegratorWarehouse.Entities.Publication", b =>
+            modelBuilder.Entity("BibliographicalSourcesIntegratorContracts.Entities.Publication", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -129,27 +127,27 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Publication");
                 });
 
-            modelBuilder.Entity("BibliographicalSourcesIntegratorWarehouse.Entities.Article", b =>
+            modelBuilder.Entity("BibliographicalSourcesIntegratorContracts.Entities.Article", b =>
                 {
-                    b.HasBaseType("BibliographicalSourcesIntegratorWarehouse.Entities.Publication");
+                    b.HasBaseType("BibliographicalSourcesIntegratorContracts.Entities.Publication");
 
                     b.Property<int?>("ExemplarId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FinalPage")
-                        .HasColumnType("int");
+                    b.Property<string>("FinalPage")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("InitialPage")
-                        .HasColumnType("int");
+                    b.Property<string>("InitialPage")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasIndex("ExemplarId");
 
                     b.HasDiscriminator().HasValue("Article");
                 });
 
-            modelBuilder.Entity("BibliographicalSourcesIntegratorWarehouse.Entities.Book", b =>
+            modelBuilder.Entity("BibliographicalSourcesIntegratorContracts.Entities.Book", b =>
                 {
-                    b.HasBaseType("BibliographicalSourcesIntegratorWarehouse.Entities.Publication");
+                    b.HasBaseType("BibliographicalSourcesIntegratorContracts.Entities.Publication");
 
                     b.Property<string>("Editorial")
                         .HasColumnType("nvarchar(max)");
@@ -157,23 +155,23 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                     b.HasDiscriminator().HasValue("Book");
                 });
 
-            modelBuilder.Entity("BibliographicalSourcesIntegratorWarehouse.Entities.CongressComunication", b =>
+            modelBuilder.Entity("BibliographicalSourcesIntegratorContracts.Entities.CongressComunication", b =>
                 {
-                    b.HasBaseType("BibliographicalSourcesIntegratorWarehouse.Entities.Publication");
+                    b.HasBaseType("BibliographicalSourcesIntegratorContracts.Entities.Publication");
 
                     b.Property<string>("Congress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Edition")
-                        .HasColumnType("int");
+                    b.Property<string>("Edition")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FinalPage")
+                    b.Property<string>("FinalPage")
                         .HasColumnName("CongressComunication_FinalPage")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("InitialPage")
+                    b.Property<string>("InitialPage")
                         .HasColumnName("CongressComunication_InitialPage")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Place")
                         .HasColumnType("nvarchar(max)");
@@ -181,32 +179,32 @@ namespace BibliographicalSourcesIntegratorWarehouse.Migrations
                     b.HasDiscriminator().HasValue("CongressComunication");
                 });
 
-            modelBuilder.Entity("BibliographicalSourcesIntegratorWarehouse.Entities.Exemplar", b =>
+            modelBuilder.Entity("BibliographicalSourcesIntegratorContracts.Entities.Exemplar", b =>
                 {
-                    b.HasOne("BibliographicalSourcesIntegratorWarehouse.Entities.Journal", "Journal")
-                        .WithMany("Exemplars")
+                    b.HasOne("BibliographicalSourcesIntegratorContracts.Entities.Journal", "Journal")
+                        .WithMany()
                         .HasForeignKey("JournalId");
                 });
 
-            modelBuilder.Entity("BibliographicalSourcesIntegratorWarehouse.Entities.Person_Publication", b =>
+            modelBuilder.Entity("BibliographicalSourcesIntegratorContracts.Entities.Person_Publication", b =>
                 {
-                    b.HasOne("BibliographicalSourcesIntegratorWarehouse.Entities.Person", "Person")
-                        .WithMany("Publications")
+                    b.HasOne("BibliographicalSourcesIntegratorContracts.Entities.Person", "Person")
+                        .WithMany()
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BibliographicalSourcesIntegratorWarehouse.Entities.Publication", "Publication")
+                    b.HasOne("BibliographicalSourcesIntegratorContracts.Entities.Publication", "Publication")
                         .WithMany("People")
                         .HasForeignKey("PublicationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BibliographicalSourcesIntegratorWarehouse.Entities.Article", b =>
+            modelBuilder.Entity("BibliographicalSourcesIntegratorContracts.Entities.Article", b =>
                 {
-                    b.HasOne("BibliographicalSourcesIntegratorWarehouse.Entities.Exemplar", "Exemplar")
-                        .WithMany("Articles")
+                    b.HasOne("BibliographicalSourcesIntegratorContracts.Entities.Exemplar", "Exemplar")
+                        .WithMany()
                         .HasForeignKey("ExemplarId");
                 });
 #pragma warning restore 612, 618

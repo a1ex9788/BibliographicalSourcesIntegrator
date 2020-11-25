@@ -1,5 +1,7 @@
 ﻿using BibliographicalSourcesIntegratorContracts;
+using BibliographicalSourcesIntegratorContracts.Entities;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -57,7 +59,7 @@ namespace BibliographicalSourcesIntegrator
                 CloseLoadingForm();
             }
 
-            //listViewResults.Items.Add();
+            ShowResults(searchAnswer, searchArticle, searchBook, searchCongress);
 
 
             void ShowLoadingForm()
@@ -75,6 +77,49 @@ namespace BibliographicalSourcesIntegrator
                 });
 
                 this.Enabled = true;
+            }
+        }
+
+        private void ShowResults(SearchAnswer searchAnswer, bool searchArticle, bool searchBook, bool searchCongress)
+        {
+            string text = "";
+
+            if (searchArticle)
+            {
+                text += "ARTICLES:\n";
+
+                foreach (Article a in searchAnswer.Articles)
+                {
+                    PreparePublication(a);
+                }
+            }
+
+            if (searchBook)
+            {
+                text += "BOOKS:\n";
+
+                foreach (Book b in searchAnswer.Books)
+                {
+                    PreparePublication(b);
+                }
+            }
+
+            if (searchCongress)
+            {
+                text += "CONGRESS COMUNICATIONS:\n";
+
+                foreach (CongressComunication cc in searchAnswer.CongressComunications)
+                {
+                    PreparePublication(cc);
+                }
+            }
+
+            richTextBoxResults.Text = text;
+
+
+            void PreparePublication(Publication publication)
+            {
+                text += " - " + publication.Title + " " + publication.Year + "\n";
             }
         }
 

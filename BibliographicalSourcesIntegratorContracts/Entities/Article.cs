@@ -19,13 +19,13 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
 
         public Article() : base() { }
 
-        public Article(string title, string year, string url, Exemplar exemplar)
+        public Article(string title, int year, string url, Exemplar exemplar)
             : base(title, year, url)
         {
             Exemplar = exemplar;
         }
 
-        public Article(string title, string year, string url, string initialPage, string finalPage, Exemplar exemplar)
+        public Article(string title, int year, string url, string initialPage, string finalPage, Exemplar exemplar)
             : base(title, year, url)
         {
             InitialPage = initialPage;
