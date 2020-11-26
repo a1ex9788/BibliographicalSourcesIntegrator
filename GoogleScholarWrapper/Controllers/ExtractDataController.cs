@@ -24,11 +24,11 @@ namespace GoogleScholarWrapper.Controllers
         }
 
         [HttpGet("{request}")]
-        public async Task<string> ExtractData(string request)
+        public string ExtractData(string request)
         {
             _logger.LogInformation("An extract data request was received: " + request);
 
-            return await extractDataManager.ExtractData(request);
+            return extractDataManager.ExtractData(request);
         }
     }
 }

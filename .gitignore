@@ -339,5 +339,5 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
-# Bibtex temporary files
-GoogleScholarWrapper/BibtexFiles/
+# BibTeX and Json temporary files
+GoogleScholarWrapper/TempFiles/

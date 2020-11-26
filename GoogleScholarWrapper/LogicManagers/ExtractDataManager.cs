@@ -1,5 +1,4 @@
 ﻿using BibliographicalSourcesIntegratorContracts;
-using BibtexLibrary;
 using Microsoft.Extensions.Logging;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -19,7 +18,10 @@ namespace GoogleScholarWrapper.LogicManagers
 {
     public class ExtractDataManager
     {
-        private readonly ILogger<ExtractDataManager> _logger;      
+        private readonly ILogger<ExtractDataManager> _logger;
+
+        private string bibtexFilePath = "TempFiles\\archivoBibTeX.bib", jsonFilePath = "TempFiles\\archivoJson.json";
+
 
         public ExtractDataManager(ILogger<ExtractDataManager> logger)
         {
@@ -27,7 +29,7 @@ namespace GoogleScholarWrapper.LogicManagers
         }
 
 
-        public async Task<string> ExtractData(string request)
+        public string ExtractData(string request)
         {
             ExtractRequest extractRequest = GetExtractRequest(request);
 
@@ -36,7 +38,11 @@ namespace GoogleScholarWrapper.LogicManagers
                 return null;
             }
 
-            return await ExtractDataFromGoogleScholarWithSelenium(extractRequest.InitialYear, extractRequest.FinalYear);
+            string bibTeXFile = GetBibTeXWithSelenium(extractRequest.InitialYear, extractRequest.FinalYear);
+
+            CreateBibteXFile(bibTeXFile);
+
+            return ConverBibteXToJson();
         }
 
 
@@ -54,95 +60,98 @@ namespace GoogleScholarWrapper.LogicManagers
             }
         }
 
-        private async Task<string> ExtractDataFromGoogleScholarWithSelenium(int initialYear, int finalYear)
+        private string GetBibTeXWithSelenium(int initialYear, int finalYear)
         {
-              //String exePath = "";
-              //System.setProperty("webdriver.chrome.driver", exePath);
-              ChromeOptions options = new ChromeOptions();
-              options.AddArguments("--start-maximized");
-              //options.AddArguments("--incognito");
-              ChromeDriver driver = new ChromeDriver(options);
+            string bibTeXFile = "";
 
-              try
-              {
+            ChromeOptions options = new ChromeOptions();
+            options.AddArguments("--start-maximized");
+            //options.AddArguments("--incognito");
+            ChromeDriver driver = new ChromeDriver(options);
 
-                  driver.Url = "https://scholar.google.es/";
-                  //IWebElement cookiesWindow = driver.FindElement(By.Id("introAgreeButton"));
-                  // if (cookiesWindow != null) { cookiesWindow.Click(); }
-                  IWebElement optionsTool = driver.FindElement(By.Id("gs_hdr_mnu"));
-                  optionsTool.Click();
+            try
+            {
+                driver.Url = "https://scholar.google.es/";
+                //IWebElement cookiesWindow = driver.FindElement(By.Id("introAgreeButton"));
+                // if (cookiesWindow != null) { cookiesWindow.Click(); }
+                IWebElement optionsTool = driver.FindElement(By.Id("gs_hdr_mnu"));
+                optionsTool.Click();
 
-                  IWebElement advancedSearch = driver.FindElement(By.Id("gs_hp_drw_adv"));
-                  advancedSearch.Click();
+                IWebElement advancedSearch = driver.FindElement(By.Id("gs_hp_drw_adv"));
+                advancedSearch.Click();
 
-                  IWebElement initYear = driver.FindElement(By.Id("gs_asd_ylo"));
-                  initYear.SendKeys(Convert.ToString(initialYear));
-                  IWebElement finYear = driver.FindElement(By.Id("gs_asd_yhi"));
-                  finYear.SendKeys(Convert.ToString(finalYear));
-                  IWebElement search = driver.FindElement(By.Id("gs_asd_psb"));
-                  search.Click();
-                  driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+                IWebElement initYear = driver.FindElement(By.Id("gs_asd_ylo"));
+                initYear.SendKeys(Convert.ToString(initialYear));
+                IWebElement finYear = driver.FindElement(By.Id("gs_asd_yhi"));
+                finYear.SendKeys(Convert.ToString(finalYear));
+                IWebElement search = driver.FindElement(By.Id("gs_asd_psb"));
+                search.Click();
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
 
-                  String BibTeX_file = "";
-                  List<IWebElement> elements = new List<IWebElement>();
-                  elements = driver.FindElements(By.XPath("//*[contains(@class,'gs_r gs_or gs_scl')]")).ToList();
-                  int i = 1;
-                  foreach (IWebElement element in elements)
-                  {
+                List<IWebElement> elements = new List<IWebElement>();
+                elements = driver.FindElements(By.XPath("//*[contains(@class,'gs_r gs_or gs_scl')]")).ToList();
+                int i = 1;
+                foreach (IWebElement element in elements)
+                {
+                    try
+                    {
+                        IWebElement citar = driver.FindElementByXPath("//*[@id='gs_res_ccl_mid']/div[" + i + "]/div[2]/div[3]/a[2]");
 
-                      try
-                      {
-                          IWebElement citar = driver.FindElementByXPath("//*[@id='gs_res_ccl_mid']/div[" + i + "]/div[2]/div[3]/a[2]");
+                        if (citar != null)
+                        {
+                            citar.Click();
+                            String link_prueba = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]").GetAttribute("href");
+                            IWebElement BibTeX = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]");
+                            BibTeX.Click();
+                            bibTeXFile += driver.FindElementByXPath("/html/body/pre").Text + "\n";
+                            driver.Navigate().Back();
+                            driver.Navigate().Back();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        driver.Url = "https://scholar.google.es/scholar?as_q=&as_epq=&as_oq=&as_eq=&as_occt=any&as_sauthors=&as_publication=&as_ylo=2000&as_yhi=2010&hl=es&as_sdt=0%2C5";
+                        //driver.Navigate().Back();
+                        _logger.LogError("Ruta incorrecta");
+                    }
+                    if (i == 4) i = i++;
+                    i++;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("There was a problem working with Selenium.");
 
-                          if (citar != null)
-                          {
-                              citar.Click();
-                              String link_prueba = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]").GetAttribute("href");
-                              IWebElement BibTeX = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]");
-                              BibTeX.Click();
-                              BibTeX_file += driver.FindElementByXPath("/html/body/pre").Text + "\n";
-                              driver.Navigate().Back();
-                              driver.Navigate().Back();
-                          }
-                      }
-                      catch (Exception e)
-                      {
-                          driver.Url = "https://scholar.google.es/scholar?as_q=&as_epq=&as_oq=&as_eq=&as_occt=any&as_sauthors=&as_publication=&as_ylo=2000&as_yhi=2010&hl=es&as_sdt=0%2C5";
-                          //driver.Navigate().Back();
-                          _logger.LogError("Ruta incorrecta");
+                return null;
+            }
+            finally
+            {
+                //Thread.Sleep(2000);
+                // driver.Close(); //Cerrar Chrome con Selenium
+            }
 
-                      }
-                      if (i == 4) i = i++;
-                      i++;
-                  } 
-                               
-                StreamWriter sw = new StreamWriter("..\\GoogleScholarWrapper\\BibtexFiles\\archivoBibTeX.bib");
-                sw.WriteLine(BibTeX_file);
-                sw.Close();
+            return bibTeXFile;
+        }
 
-                //BibTeX_file = BibTeX_file.Replace("@", "").Replace("title=", "\"title\":").Replace("author=", "\"author\":").Replace("journal=", "\"journal\":").Replace("pages=", "\"pages\":").Replace("year=", "\"year\":");
-                Process process = new Process();
-                string command = "pandoc-citeproc --bib2json BibtexFiles\\archivoBibTeX.bib > archivoJSON.json";
-                process.StartInfo.FileName = "cmd.exe";
-                process.StartInfo.Arguments = "/c" + command;
-                process.Start();
-                process.WaitForExit();
+        private void CreateBibteXFile(string bibTeXFile)
+        {
+            StreamWriter sw = new StreamWriter(bibtexFilePath);
+            sw.WriteLine(bibTeXFile);
+            sw.Close();
+        }
 
-                return BibTeX_file;
-            }          
-              catch (Exception e)
-              {
-                  _logger.LogError("There was a problem working with Selenium.");
+        private string ConverBibteXToJson()
+        {
+            Process process = new Process();
+            string command = $"pandoc-citeproc --bib2json {bibtexFilePath} > {jsonFilePath}";
 
-                  return null;
-              }
+            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.Arguments = "/c" + command;
 
-              finally
-              {
-                  //Thread.Sleep(2000);
-                 // driver.Close(); //Cerrar Chrome con Selenium
-              }
+            process.Start();
+            process.WaitForExit();
 
-            } 
+            return File.ReadAllText(jsonFilePath);
+        }
     }
 }
