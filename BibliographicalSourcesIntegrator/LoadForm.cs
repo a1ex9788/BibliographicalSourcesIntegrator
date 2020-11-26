@@ -106,9 +106,18 @@ namespace BibliographicalSourcesIntegrator
             labelDBLPReferencesNumber.Text = dblpNumberOfResults.ToString();
             labelIEEEXploreReferencesNumber.Text = ieeeXploreNumberOfResults.ToString();
             labelGoogleScholarReferencesNumber.Text = googleScholarNumberOfResults.ToString();
-            labelTotalReferencesNumber.Text = (dblpNumberOfResults + ieeeXploreNumberOfResults + googleScholarNumberOfResults).ToString();
 
-            richTextBoxErrors.Text = PrepareErrorText();
+            int totalReferencesNumber = dblpNumberOfResults + ieeeXploreNumberOfResults + googleScholarNumberOfResults;
+            labelTotalReferencesNumber.Text = totalReferencesNumber.ToString();
+
+            string errorText = PrepareErrorText();
+
+            if (errorText.Equals("") && totalReferencesNumber == 0)
+            {
+                errorText = "No publications loaded. It could be because no publication has been found or because they are already loaded.";
+            }
+
+            richTextBoxErrors.Text = errorText;
 
 
             string PrepareErrorText()
