@@ -121,9 +121,17 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                     alreadyCreatedPeople,
                     databaseAccess.GetPerson);
 
+
                 Person_Publication person_Publication = new Person_Publication(
                     person: person,
                     publication: publication);
+
+                Person_Publication entityFromDB = databaseAccess.GetPerson_Publication(person_Publication);
+
+                if (entityFromDB != null)
+                {
+                    continue;
+                }
 
                 publication.People.Add(person_Publication);
             }

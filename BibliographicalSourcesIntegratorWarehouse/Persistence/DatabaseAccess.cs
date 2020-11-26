@@ -77,6 +77,13 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
                 p.Surnames == person.Surnames);
         }
 
+        public Person_Publication GetPerson_Publication(Person_Publication person_Publication)
+        {
+            return context.People_Publications.FirstOrDefault(pp =>
+                pp.Person.Name == person_Publication.Person.Name &&
+                pp.Person.Surnames == person_Publication.Person.Surnames);
+        }
+
         public Exemplar GetExemplar(Exemplar exemplar)
         {
             return context.Exemplars.FirstOrDefault(e =>

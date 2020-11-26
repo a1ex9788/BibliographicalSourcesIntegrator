@@ -94,7 +94,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                         {
                             booksToSave.Add(book);
                         }
-
                     }                    
                 }
                 catch (Exception e)
