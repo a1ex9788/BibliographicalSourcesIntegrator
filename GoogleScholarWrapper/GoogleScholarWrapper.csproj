@@ -5,7 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BibtexLibrary" Version="1.3.0" />
+    <Compile Remove="BibtexFiles\**" />
+    <Content Remove="BibtexFiles\**" />
+    <EmbeddedResource Remove="BibtexFiles\**" />
+    <None Remove="BibtexFiles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="archivoJSON.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="pandoc-2.10.1-windows-x86_64.msi" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Selenium.Chrome.WebDriver" Version="85.0.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
   </ItemGroup>

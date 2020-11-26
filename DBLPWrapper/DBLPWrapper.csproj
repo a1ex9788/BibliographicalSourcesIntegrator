@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="DBLP.XML" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BibliographicalSourcesIntegratorWarehouse\BibliographicalSourcesIntegratorWarehouse.csproj" />
   </ItemGroup>
 

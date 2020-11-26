@@ -116,13 +116,13 @@ namespace GoogleScholarWrapper.LogicManagers
                       i++;
                   } 
                                
-                StreamWriter sw = new StreamWriter("..\\GoogleScholarWrapper\\archivoBibTeX.bib");
+                StreamWriter sw = new StreamWriter("..\\GoogleScholarWrapper\\BibtexFiles\\archivoBibTeX.bib");
                 sw.WriteLine(BibTeX_file);
                 sw.Close();
 
                 //BibTeX_file = BibTeX_file.Replace("@", "").Replace("title=", "\"title\":").Replace("author=", "\"author\":").Replace("journal=", "\"journal\":").Replace("pages=", "\"pages\":").Replace("year=", "\"year\":");
                 Process process = new Process();
-                string command = "pandoc-citeproc --bib2json archivoBibTeX.bib > archivoJSON.json";
+                string command = "pandoc-citeproc --bib2json BibtexFiles\\archivoBibTeX.bib > archivoJSON.json";
                 process.StartInfo.FileName = "cmd.exe";
                 process.StartInfo.Arguments = "/c" + command;
                 process.Start();
