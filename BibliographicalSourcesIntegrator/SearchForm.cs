@@ -133,10 +133,12 @@ namespace BibliographicalSourcesIntegrator
 
                 richTextBoxArticles.Text = text == "" ? "No articles found." : text;
 
-                if (!tabControlResults.TabPages.Contains(tabs[0]))
+                if (tabControlResults.TabPages.Contains(tabs[0]))
                 {
-                    tabControlResults.TabPages.Add(tabs[0]);
+                    tabControlResults.TabPages.Remove(tabs[0]);
                 }
+
+                tabControlResults.TabPages.Add(tabs[0]);
             }
             else
             {
@@ -161,10 +163,12 @@ namespace BibliographicalSourcesIntegrator
 
                 richTextBoxBooks.Text = text == "" ? "No books found." : text;
 
-                if (!tabControlResults.TabPages.Contains(tabs[1]))
+                if (tabControlResults.TabPages.Contains(tabs[1]))
                 {
-                    tabControlResults.TabPages.Add(tabs[1]);
+                    tabControlResults.TabPages.Remove(tabs[1]);
                 }
+
+                tabControlResults.TabPages.Add(tabs[1]);
             }
             else
             {
@@ -192,10 +196,12 @@ namespace BibliographicalSourcesIntegrator
 
                 richTextBoxCongressComunications.Text = text == "" ? "No congress comunications found." : text;
 
-                if (!tabControlResults.TabPages.Contains(tabs[2]))
+                if (tabControlResults.TabPages.Contains(tabs[2]))
                 {
-                    tabControlResults.TabPages.Add(tabs[2]);
+                    tabControlResults.TabPages.Remove(tabs[2]);
                 }
+
+                tabControlResults.TabPages.Add(tabs[2]);
             }
             else
             {
