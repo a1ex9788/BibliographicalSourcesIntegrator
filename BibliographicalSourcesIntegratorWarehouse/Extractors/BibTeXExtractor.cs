@@ -41,45 +41,67 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             int year = bibtexPublication.GetYear();
 
-            return null;
-            // publicationCreator.CreateArticle();
+            return publicationCreator.CreateArticle(
+                title: bibtexPublication.title,
+                year: bibtexPublication.GetYear(),
+                url: bibtexPublication.url,
+                authors: bibtexPublication.GetAuthors(),
+                initialPage: bibtexPublication.GetInitialPage(),
+                finalPage: bibtexPublication.GetFinalPage(),
+                volume: bibtexPublication.volume,
+                number: bibtexPublication.number,
+                month: null,
+                journalName: bibtexPublication.publisher);
         }
 
         public override Book CreateBook<T>(T publication)
         {
             BibTeXPublicationSchema bibtexPublication = publication as BibTeXPublicationSchema;
 
-            return null;
-            //return publicationCreator.CreateBook();
+           
+            return publicationCreator.CreateBook(
+                title: bibtexPublication.title,
+                year: bibtexPublication.GetYear(),
+                url: bibtexPublication.url,
+                authors: bibtexPublication.GetAuthors(),
+                editorial: null);
         }
 
         public override CongressComunication CreateCongressComunication<T>(T publication)
         {
             BibTeXPublicationSchema bibtexPublication = publication as BibTeXPublicationSchema;
 
-            return null;
-            //return publicationCreator.CreateCongressComunication();
+            return publicationCreator.CreateCongressComunication(
+                title: bibtexPublication.title,
+                year: bibtexPublication.GetYear(),
+                url: bibtexPublication.url,
+                authors: bibtexPublication.GetAuthors(),
+                edition: null,
+                congress: null,
+                place: null,
+                initialPage: bibtexPublication.GetInitialPage(),
+                finalPage: bibtexPublication.GetFinalPage());
         }
 
         public override bool IsArticle<T>(T publication)
         {
             BibTeXPublicationSchema bibtexPublication = publication as BibTeXPublicationSchema;
 
-            return true;
+            return bibtexPublication.type == "article-journal";
         }
 
         public override bool IsBook<T>(T publication)
         {
             BibTeXPublicationSchema bibtexPublication = publication as BibTeXPublicationSchema;
 
-            return false;
+            return bibtexPublication.type == "book";
         }
 
         public override bool IsCongressComunication<T>(T publication)
         {
             BibTeXPublicationSchema bibtexPublication = publication as BibTeXPublicationSchema;
 
-            return false;
+            return bibtexPublication.type == "paper-conference";
         }
     }
 
@@ -87,11 +109,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
     {
         public string title { get; set; }
 
-        Year issued { get; set; }
+        public Year issued { get; set; }
 
-        public string pages { get; set; }
+        public string page { get; set; }
 
-        List<Author> author { get; set; }
+        public List<Author> author { get; set; }
 
         public string journal { get; set; }
 
@@ -105,43 +127,41 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public string url { get; set; }
 
-        public string place { get; set; }
-
         public string type { get; set; }
 
 
         public string GetInitialPage()
         {
-            if (pages == null)
+            if (page == null)
             {
                 return null;
             }
 
-            int slashPosition = pages.IndexOf('-');
+            int slashPosition = page.IndexOf('-');
 
             if (slashPosition == -1)
             {
-                return pages;
+                return page;
             }
 
-            return pages.Substring(0, slashPosition);
+            return page.Substring(0, slashPosition);
         }
 
         public string GetFinalPage()
         {
-            if (pages == null)
+            if (page == null)
             {
                 return null;
             }
 
-            int slashPosition = pages.IndexOf('-');
+            int slashPosition = page.IndexOf('-');
 
             if (slashPosition == -1)
             {
                 return null;
             }
 
-            return pages.Substring(slashPosition + 2);
+            return page.Substring(slashPosition + 1);
         }
 
         /*public List<(string name, string surnames)> GetAuthors()
@@ -169,13 +189,30 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             return authors;
         } */
 
+        public List<(string name, string surnames)> GetAuthors()
+        {
+            List<(string name, string surnames)> authors = new List<(string name, string surnames)>();
+
+            if (author == null)
+            {
+                return authors;
+            }
+
+            foreach (Author a in author)
+            {
+                authors.Add((a.given, a.family));
+            }
+
+            return authors;
+        }
+
         public int GetYear()
         {
             return issued.GetYear();
-        }
+        } 
 
 
-        class Author
+        public class Author
         {
             public string given;
             public string family;
@@ -190,15 +227,15 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         }
 
 
-        class Year
+        public class Year
         {
             public List<List<int>> date_parts;
 
+             public int GetYear()
+             {
+                 return date_parts[0][0];
+             } 
 
-            public int GetYear()
-            {
-                return date_parts[0][0];
-            }
         }
     }
 }
