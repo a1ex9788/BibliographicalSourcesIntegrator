@@ -5,10 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="BibtexFiles\**" />
-    <Content Remove="BibtexFiles\**" />
-    <EmbeddedResource Remove="BibtexFiles\**" />
-    <None Remove="BibtexFiles\**" />
+    <Compile Remove="TempFiles\**" />
+    <Content Remove="TempFiles\**" />
+    <EmbeddedResource Remove="TempFiles\**" />
+    <None Remove="TempFiles\**" />
   </ItemGroup>
 
   <ItemGroup>

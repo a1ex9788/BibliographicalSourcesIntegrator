@@ -53,7 +53,7 @@ namespace BibliographicalSourcesIntegrator
 
            // return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest));
 
-            return File.ReadAllText("../GoogleScholarWrapper/TempFiles/archivoJson.json");
+            return File.ReadAllText("../pene.json");
         }
 
 
