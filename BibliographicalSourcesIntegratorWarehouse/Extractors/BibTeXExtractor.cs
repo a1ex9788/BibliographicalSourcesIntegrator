@@ -62,7 +62,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                             authors: googleScholarPublication.GetAuthors(), //Falta tratar split("and") 
                             editorial: null);
 
-                    if (databaseAccess.GetBook(book) == null)
+                    if (!booksToSave.Contains(book) && databaseAccess.GetBook(book) == null)
                     {
                         booksToSave.Add(book);
                     }
@@ -89,7 +89,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                         month: null,
                         journalName: googleScholarPublication.publisher);
 
-                    if (databaseAccess.GetArticle(article) == null)
+                    if (!articlesToSave.Contains(article) && databaseAccess.GetArticle(article) == null)
                     {
                         articlesToSave.Add(article);
                     }
@@ -115,7 +115,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                         initialPage: googleScholarPublication.GetInitialPage(),
                         finalPage: googleScholarPublication.GetFinalPage());
 
-                    if (databaseAccess.GetCongressComunication(conference) == null)
+                    if (!conferencesToSave.Contains(conference) && databaseAccess.GetCongressComunication(conference) == null)
                     {
                         conferencesToSave.Add(conference);
                     }

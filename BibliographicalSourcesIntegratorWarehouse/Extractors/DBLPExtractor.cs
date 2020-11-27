@@ -59,7 +59,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                         month: dBLPPublication.GetMonth(),
                         journalName: dBLPPublication.journal);
 
-                    if (databaseAccess.GetArticle(article) == null)
+                    if (!articlesToSave.Contains(article) && databaseAccess.GetArticle(article) == null)
                     {
                         articlesToSave.Add(article);
                     }

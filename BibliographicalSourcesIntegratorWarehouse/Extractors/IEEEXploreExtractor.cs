@@ -58,7 +58,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                             month: ieeePublication.GetMonth(),
                             journalName: ieeePublication.publisher);
 
-                        if (databaseAccess.GetArticle(article) == null)
+                        if (!articlesToSave.Contains(article) && databaseAccess.GetArticle(article) == null)
                         {
                             articlesToSave.Add(article);
                         }
@@ -76,7 +76,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                             initialPage: ieeePublication.start_page,
                             finalPage: ieeePublication.end_page);
 
-                        if (databaseAccess.GetCongressComunication(conference) == null)
+                        if (!conferencesToSave.Contains(conference) && databaseAccess.GetCongressComunication(conference) == null)
                         {
                             conferencesToSave.Add(conference);
                         }
@@ -90,7 +90,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                             authors: ieeePublication.GetAuthors(),
                             editorial: null);
 
-                        if (databaseAccess.GetBook(book) == null)
+                        if (!booksToSave.Contains(book) && databaseAccess.GetBook(book) == null)
                         {
                             booksToSave.Add(book);
                         }
