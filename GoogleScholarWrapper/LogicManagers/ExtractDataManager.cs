@@ -135,9 +135,8 @@ namespace GoogleScholarWrapper.LogicManagers
 
         private void CreateBibteXFile(string bibTeXFile)
         {
-            StreamWriter sw = new StreamWriter(bibtexFilePath);
-            sw.WriteLine(bibTeXFile);
-            sw.Close();
+            Directory.CreateDirectory("TempFiles");
+            File.WriteAllText(bibtexFilePath, bibTeXFile);
         }
 
         private string ConverBibteXToJson()
