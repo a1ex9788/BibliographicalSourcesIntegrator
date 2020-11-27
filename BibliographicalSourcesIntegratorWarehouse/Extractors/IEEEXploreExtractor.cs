@@ -8,111 +8,25 @@ using System.Linq;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 {
-    public class IEEEXploreExtractor
+    public class IEEEXploreExtractor : IExtractor
     {
         private readonly PublicationCreator publicationCreator;
-        private readonly DatabaseAccess databaseAccess;
-        private readonly ILogger<IEEEXploreExtractor> logger;
 
 
         public IEEEXploreExtractor(PublicationCreator publicationCreator, DatabaseAccess databaseAccess, ILogger<IEEEXploreExtractor> logger)
+            : base(databaseAccess, logger)
         {
             this.publicationCreator = publicationCreator;
-            this.databaseAccess = databaseAccess;
-            this.logger = logger;
         }
 
 
-        public (int, List<string>) ExtractData(string json)
+        public (int, List<string>) ExtractData(string sourceName, string json)
         {
-            List<string> errorList = new List<string>();
-            List<Article> articlesToSave = new List<Article>();
-            List<Book> booksToSave = new List<Book>();
-            List<CongressComunication> conferencesToSave = new List<CongressComunication>();
-
-            logger.LogInformation("Preparing the json...");
-
-            string preparedJson = PrepareJson(json);
-
-            logger.LogInformation("Converting the json to IEEEXplore schema...");
-
-            List<IEEEXplorerPublicationSchema> publications = JsonConvert.DeserializeObject<List<IEEEXplorerPublicationSchema>>(preparedJson);
-
-            logger.LogInformation("Creating the publications...");
-
-            foreach (IEEEXplorerPublicationSchema ieeePublication in publications)
-            {
-                try 
-                {
-                    if (ieeePublication.content_type == "Journals")
-                    {
-                       Article article = publicationCreator.CreateArticle(
-                            title: ieeePublication.title,
-                            year: Convert.ToInt32(ieeePublication.publication_year),
-                            url: ieeePublication.pdf_url,
-                            authors: ieeePublication.GetAuthors(),
-                            initialPage: ieeePublication.start_page,
-                            finalPage: ieeePublication.end_page,
-                            volume: ieeePublication.volume,
-                            number: ieeePublication.article_number,
-                            month: ieeePublication.GetMonth(),
-                            journalName: ieeePublication.publisher);
-
-                        if (!articlesToSave.Contains(article) && databaseAccess.GetArticle(article) == null)
-                        {
-                            articlesToSave.Add(article);
-                        }
-                    }
-                    else if (ieeePublication.content_type == "Conferences")
-                    {
-                        CongressComunication conference = publicationCreator.CreateCongressComunication(
-                            title: ieeePublication.publication_title,
-                            year: Convert.ToInt32(ieeePublication.publication_year),
-                            url: ieeePublication.pdf_url,
-                            authors: ieeePublication.GetAuthors(),
-                            edition: null,
-                            congress: ieeePublication.title,
-                            place: ieeePublication.conference_location,
-                            initialPage: ieeePublication.start_page,
-                            finalPage: ieeePublication.end_page);
-
-                        if (!conferencesToSave.Contains(conference) && databaseAccess.GetCongressComunication(conference) == null)
-                        {
-                            conferencesToSave.Add(conference);
-                        }
-                    }
-                    else 
-                    {
-                       Book book = publicationCreator.CreateBook(
-                            title: ieeePublication.publication_title,
-                            year: Convert.ToInt32(ieeePublication.publication_year),
-                            url: ieeePublication.pdf_url,
-                            authors: ieeePublication.GetAuthors(),
-                            editorial: null);
-
-                        if (!booksToSave.Contains(book) && databaseAccess.GetBook(book) == null)
-                        {
-                            booksToSave.Add(book);
-                        }
-                    }                    
-                }
-                catch (Exception e)
-                {
-                    errorList.Add(e.Message);
-                }
-            }
-
-            logger.LogInformation("Saving the publications into the database...");
-
-            databaseAccess.SaveBooks(booksToSave);
-            databaseAccess.SaveCongressComunications(conferencesToSave);
-            databaseAccess.SaveArticles(articlesToSave);
-
-            return (booksToSave.Count + conferencesToSave.Count + articlesToSave.Count, errorList);
+            return ExtractData<IEEEXplorerPublicationSchema>(sourceName, json);
         }
 
 
-        static string PrepareJson(string json)
+        public override string PrepareJson(string json)
         {
             string aux = json;
 
@@ -121,6 +35,72 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             aux = aux.Remove(aux.Length - 1, 1);
             
             return aux;
+        }
+
+        public override Article CreateArticle<T>(T publication)
+        {
+            IEEEXplorerPublicationSchema ieeePublication = publication as IEEEXplorerPublicationSchema;
+
+            return publicationCreator.CreateArticle(
+                title: ieeePublication.title,
+                year: Convert.ToInt32(ieeePublication.publication_year),
+                url: ieeePublication.pdf_url,
+                authors: ieeePublication.GetAuthors(),
+                initialPage: ieeePublication.start_page,
+                finalPage: ieeePublication.end_page,
+                volume: ieeePublication.volume,
+                number: ieeePublication.article_number,
+                month: ieeePublication.GetMonth(),
+                journalName: ieeePublication.publisher);
+        }
+
+        public override CongressComunication CreateCongressComunication<T>(T publication)
+        {
+            IEEEXplorerPublicationSchema ieeePublication = publication as IEEEXplorerPublicationSchema;
+
+            return publicationCreator.CreateCongressComunication(
+                title: ieeePublication.publication_title,
+                year: Convert.ToInt32(ieeePublication.publication_year),
+                url: ieeePublication.pdf_url,
+                authors: ieeePublication.GetAuthors(),
+                edition: null,
+                congress: ieeePublication.title,
+                place: ieeePublication.conference_location,
+                initialPage: ieeePublication.start_page,
+                finalPage: ieeePublication.end_page);
+        }
+
+        public override Book CreateBook<T>(T publication)
+        {
+            IEEEXplorerPublicationSchema ieeePublication = publication as IEEEXplorerPublicationSchema;
+
+            return publicationCreator.CreateBook(
+                title: ieeePublication.publication_title,
+                year: Convert.ToInt32(ieeePublication.publication_year),
+                url: ieeePublication.pdf_url,
+                authors: ieeePublication.GetAuthors(),
+                editorial: null);
+        }
+
+        public override bool IsArticle<T>(T publication)
+        {
+            IEEEXplorerPublicationSchema ieeePublication = publication as IEEEXplorerPublicationSchema;
+
+            return ieeePublication.content_type == "Journals";
+        }
+
+        public override bool IsBook<T>(T publication)
+        {
+            IEEEXplorerPublicationSchema ieeePublication = publication as IEEEXplorerPublicationSchema;
+
+            return ieeePublication.content_type == "Books";
+        }
+
+        public override bool IsCongressComunication<T>(T publication)
+        {
+            IEEEXplorerPublicationSchema ieeePublication = publication as IEEEXplorerPublicationSchema;
+
+            return ieeePublication.content_type == "Conferences";
         }
 
 

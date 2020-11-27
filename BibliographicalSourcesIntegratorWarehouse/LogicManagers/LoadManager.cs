@@ -105,7 +105,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             return loadAnswer;
         }
 
-        private async Task<(int, List<string>)> LoadFromSource(string sourceName, LoadRequest loadRequest, ExtractRequest extractRequest, Func<ExtractRequest, Task<string>> loadData, Func<string, (int, List<string>)> extractData)
+        private async Task<(int, List<string>)> LoadFromSource(string sourceName, LoadRequest loadRequest, ExtractRequest extractRequest, Func<ExtractRequest, Task<string>> loadData, Func<string, string, (int, List<string>)> extractData)
         {
             int numberOfResults = 0;
             List<string> errors = new List<string>();
@@ -114,7 +114,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             {
                 string jsonAnswer = await loadData(extractRequest);
 
-                (numberOfResults, errors) = extractData(jsonAnswer);
+                (numberOfResults, errors) = extractData(sourceName, jsonAnswer);
 
                 _logger.LogInformation("Publications between " + loadRequest.InitialYear + " and " + loadRequest.FinalYear + " loaded: " + numberOfResults);
             }
@@ -126,7 +126,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 
                 _logger.LogError(errorMessage);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 string errorMessage = "There was an error while extracting data from the " + sourceName + " answer.";
 

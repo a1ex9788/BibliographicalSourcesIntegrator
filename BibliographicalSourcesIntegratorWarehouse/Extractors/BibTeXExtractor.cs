@@ -9,179 +9,68 @@ using System.Threading.Tasks;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 {
-    public class BibTeXExtractor
+    public class BibTeXExtractor : IExtractor
     {
         private readonly PublicationCreator publicationCreator;
-        private readonly DatabaseAccess databaseAccess;
-        private readonly ILogger<BibTeXExtractor> logger;
 
 
         public BibTeXExtractor(PublicationCreator publicationCreator, DatabaseAccess databaseAccess, ILogger<BibTeXExtractor> logger)
+            : base(databaseAccess, logger)
         {
             this.publicationCreator = publicationCreator;
-            this.databaseAccess = databaseAccess;
-            this.logger = logger;
         }
 
 
-        public (int, List<string>) ExtractData(string json)
+        public (int, List<string>) ExtractData(string sourceName, string json)
         {
-            List<string> errorList = new List<string>();
-            List<Article> articlesToSave = new List<Article>();
-            List<Book> booksToSave = new List<Book>();
-            List<CongressComunication> conferencesToSave = new List<CongressComunication>(); //inproceedings
-
-            //Faltaría saber que son los "incollection" pueden ser libros
-
-            logger.LogInformation("Preparing the json...");
-
-
-            string preparedJsonBooks = PrepareJson(json, "books");
-            string preparedJsonArticles = PrepareJson(json, "articles");
-            string preparedJsonInproceedings = PrepareJson2(json, "inproceedings");
-            string preparedJsonIncollection = PrepareJson2(json, "incollection");
-
-
-            logger.LogInformation("Converting the json to IEEEXplore schema...");
-                                                                                                                    
-            List<BibTeXPublicationSchema> booksPublications = JsonConvert.DeserializeObject<List<BibTeXPublicationSchema>>(preparedJsonBooks);
-            List<BibTeXPublicationSchema> articlesPublications = JsonConvert.DeserializeObject<List<BibTeXPublicationSchema>>(preparedJsonArticles);
-            List<BibTeXPublicationSchema> inproceedingsPublications = JsonConvert.DeserializeObject<List<BibTeXPublicationSchema>>(preparedJsonInproceedings);
-            List<BibTeXPublicationSchema> incollectionPublications = JsonConvert.DeserializeObject<List<BibTeXPublicationSchema>>(preparedJsonIncollection);
-
-            logger.LogInformation("Creating the publications...");
-
-            foreach (BibTeXPublicationSchema googleScholarPublication in booksPublications)
-            {
-                try 
-                {
-                    Book book = publicationCreator.CreateBook(
-                            title: googleScholarPublication.title,
-                            year: googleScholarPublication.year,
-                            url: googleScholarPublication.url,
-                            authors: googleScholarPublication.GetAuthors(), //Falta tratar split("and") 
-                            editorial: null);
-
-                    if (!booksToSave.Contains(book) && databaseAccess.GetBook(book) == null)
-                    {
-                        booksToSave.Add(book);
-                    }
-                }
-                catch (Exception e)
-                {
-                    errorList.Add(e.Message);
-                }
-            }
-
-            foreach (BibTeXPublicationSchema googleScholarPublication in articlesPublications)
-            {
-                try
-                {
-                    Article article = publicationCreator.CreateArticle(
-                        title: googleScholarPublication.title,
-                        year: googleScholarPublication.year,
-                        url: googleScholarPublication.url,
-                        authors: googleScholarPublication.GetAuthors(), 
-                        initialPage: googleScholarPublication.GetInitialPage(),
-                        finalPage: googleScholarPublication.GetFinalPage(),
-                        volume: googleScholarPublication.volume,
-                        number: googleScholarPublication.number,
-                        month: null,
-                        journalName: googleScholarPublication.publisher);
-
-                    if (!articlesToSave.Contains(article) && databaseAccess.GetArticle(article) == null)
-                    {
-                        articlesToSave.Add(article);
-                    }
-                }
-                catch (Exception e)
-                {
-                    errorList.Add(e.Message);
-                }
-            }
-
-            foreach (BibTeXPublicationSchema googleScholarPublication in inproceedingsPublications)
-            {
-                try
-                {
-                    CongressComunication conference = publicationCreator.CreateCongressComunication(
-                        title: googleScholarPublication.title,
-                        year: googleScholarPublication.year,
-                        url: googleScholarPublication.url,
-                        authors: googleScholarPublication.GetAuthors(),
-                        edition: null,
-                        congress: googleScholarPublication.booktitle, //Este no estic segur
-                        place: googleScholarPublication.place,
-                        initialPage: googleScholarPublication.GetInitialPage(),
-                        finalPage: googleScholarPublication.GetFinalPage());
-
-                    if (!conferencesToSave.Contains(conference) && databaseAccess.GetCongressComunication(conference) == null)
-                    {
-                        conferencesToSave.Add(conference);
-                    }
-
-                }
-                catch (Exception e)
-                {
-                    errorList.Add(e.Message);
-                }
-            }
-
-            //Faltaria saber que són els "incollection"
-
-            logger.LogInformation("Saving the publications into the database...");
-
-            databaseAccess.SaveBooks(booksToSave);
-            databaseAccess.SaveCongressComunications(conferencesToSave);
-            databaseAccess.SaveArticles(articlesToSave);
-
-            return (booksToSave.Count + conferencesToSave.Count + articlesToSave.Count, errorList);
+            return ExtractData<BibTeXPublicationSchema>(sourceName, json);
         }
 
 
-        private string PrepareJson(string json, string tipo)   //FUNCIONA  para Books y Articles
+        public override string PrepareJson(string json)
         {
-            string aux = json;
-            string publicationList = "";
-
-            int pos = aux.IndexOf(tipo);
-
-            if (pos == -1) //No hay publicaciones
-            {
-                return null;
-            }
-            else
-            {
-                publicationList = aux.Substring(pos);
-                int pos2 = publicationList.IndexOf("["); //Inicio de la lista
-                int pos3 = publicationList.IndexOf("]"); //Final de la lista
-                publicationList = publicationList.Substring(pos2, (pos3 - pos2) + 1);
-            }
-            return publicationList;
+            return "";
         }
 
-        private string PrepareJson2(string json, string tipo)   //FUNCIONA  para inproceedings y incollection
+
+        public override Article CreateArticle<T>(T publication)
         {
-            string aux = json;
-            string publicationList = "";
+            BibTeXPublicationSchema dBLPPublication = publication as BibTeXPublicationSchema;
 
-            int pos = aux.IndexOf(tipo);
-
-            if (pos == -1) //No hay publicaciones
-            {
-                return null;
-            }
-            else
-            {
-                aux = aux.Substring(pos);
-                int pos2 = aux.IndexOf("{"); //Inicio de la lista
-                publicationList = "[";
-                int pos3 = aux.IndexOf("}"); //Final de la lista
-                publicationList = publicationList + aux.Substring(pos2, (pos3 - pos2) + 1) + "]";
-            }
-            return publicationList;
+            return null;
+            // publicationCreator.CreateArticle();
         }
 
+        public override Book CreateBook<T>(T publication)
+        {
+            BibTeXPublicationSchema dBLPPublication = publication as BibTeXPublicationSchema;
+
+            return null;
+            //return publicationCreator.CreateBook();
+        }
+
+        public override CongressComunication CreateCongressComunication<T>(T publication)
+        {
+            BibTeXPublicationSchema dBLPPublication = publication as BibTeXPublicationSchema;
+
+            return null;
+            //return publicationCreator.CreateCongressComunication();
+        }
+
+        public override bool IsArticle<T>(T publication)
+        {
+            return true;
+        }
+
+        public override bool IsBook<T>(T publication)
+        {
+            return false;
+        }
+
+        public override bool IsCongressComunication<T>(T publication)
+        {
+            return false;
+        }
     }
 
     class BibTeXPublicationSchema

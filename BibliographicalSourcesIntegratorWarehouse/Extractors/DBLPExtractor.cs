@@ -8,77 +8,25 @@ using System.Linq;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 {
-    public class DBLPExtractor
+    public class DBLPExtractor : IExtractor
     {
         private readonly PublicationCreator publicationCreator;
-        private readonly DatabaseAccess databaseAccess;
-        private readonly ILogger<DBLPExtractor> logger;
 
 
         public DBLPExtractor(PublicationCreator publicationCreator, DatabaseAccess databaseAccess, ILogger<DBLPExtractor> logger)
+            : base(databaseAccess, logger)
         {
             this.publicationCreator = publicationCreator;
-            this.databaseAccess = databaseAccess;
-            this.logger = logger;
         }
 
 
-        public (int, List<string>) ExtractData(string json)
+        public (int, List<string>) ExtractData(string sourceName, string json)
         {
-            List<string> errorList = new List<string>();
-            List<Article> articlesToSave = new List<Article>();
-
-            logger.LogInformation("Preparing the json...");
-
-            string preparedJson = PrepareJson(json);
-
-            if (preparedJson == null)
-            {
-                return (0, errorList);
-            }
-
-            logger.LogInformation("Converting the json to DBLP schema...");
-
-            List<DBLPPublicationSchema> publications = JsonConvert.DeserializeObject<List<DBLPPublicationSchema>>(preparedJson);
-
-            logger.LogInformation("Creating the publications...");
-
-            foreach (DBLPPublicationSchema dBLPPublication in publications)
-            {
-                try
-                {
-                    Article article = publicationCreator.CreateArticle(
-                        title: dBLPPublication.title,
-                        year: dBLPPublication.year,
-                        url: dBLPPublication.url,
-                        authors: dBLPPublication.GetAuthors(),
-                        initialPage: dBLPPublication.GetInitialPage(),
-                        finalPage: dBLPPublication.GetFinalPage(),
-                        volume: dBLPPublication.volume,
-                        number: dBLPPublication.number,
-                        month: dBLPPublication.GetMonth(),
-                        journalName: dBLPPublication.journal);
-
-                    if (!articlesToSave.Contains(article) && databaseAccess.GetArticle(article) == null)
-                    {
-                        articlesToSave.Add(article);
-                    }
-                }
-                catch (Exception e)
-                {
-                    errorList.Add(e.Message);
-                }
-            }
-
-            logger.LogInformation("Saving the publications into the database...");
-
-            databaseAccess.SaveArticles(articlesToSave);
-
-            return (articlesToSave.Count(), errorList);
+            return ExtractData<DBLPPublicationSchema>(sourceName, json);
         }
 
 
-        static string PrepareJson(string source)
+        public override string PrepareJson(string source)
         {
             string aux = source;
 
@@ -151,6 +99,49 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
                 return res;
             }
+        }
+
+
+        public override Article CreateArticle<T>(T publication)
+        {
+            DBLPPublicationSchema dBLPPublication = publication as DBLPPublicationSchema;
+
+            return publicationCreator.CreateArticle(
+                title: dBLPPublication.title,
+                year: dBLPPublication.year,
+                url: dBLPPublication.url,
+                authors: dBLPPublication.GetAuthors(),
+                initialPage: dBLPPublication.GetInitialPage(),
+                finalPage: dBLPPublication.GetFinalPage(),
+                volume: dBLPPublication.volume,
+                number: dBLPPublication.number,
+                month: dBLPPublication.GetMonth(),
+                journalName: dBLPPublication.journal);
+        }
+
+        public override Book CreateBook<T>(T publication)
+        {
+            return null;
+        }
+
+        public override CongressComunication CreateCongressComunication<T>(T publication)
+        {
+            return null;
+        }
+
+        public override bool IsArticle<T>(T publication)
+        {
+            return true;
+        }
+
+        public override bool IsBook<T>(T publication)
+        {
+            return false;
+        }
+
+        public override bool IsCongressComunication<T>(T publication)
+        {
+            return false;
         }
     }
 
