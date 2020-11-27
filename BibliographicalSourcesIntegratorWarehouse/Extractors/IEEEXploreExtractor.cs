@@ -112,7 +112,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             public string volume { get; set; }
 
-            public Author authors { get; set; }
+            Author authors { get; set; }
 
             public string publication_title { get; set; }
 
@@ -151,105 +151,105 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
                 return publication_date.Substring(0, publication_date.IndexOf(separator));
             }
-        }
 
 
-        class Author
-        {
-            public List<Object> authors { get; set; }
-
-
-            public List<(string name, string surnames)> GetAuthors()
+            class Author
             {
-                List<(string name, string surnames)> authorsFinal = new List<(string name, string surnames)>();
+                public List<Object> authors { get; set; }
 
-                // o --> {{ "authorUrl": "https://ieeexplore.ieee.org/author/37600583700", "id": 37600583700,"full_name": "Ying-Nong Chen","author_order": 1}}
-                foreach (Object o in authors)
+
+                public List<(string name, string surnames)> GetAuthors()
                 {
-                    string name = "";
-                    string surnames = "";
-                    string completeName = "";
+                    List<(string name, string surnames)> authorsFinal = new List<(string name, string surnames)>();
 
-
-                    Author2 author = JsonConvert.DeserializeObject<Author2>(o.ToString());
-                    completeName = author.full_name;
-
-                    name = GetName(completeName);
-                    surnames = GetSurnames(completeName);
-
-                    authorsFinal.Add((name, surnames));
-                }
-
-                return authorsFinal;
-
-
-                string GetName(string completeName)
-                {
-                    string[] splittedName = completeName.Split(' ');
-
-                    if (splittedName.Length == 0)
+                    // o --> {{ "authorUrl": "https://ieeexplore.ieee.org/author/37600583700", "id": 37600583700,"full_name": "Ying-Nong Chen","author_order": 1}}
+                    foreach (Object o in authors)
                     {
-                        return "";
+                        string name = "";
+                        string surnames = "";
+                        string completeName = "";
+
+
+                        Author2 author = JsonConvert.DeserializeObject<Author2>(o.ToString());
+                        completeName = author.full_name;
+
+                        name = GetName(completeName);
+                        surnames = GetSurnames(completeName);
+
+                        authorsFinal.Add((name, surnames));
                     }
 
-                    if (splittedName.Length > 1 && splittedName[1].Contains('.'))
-                    {
-                        return splittedName.Length > 1 ? splittedName[0] + " " + splittedName[1] : splittedName[0];
-                    }
-                    else
-                    {
-                        return splittedName[0];
-                    }
-                }
+                    return authorsFinal;
 
-                string GetSurnames(string completeName)
-                {
-                    string[] splittedName = completeName.Split(' ');
-                    string surnames = "";
 
-                    if (splittedName.Length <= 1)
+                    string GetName(string completeName)
                     {
-                        return "";
-                    }
+                        string[] splittedName = completeName.Split(' ');
 
-                    if (splittedName[1].Contains('.'))
-                    {
-                        for (int i = 2; i < splittedName.Length; i++)
+                        if (splittedName.Length == 0)
                         {
-                            surnames += splittedName[i] + " ";
+                            return "";
                         }
-                    }
-                    else
-                    {
-                        for (int i = 1; i < splittedName.Length; i++)
+
+                        if (splittedName.Length > 1 && splittedName[1].Contains('.'))
                         {
-                            surnames += splittedName[i] + " ";
+                            return splittedName.Length > 1 ? splittedName[0] + " " + splittedName[1] : splittedName[0];
+                        }
+                        else
+                        {
+                            return splittedName[0];
                         }
                     }
 
-                    return surnames.TrimEnd();
+                    string GetSurnames(string completeName)
+                    {
+                        string[] splittedName = completeName.Split(' ');
+                        string surnames = "";
+
+                        if (splittedName.Length <= 1)
+                        {
+                            return "";
+                        }
+
+                        if (splittedName[1].Contains('.'))
+                        {
+                            for (int i = 2; i < splittedName.Length; i++)
+                            {
+                                surnames += splittedName[i] + " ";
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 1; i < splittedName.Length; i++)
+                            {
+                                surnames += splittedName[i] + " ";
+                            }
+                        }
+
+                        return surnames.TrimEnd();
+                    }
+
                 }
 
-            }
 
-
-            class Author2
-            {
-                string authorUrl;
-
-                public string full_name;
-
-                string id;
-
-                string author_order;
-
-
-                public Author2(string authorUrl, string full_name, string id, string author_order)
+                class Author2
                 {
-                    this.authorUrl = authorUrl;
-                    this.full_name = full_name;
-                    this.id = id;
-                    this.author_order = author_order;
+                    string authorUrl;
+
+                    public string full_name;
+
+                    string id;
+
+                    string author_order;
+
+
+                    public Author2(string authorUrl, string full_name, string id, string author_order)
+                    {
+                        this.authorUrl = authorUrl;
+                        this.full_name = full_name;
+                        this.id = id;
+                        this.author_order = author_order;
+                    }
                 }
             }
         }

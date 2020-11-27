@@ -29,13 +29,17 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public override string PrepareJson(string json)
         {
-            return json;
+            string jsonWithoutSlashes = json.Replace("date-parts", "date_parts");
+
+            return jsonWithoutSlashes;
         }
 
 
         public override Article CreateArticle<T>(T publication)
         {
-            BibTeXPublicationSchema dBLPPublication = publication as BibTeXPublicationSchema;
+            BibTeXPublicationSchema bibtexPublication = publication as BibTeXPublicationSchema;
+
+            int year = bibtexPublication.GetYear();
 
             return null;
             // publicationCreator.CreateArticle();
@@ -43,7 +47,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public override Book CreateBook<T>(T publication)
         {
-            BibTeXPublicationSchema dBLPPublication = publication as BibTeXPublicationSchema;
+            BibTeXPublicationSchema bibtexPublication = publication as BibTeXPublicationSchema;
 
             return null;
             //return publicationCreator.CreateBook();
@@ -51,7 +55,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public override CongressComunication CreateCongressComunication<T>(T publication)
         {
-            BibTeXPublicationSchema dBLPPublication = publication as BibTeXPublicationSchema;
+            BibTeXPublicationSchema bibtexPublication = publication as BibTeXPublicationSchema;
 
             return null;
             //return publicationCreator.CreateCongressComunication();
@@ -59,16 +63,22 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public override bool IsArticle<T>(T publication)
         {
+            BibTeXPublicationSchema bibtexPublication = publication as BibTeXPublicationSchema;
+
             return true;
         }
 
         public override bool IsBook<T>(T publication)
         {
+            BibTeXPublicationSchema bibtexPublication = publication as BibTeXPublicationSchema;
+
             return false;
         }
 
         public override bool IsCongressComunication<T>(T publication)
         {
+            BibTeXPublicationSchema bibtexPublication = publication as BibTeXPublicationSchema;
+
             return false;
         }
     }
@@ -77,11 +87,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
     {
         public string title { get; set; }
 
-        public int year { get; set; }
+        Year issued { get; set; }
 
         public string pages { get; set; }
 
-        public List<Author> author { get; set; }
+        List<Author> author { get; set; }
 
         public string journal { get; set; }
 
@@ -158,25 +168,37 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             return authors;
         } */
-    }
 
-    public class Author
-    {
-        public string given;
-        public string family;
-
-        public Author(string given, string family)
+        public int GetYear()
         {
-            this.given = given;
-            this.family = family;
-
+            return issued.GetYear();
         }
-        public List<Object> authors { get; set; }
 
+
+        class Author
+        {
+            public string given;
+            public string family;
+
+            public Author(string given, string family)
+            {
+                this.given = given;
+                this.family = family;
+
+            }
+            public List<Object> authors { get; set; }
+        }
+
+
+        class Year
+        {
+            public List<List<int>> date_parts;
+
+
+            public int GetYear()
+            {
+                return date_parts[0][0];
+            }
+        }
     }
-
-
-
-
-
 }
