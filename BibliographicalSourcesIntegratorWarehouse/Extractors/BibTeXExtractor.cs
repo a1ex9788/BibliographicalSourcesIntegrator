@@ -29,7 +29,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public override string PrepareJson(string json)
         {
-            return "";
+            return json;
         }
 
 
@@ -81,7 +81,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public string pages { get; set; }
 
-        public string author { get; set; }
+        public List<Author> author { get; set; }
 
         public string journal { get; set; }
 
@@ -96,6 +96,8 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         public string url { get; set; }
 
         public string place { get; set; }
+
+        public string type { get; set; }
 
 
         public string GetInitialPage()
@@ -132,7 +134,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             return pages.Substring(slashPosition + 2);
         }
 
-        public List<(string name, string surnames)> GetAuthors()
+        /*public List<(string name, string surnames)> GetAuthors()
         {
             List<(string name, string surnames)> authors = new List<(string name, string surnames)>();
 
@@ -155,8 +157,24 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             }
 
             return authors;
-        }
+        } */
     }
+
+    public class Author
+    {
+        public string given;
+        public string family;
+
+        public Author(string given, string family)
+        {
+            this.given = given;
+            this.family = family;
+
+        }
+        public List<Object> authors { get; set; }
+
+    }
+
 
 
 
