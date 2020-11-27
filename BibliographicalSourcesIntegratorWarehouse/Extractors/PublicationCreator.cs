@@ -15,6 +15,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         private List<CongressComunication> alreadyCreatedCongressComunications;
         private List<Book> alreadyCreatedBooks;
         private List<Person> alreadyCreatedPeople;
+        private List<Person_Publication> alreadyCreatedPeople_Publications;
         private List<Exemplar> alreadyCreatedExemplars;
         private List<Journal> alreadyCreatedJournals;
 
@@ -26,6 +27,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             alreadyCreatedCongressComunications = new List<CongressComunication>();
             alreadyCreatedBooks = new List<Book>();
             alreadyCreatedPeople = new List<Person>();
+            alreadyCreatedPeople_Publications = new List<Person_Publication>();
             alreadyCreatedExemplars = new List<Exemplar>();
             alreadyCreatedJournals = new List<Journal>();
         }
@@ -126,6 +128,13 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                     person: person,
                     publication: publication);
 
+                Person_Publication entityFromMemory = alreadyCreatedPeople_Publications.FirstOrDefault(pp => pp.Person.Name == person.Name && pp.Person.Surnames == person.Surnames);
+
+                if (entityFromMemory != null)
+                {
+                    continue;
+                }
+
                 Person_Publication entityFromDB = databaseAccess.GetPerson_Publication(person_Publication);
 
                 if (entityFromDB != null)
@@ -134,6 +143,8 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 }
 
                 publication.People.Add(person_Publication);
+
+                alreadyCreatedPeople_Publications.Add(person_Publication);
             }
         }
 
