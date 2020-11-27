@@ -31,6 +31,9 @@ namespace BibliographicalSourcesIntegrator
             {
                 tabs.Add(tabPage);
             }
+
+            currentInitialYear = Convert.ToInt32(numericUpDownInitialYear.Value);
+            currentFinalYear = Convert.ToInt32(numericUpDownFinalYear.Value);
         }
 
 

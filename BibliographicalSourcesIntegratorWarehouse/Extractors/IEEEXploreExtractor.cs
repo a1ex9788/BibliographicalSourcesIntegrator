@@ -112,7 +112,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             public string volume { get; set; }
 
-            Author authors { get; set; }
+            public Author authors { get; set; }
 
             public string publication_title { get; set; }
 
@@ -153,7 +153,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             }
 
 
-            class Author
+            public class Author
             {
                 public List<Object> authors { get; set; }
 

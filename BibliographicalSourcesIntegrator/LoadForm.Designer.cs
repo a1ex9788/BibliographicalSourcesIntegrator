@@ -368,9 +368,9 @@
             this.checkBoxIEEEXplore.AutoSize = true;
             this.checkBoxIEEEXplore.Location = new System.Drawing.Point(46, 141);
             this.checkBoxIEEEXplore.Name = "checkBoxIEEEXplore";
-            this.checkBoxIEEEXplore.Size = new System.Drawing.Size(76, 17);
+            this.checkBoxIEEEXplore.Size = new System.Drawing.Size(83, 17);
             this.checkBoxIEEEXplore.TabIndex = 1;
-            this.checkBoxIEEEXplore.Text = "IEE Xplore";
+            this.checkBoxIEEEXplore.Text = "IEEE Xplore";
             this.checkBoxIEEEXplore.UseVisualStyleBackColor = true;
             // 
             // checkBoxDBLP

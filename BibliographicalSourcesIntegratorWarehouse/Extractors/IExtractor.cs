@@ -89,9 +89,9 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             logger.LogInformation(extractorName + "extractor: Saving the publications into the database...");
 
-           /* databaseAccess.SaveArticles(articlesToSave);
+            databaseAccess.SaveArticles(articlesToSave);
             databaseAccess.SaveBooks(booksToSave);
-            databaseAccess.SaveCongressComunications(congressComunicationsToSave);*/
+            databaseAccess.SaveCongressComunications(congressComunicationsToSave);
 
             return (articlesToSave.Count + booksToSave.Count + congressComunicationsToSave.Count, errorList);
         }

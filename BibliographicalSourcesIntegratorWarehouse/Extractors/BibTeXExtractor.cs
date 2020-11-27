@@ -164,31 +164,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             return page.Substring(slashPosition + 1);
         }
 
-        /*public List<(string name, string surnames)> GetAuthors()
-        {
-            List<(string name, string surnames)> authors = new List<(string name, string surnames)>();
-
-            if (author == null)
-            {
-                return authors;
-            }
-
-            string[] aux = author.Split("and");
-
-            foreach (string s in aux)
-            {
-                string author = s.TrimStart().TrimEnd();
-
-                int pos = author.IndexOf(",");
-                string surnames = author.Substring(0, pos);
-                string name = author.Substring(pos + 2);
-
-                authors.Add((name, surnames));
-            }
-
-            return authors;
-        } */
-
         public List<(string name, string surnames)> GetAuthors()
         {
             List<(string name, string surnames)> authors = new List<(string name, string surnames)>();
