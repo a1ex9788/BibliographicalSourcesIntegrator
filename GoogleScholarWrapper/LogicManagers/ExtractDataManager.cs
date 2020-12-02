@@ -72,8 +72,6 @@ namespace GoogleScholarWrapper.LogicManagers
             try
             {
                 driver.Url = "https://scholar.google.es/";
-                //IWebElement cookiesWindow = driver.FindElement(By.Id("introAgreeButton"));
-                // if (cookiesWindow != null) { cookiesWindow.Click(); }
                 IWebElement optionsTool = driver.FindElement(By.Id("gs_hdr_mnu"));
                 optionsTool.Click();
 
@@ -87,50 +85,79 @@ namespace GoogleScholarWrapper.LogicManagers
                 IWebElement search = driver.FindElement(By.Id("gs_asd_psb"));
                 search.Click();
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+         
 
-                List<IWebElement> elements = new List<IWebElement>();
-                elements = driver.FindElements(By.XPath("//*[contains(@class,'gs_r gs_or gs_scl')]")).ToList();
-                int i = 1;
-                foreach (IWebElement element in elements)
+                for (int page = 0; page < 20; page++) //Cogemos las 20 primeras páginas
                 {
+                    
+                    int element = 1;
+                    IWebElement nextPage = driver.FindElementByXPath("/html/body/div/div[10]/div[2]/div[2]/div[3]/div[3]/button[2]");
+                                                                    
                     try
                     {
-                        IWebElement citar = driver.FindElementByXPath("//*[@id='gs_res_ccl_mid']/div[" + i + "]/div[2]/div[3]/a[2]");
-
-                        if (citar != null)
+                        while (element < 4) //Cogemos los 3 primeros elementos de cada página
                         {
-                            citar.Click();
-                            String link_prueba = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]").GetAttribute("href");
-                            IWebElement BibTeX = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]");
-                            BibTeX.Click();
-                            bibTeXFile += driver.FindElementByXPath("/html/body/pre").Text + "\n";
-                            driver.Navigate().Back();
-                            driver.Navigate().Back();
+                            try
+                            {
+                                IWebElement citar = driver.FindElementByXPath("//*[@id='gs_res_ccl_mid']/div[" + element + "]/div[2]/div[3]/a[2]");
+                                if (citar != null)
+                                {
+                                    citar.Click();
+                                    IWebElement BibTeX = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]");
+                                    BibTeX.Click();
+                                    bibTeXFile += driver.FindElementByXPath("/html/body/pre").Text + "\n";
+                                    driver.Navigate().Back();
+                                    driver.Navigate().Back();
+
+                                }
+
+                            }
+
+                            catch (Exception e)
+                            {
+                                if (element == 3)
+                                {
+                                    nextPage.Click();
+                                    page++;
+                                }
+                                driver.Url = "https://scholar.google.es/scholar?start=" + page + "&hl=es&as_sdt=0,5&as_ylo=" + initialYear + "&as_yhi=" + finalYear;
+                                _logger.LogError("Ruta incorrecta");
+                            }
+
+                            element++;
                         }
                     }
-                    catch (Exception e)
-                    {
-                        driver.Url = "https://scholar.google.es/scholar?as_q=&as_epq=&as_oq=&as_eq=&as_occt=any&as_sauthors=&as_publication=&as_ylo=2000&as_yhi=2010&hl=es&as_sdt=0%2C5";
-                        //driver.Navigate().Back();
-                        _logger.LogError("Ruta incorrecta");
-                    }
-                    if (i == 4) i = i++;
-                    i++;
+
+                    catch(Exception e) {element++;}
+                    nextPage.Click();
+                
                 }
             }
+
+
+
+
+
             catch (Exception e)
             {
                 _logger.LogError("There was a problem working with Selenium.");
+               
 
                 return null;
             }
+
+
+
+
             finally
             {
                 //Thread.Sleep(2000);
                 // driver.Close(); //Cerrar Chrome con Selenium
             }
 
+
             return bibTeXFile;
+
         }
 
         private void CreateBibteXFile(string bibTeXFile)
