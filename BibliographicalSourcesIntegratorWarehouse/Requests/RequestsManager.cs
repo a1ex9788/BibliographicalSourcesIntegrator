@@ -46,14 +46,13 @@ namespace BibliographicalSourcesIntegrator
             //return File.ReadAllText("../IEEEXmini.json");
         }
 
-        //public async Task<string> LoadDataFromGoogleScholar(ExtractRequest extractRequest)
-         public async Task<string> LoadDataFromGoogleScholar(ExtractRequest extractRequest)
+        public async Task<string> LoadDataFromGoogleScholar(ExtractRequest extractRequest)
         {
             BibTeXclient.BaseAddress = new Uri(ProgramAddresses.GoogleScholarWrapperAddress);
 
-           // return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest));
+            //return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest));
 
-            return File.ReadAllText("../pene.json");
+            return File.ReadAllText("./archivoBibtex.json");
         }
 
 
