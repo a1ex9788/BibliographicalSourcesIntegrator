@@ -1,6 +1,7 @@
 ﻿using BibliographicalSourcesIntegratorContracts;
 using Microsoft.Extensions.Logging;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 using System;
@@ -87,12 +88,12 @@ namespace GoogleScholarWrapper.LogicManagers
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
          
 
-                for (int page = 0; page < 20; page++) //Cogemos las 20 primeras páginas
+                for (int page = 1; page < 5; page++) //Cogemos las 20 primeras páginas
                 {
                     
                     int element = 1;
-                    IWebElement nextPage = driver.FindElementByXPath("/html/body/div/div[10]/div[2]/div[2]/div[3]/div[3]/button[2]");
-                                                                    
+                    //IWebElement nextPage = driver.FindElementByXPath("/html/body/div/div[10]/div[2]/div[2]/div[3]/div[3]/button[2]");
+
                     try
                     {
                         while (element < 4) //Cogemos los 3 primeros elementos de cada página
@@ -106,6 +107,7 @@ namespace GoogleScholarWrapper.LogicManagers
                                     IWebElement BibTeX = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]");
                                     BibTeX.Click();
                                     bibTeXFile += driver.FindElementByXPath("/html/body/pre").Text + "\n";
+                                    Debug.WriteLine("Contenido:  \n" + bibTeXFile);
                                     driver.Navigate().Back();
                                     driver.Navigate().Back();
 
@@ -117,10 +119,10 @@ namespace GoogleScholarWrapper.LogicManagers
                             {
                                 if (element == 3)
                                 {
-                                    nextPage.Click();
+                                    //nextPage.Click();
                                     page++;
-                                }
-                                driver.Url = "https://scholar.google.es/scholar?start=" + page + "&hl=es&as_sdt=0,5&as_ylo=" + initialYear + "&as_yhi=" + finalYear;
+                                } 
+                                driver.Url = "https://scholar.google.es/scholar?start=" + page + "0&hl=es&as_sdt=0,5&as_ylo=" + initialYear + "&as_yhi=" + finalYear;
                                 _logger.LogError("Ruta incorrecta");
                             }
 
@@ -129,8 +131,9 @@ namespace GoogleScholarWrapper.LogicManagers
                     }
 
                     catch(Exception e) {element++;}
-                    nextPage.Click();
-                
+                    //nextPage.Click();
+                    driver.Url = "https://scholar.google.es/scholar?start=" + page + "0&hl=es&as_sdt=0,5&as_ylo=" + initialYear + "&as_yhi=" + finalYear;
+
                 }
             }
 
@@ -141,9 +144,9 @@ namespace GoogleScholarWrapper.LogicManagers
             catch (Exception e)
             {
                 _logger.LogError("There was a problem working with Selenium.");
-               
 
-                return null;
+
+                return bibTeXFile; //return null;
             }
 
 

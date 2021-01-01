@@ -50,9 +50,9 @@ namespace BibliographicalSourcesIntegrator
         {
             BibTeXclient.BaseAddress = new Uri(ProgramAddresses.GoogleScholarWrapperAddress);
 
-            //return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest));
+            return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest), BibTeXclient);
 
-            return File.ReadAllText("./archivoBibtex.json");
+            //return File.ReadAllText("./archivoBibtex.json");
         }
 
 
