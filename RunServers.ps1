@@ -2,26 +2,29 @@
 # Execute: Set-ExecutionPolicy RemoteSigned
 
 
+function RunServe([string] $Location)
+{
+    Set-Location $Location
 
-Set-Location .\DBLPWrapper
+    start dotnet run
+}
 
-start dotnet run
-
-
-Set-Location ..\GoogleScholarWrapper
-
-start dotnet run
-
-
-Set-Location ..\IEEEXploreWrapper
-
-start dotnet run
+function Wait1Sec
+{
+    Start-Sleep -s 1
+}
 
 
-Set-Location ..\BibliographicalSourcesIntegratorWarehouse
+RunServe ".\BibliographicalSourcesIntegratorWarehouse"
 
-start dotnet run
+Wait1Sec
 
+RunServe "..\DBLPWrapper"
 
+Wait1Sec
 
-Set-Location ..
+RunServe "..\GoogleScholarWrapper"
+
+Wait1Sec
+
+RunServe "..\IEEEXploreWrapper"
