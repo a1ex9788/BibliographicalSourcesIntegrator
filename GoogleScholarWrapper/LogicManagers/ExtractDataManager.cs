@@ -88,19 +88,11 @@ namespace GoogleScholarWrapper.LogicManagers
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
          
 
-                for (int page = 1; page < 5; page++) //Cogemos las 20 primeras páginas
+                for (int page = 1; page <= 15; page++) //Cogemos las 20 primeras páginas
                 {
-                    
-                    int element = 1;
-                    //IWebElement nextPage = driver.FindElementByXPath("/html/body/div/div[10]/div[2]/div[2]/div[3]/div[3]/button[2]");
-
-                    try
-                    {
-                        while (element < 4) //Cogemos los 3 primeros elementos de cada página
-                        {
                             try
                             {
-                                IWebElement citar = driver.FindElementByXPath("//*[@id='gs_res_ccl_mid']/div[" + element + "]/div[2]/div[3]/a[2]");
+                                IWebElement citar = driver.FindElementByXPath("//*[@id='gs_res_ccl_mid']/div[1]/div[2]/div[3]/a[2]");
                                 if (citar != null)
                                 {
                                     citar.Click();
@@ -108,6 +100,7 @@ namespace GoogleScholarWrapper.LogicManagers
                                     BibTeX.Click();
                                     bibTeXFile += driver.FindElementByXPath("/html/body/pre").Text + "\n";
                                     Debug.WriteLine("Contenido:  \n" + bibTeXFile);
+                                    Thread.Sleep(200);
                                     driver.Navigate().Back();
                                     driver.Navigate().Back();
 
@@ -116,23 +109,10 @@ namespace GoogleScholarWrapper.LogicManagers
                             }
 
                             catch (Exception e)
-                            {
-                                if (element == 3)
-                                {
-                                    //nextPage.Click();
-                                    page++;
-                                } 
-                                driver.Url = "https://scholar.google.es/scholar?start=" + page + "0&hl=es&as_sdt=0,5&as_ylo=" + initialYear + "&as_yhi=" + finalYear;
-                                _logger.LogError("Ruta incorrecta");
-                            }
+                {
+                }
 
-                            element++;
-                        }
-                    }
-
-                    catch(Exception e) {element++;}
-                    //nextPage.Click();
-                    driver.Url = "https://scholar.google.es/scholar?start=" + page + "0&hl=es&as_sdt=0,5&as_ylo=" + initialYear + "&as_yhi=" + finalYear;
+                driver.Url = "https://scholar.google.es/scholar?start=" + page + "0&hl=es&as_sdt=0,5&as_ylo=" + initialYear + "&as_yhi=" + finalYear;
 
                 }
             }
@@ -155,7 +135,7 @@ namespace GoogleScholarWrapper.LogicManagers
             finally
             {
                 //Thread.Sleep(2000);
-                // driver.Close(); //Cerrar Chrome con Selenium
+                driver.Close(); //Cerrar Chrome con Selenium
             }
 
 
