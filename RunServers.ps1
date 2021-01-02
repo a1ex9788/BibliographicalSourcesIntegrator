@@ -15,11 +15,7 @@ function Wait1Sec
 }
 
 
-RunServe ".\BibliographicalSourcesIntegratorWarehouse"
-
-Wait1Sec
-
-RunServe "..\DBLPWrapper"
+RunServe ".\DBLPWrapper"
 
 Wait1Sec
 
@@ -28,3 +24,7 @@ RunServe "..\GoogleScholarWrapper"
 Wait1Sec
 
 RunServe "..\IEEEXploreWrapper"
+
+Wait1Sec
+
+RunServe "..\BibliographicalSourcesIntegratorWarehouse"
