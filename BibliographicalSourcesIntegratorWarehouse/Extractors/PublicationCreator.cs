@@ -15,7 +15,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         private List<CongressComunication> alreadyCreatedCongressComunications;
         private List<Book> alreadyCreatedBooks;
         private List<Person> alreadyCreatedPeople;
-        private List<Person_Publication> alreadyCreatedPeople_Publications;
         private List<Exemplar> alreadyCreatedExemplars;
         private List<Journal> alreadyCreatedJournals;
 
@@ -27,7 +26,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             alreadyCreatedCongressComunications = new List<CongressComunication>();
             alreadyCreatedBooks = new List<Book>();
             alreadyCreatedPeople = new List<Person>();
-            alreadyCreatedPeople_Publications = new List<Person_Publication>();
             alreadyCreatedExemplars = new List<Exemplar>();
             alreadyCreatedJournals = new List<Journal>();
         }
@@ -37,31 +35,34 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             string initialPage, string finalPage, string volume, string number, string month, string journalName)
         {
             Journal journal = CreateEntity(
-                new Journal(
-                    name: journalName
-                ),
+                new Journal()
+                {
+                    Name = journalName,
+                },
                 alreadyCreatedJournals,
                 databaseAccess.GetJournal);
 
             Exemplar exemplar = CreateEntity(
-                new Exemplar(
-                    volume: volume,
-                    number: number,
-                    month: month,
-                    journal: journal
-                ),
+                new Exemplar()
+                {
+                    Volume = volume,
+                    Number = number,
+                    Month = month,
+                    Journal = journal,
+                },
                 alreadyCreatedExemplars,
                 databaseAccess.GetExemplar);
 
             Article article = CreateEntity(
-                new Article(
-                    title: title,
-                    year: year,
-                    url: url,
-                    initialPage: initialPage,
-                    finalPage: finalPage,
-                    exemplar: exemplar
-                ),
+                new Article()
+                {
+                    Title = title,
+                    Year = year,
+                    Url = url,
+                    InitialPage = initialPage,
+                    FinalPage = finalPage,
+                    Exemplar = exemplar,
+                },
                 alreadyCreatedArticles,
                 databaseAccess.GetArticle);
 
@@ -74,16 +75,17 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             string congress, string edition, string place, string initialPage, string finalPage)
         {
             CongressComunication conference = CreateEntity(
-                new CongressComunication(
-                    title: title,
-                    year: year,
-                    url: url,
-                    congress: congress,
-                    edition: edition,
-                    place: place,
-                    initialPage: initialPage,
-                    finalPage: finalPage
-                ),
+                new CongressComunication()
+                {
+                    Title = title,
+                    Year = year,
+                    Url = url,
+                    Congress = congress,
+                    Edition = edition,
+                    Place = place,
+                    InitialPage = initialPage,
+                    FinalPage = finalPage,
+                },
                 alreadyCreatedCongressComunications,
                 databaseAccess.GetCongressComunication);
 
@@ -96,12 +98,13 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             string editorial)
         {
             Book book = CreateEntity(
-                new Book(
-                    title: title,
-                    year: year,
-                    url: url,
-                    editorial: editorial
-                ),
+                new Book()
+                {
+                    Title = title,
+                    Year = year,
+                    Url = url,
+                    Editorial = editorial,
+                },
                 alreadyCreatedBooks,
                 databaseAccess.GetBook);
 
@@ -116,35 +119,20 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             foreach ((string name, string surnames) in authors)
             {
                 Person person = CreateEntity(
-                    new Person(
-                        name: name,
-                        surnames: surnames
-                    ),
+                    new Person()
+                    {
+                        Name = name,
+                        Surnames = surnames,
+                    },
                     alreadyCreatedPeople,
                     databaseAccess.GetPerson);
 
-
-                Person_Publication person_Publication = new Person_Publication(
-                    person: person,
-                    publication: publication);
-
-                Person_Publication entityFromMemory = alreadyCreatedPeople_Publications.FirstOrDefault(pp => pp.Person.Name == person.Name && pp.Person.Surnames == person.Surnames);
-
-                if (entityFromMemory != null)
+                if (publication.People == null)
                 {
-                    continue;
+                    publication.People = new List<Person>();
                 }
 
-                Person_Publication entityFromDB = databaseAccess.GetPerson_Publication(person_Publication);
-
-                if (entityFromDB != null)
-                {
-                    continue;
-                }
-
-                publication.People.Add(person_Publication);
-
-                alreadyCreatedPeople_Publications.Add(person_Publication);
+                publication.People.Add(person);
             }
         }
 

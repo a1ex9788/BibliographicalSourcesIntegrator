@@ -4,23 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-
 namespace BibliographicalSourcesIntegratorContracts.Entities
 {
     public class Book : Publication
     {
         public string Editorial { get; set; }
-
-
-        public Book() : base() { }
-
-        public Book(string title, int year, string url) : base(title, year, url) { }
-
-        public Book(string title, int year, string url, string editorial)
-            : base(title, year, url)
-        {
-            Editorial = editorial;
-        }
 
 
         public override bool Equals(object obj)

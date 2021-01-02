@@ -40,7 +40,9 @@ namespace BibliographicalSourcesIntegratorWarehouse
             services.AddScoped<PublicationCreator>();
 
             services.AddScoped<DatabaseAccess>();
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionStrings")));
+            services.AddDbContext<AppDbContext>(options => options
+                .UseLazyLoadingProxies()
+                .UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
             
             services.AddControllers();
         }

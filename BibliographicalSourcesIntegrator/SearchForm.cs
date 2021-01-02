@@ -212,7 +212,7 @@ namespace BibliographicalSourcesIntegrator
             }
 
 
-            string PrepareAuthors(ICollection<Person_Publication> people)
+            string PrepareAuthors(ICollection<Person> people)
             {
                 if (people.Count == 0)
                 {
@@ -221,7 +221,7 @@ namespace BibliographicalSourcesIntegrator
 
                 string text = "Authors: ";
 
-                foreach (Person person in people.Select(p => p.Person))
+                foreach (Person person in people)
                 {
                     text += person.Name + " " + person.Surnames + ", ";
                 }

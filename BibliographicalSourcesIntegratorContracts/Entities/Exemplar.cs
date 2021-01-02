@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-
 namespace BibliographicalSourcesIntegratorContracts.Entities
 {
     public class Exemplar
@@ -19,28 +18,8 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
 
         public string Month { get; set; }
 
-
-        public int JournalId { get; set; }
-        
-        public Journal Journal { get; set; }
-
-
-        public Exemplar() { }
-
-        public Exemplar(string volume, string number, Journal journal)
-        {
-            Volume = volume;
-            Number = number;
-            Journal = journal;
-        }
-
-        public Exemplar(string volume, string number, string month, Journal journal)
-        {
-            Volume = volume;
-            Number = number;
-            Month = month;
-            Journal = journal;
-        }
+                
+        public virtual Journal Journal { get; set; }
 
 
         public override bool Equals(object obj)

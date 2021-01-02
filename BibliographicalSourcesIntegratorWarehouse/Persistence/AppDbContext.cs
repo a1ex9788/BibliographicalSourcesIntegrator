@@ -9,12 +9,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        {
-            Database.EnsureCreated();
-        }
-
-
         public DbSet<Publication> Publications { get; set; }
 
         public DbSet<Article> Articles { get; set; }
@@ -29,6 +23,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
 
         public DbSet<Person> People { get; set; }
 
-        public DbSet<Person_Publication> People_Publications { get; set; }
+
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+            : base(options)
+        {
+            Database.EnsureCreated();
+        }
     }
 }

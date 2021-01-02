@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BibliographicalSourcesIntegratorContracts.Entities
 {
@@ -20,22 +19,7 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
         public string Url { get; set; }
 
 
-        public ICollection<Person_Publication> People { get; set; }
-
-
-        public Publication() : base() 
-        {
-            People = new List<Person_Publication>();
-        }
-
-        public Publication(string title, int year, string url)
-        {
-            Title = title;
-            Year = year;
-            Url = url;
-
-            People = new List<Person_Publication>();
-        }
+        public virtual ICollection<Person> People { get; set; }
 
 
         public override bool Equals(object obj)

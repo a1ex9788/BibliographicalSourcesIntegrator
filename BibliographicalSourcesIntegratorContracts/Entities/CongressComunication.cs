@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-
 namespace BibliographicalSourcesIntegratorContracts.Entities
 {
     public class CongressComunication : Publication
@@ -18,35 +17,6 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
         public string InitialPage { get; set; }
 
         public string FinalPage { get; set; }
-
-
-        public CongressComunication() : base() { }
-
-        public CongressComunication(string title, int year, string url, string congress, string place)
-            : base(title, year, url)
-        {
-            Congress = congress;
-            Place = place;
-        }
-
-        public CongressComunication(string title, int year, string url, string congress, string place, string initialPage, string finalPage)
-            : base(title, year, url)
-        {
-            Congress = congress;
-            Place = place;
-            InitialPage = initialPage;
-            FinalPage = finalPage;
-        }
-
-        public CongressComunication(string title, int year, string url, string congress, string edition, string place, string initialPage, string finalPage)
-            : base(title, year, url)
-        {
-            Congress = congress;
-            Edition = edition;
-            Place = place;
-            InitialPage = initialPage;
-            FinalPage = finalPage;
-        }
 
 
         public override bool Equals(object obj)

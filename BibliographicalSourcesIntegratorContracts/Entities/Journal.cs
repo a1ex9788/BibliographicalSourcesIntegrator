@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-
 namespace BibliographicalSourcesIntegratorContracts.Entities
 {
     public class Journal
@@ -14,14 +13,6 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
 
 
         public string Name { get; set; }
-
-
-        public Journal() { }
-
-        public Journal(string name)
-        {
-            Name = name;
-        }
 
 
         public override bool Equals(object obj)
