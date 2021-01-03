@@ -64,15 +64,14 @@ namespace BibliographicalSourcesIntegrator
             {
                 richTextBoxErrors.Text = "It was not possible to connect to the warehouse.";
 
-                return;
-            }
-            finally
-            {
                 CloseLoadingForm();
+
+                return;
             }
 
             ShowResults(loadAnswer, loadRequest.LoadFromDBLP, loadRequest.LoadFromIEEEXplore, loadRequest.LoadFromGoogleScholar);
 
+            CloseLoadingForm();
 
             void ShowLoadingForm()
             {
@@ -99,6 +98,13 @@ namespace BibliographicalSourcesIntegrator
 
         private void ShowResults(LoadAnswer loadAnswer, bool loadDBLP, bool loadIEEEXplore, bool loadGoogleScholar)
         {
+            if (loadAnswer == null)
+            {
+                richTextBoxErrors.Text = "There was a problem with the answer of the warehouse.";
+
+                return;
+            }
+
             int dblpNumberOfResults = loadAnswer.DBLPNumberOfResults;
             int ieeeXploreNumberOfResults = loadAnswer.IEEEXploreNumberOfResults;
             int googleScholarNumberOfResults = loadAnswer.GoogleScholarNumberOfResults;

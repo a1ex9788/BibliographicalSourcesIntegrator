@@ -110,6 +110,14 @@ namespace BibliographicalSourcesIntegrator
 
         private void ShowResults(SearchAnswer searchAnswer, bool searchArticle, bool searchBook, bool searchCongress)
         {
+            if (searchAnswer == null)
+            {
+                richTextBoxArticles.ForeColor = Color.Red;
+                richTextBoxArticles.Text = "There was a problem with the answer of the warehouse.";
+
+                return;
+            }
+
             richTextBoxArticles.ForeColor = Color.Black;
             richTextBoxBooks.ForeColor = Color.Black;
             richTextBoxCongressComunications.ForeColor = Color.Black;
@@ -228,18 +236,6 @@ namespace BibliographicalSourcesIntegrator
 
                 return text.Substring(0, text.Length - 2) + "\n";
             }
-        }
-
-        private void CleanSearchButtonClick(object sender, EventArgs e)
-        {
-            textBoxAuthor.Text = "";
-            textBoxTitle.Text = "";
-            numericUpDownInitialYear.Text = "";
-            numericUpDownFinalYear.Text = "";
-            checkBoxArticle.Text = "";
-            checkBoxBook.Text = "";
-            checkBoxCongressComunication.Text = "";
-            richTextBoxArticles.Text = "";
         }
 
 
