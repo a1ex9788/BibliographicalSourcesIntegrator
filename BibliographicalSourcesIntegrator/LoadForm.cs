@@ -60,7 +60,7 @@ namespace BibliographicalSourcesIntegrator
             {
                 loadAnswer = await RequestsManager.GetRequestsManager().LoadDataFromDataSources(loadRequest);
             }
-            catch (HttpRequestException)
+            catch (Exception)
             {
                 richTextBoxErrors.Text = "It was not possible to connect to the warehouse.";
 
@@ -120,7 +120,7 @@ namespace BibliographicalSourcesIntegrator
 
             if (errorText.Equals("") && totalReferencesNumber == 0)
             {
-                errorText = "No publications loaded. It could be because no publication has been found or because they are already loaded.";
+                errorText = "No publications loaded. It could be because no publication has been found or because they have been already loaded.";
             }
 
             richTextBoxErrors.Text = errorText;

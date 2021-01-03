@@ -72,7 +72,7 @@ namespace BibliographicalSourcesIntegrator
             {
                 searchAnswer = await RequestsManager.GetRequestsManager().SearchDataInWarehouse(searchRequest);
             }
-            catch (HttpRequestException)
+            catch (Exception)
             {
                 richTextBoxArticles.ForeColor = Color.Red;
                 richTextBoxArticles.Text = "It was not possible to connect to the warehouse.";

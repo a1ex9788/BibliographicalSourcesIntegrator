@@ -2,11 +2,9 @@
 # Execute: Set-ExecutionPolicy RemoteSigned
 
 
-function RunServe([string] $Location)
+function RunServe([string] $ProjectPath)
 {
-    Set-Location $Location
-
-    start dotnet run
+    Start-Process dotnet run -WorkingDirectory $ProjectPath
 }
 
 function Wait1Sec
@@ -15,16 +13,16 @@ function Wait1Sec
 }
 
 
-RunServe ".\DBLPWrapper"
+RunServe .\DBLPWrapper
 
 Wait1Sec
 
-RunServe "..\GoogleScholarWrapper"
+RunServe .\GoogleScholarWrapper
 
 Wait1Sec
 
-RunServe "..\IEEEXploreWrapper"
+RunServe .\IEEEXploreWrapper
 
 Wait1Sec
 
-RunServe "..\BibliographicalSourcesIntegratorWarehouse"
+RunServe .\BibliographicalSourcesIntegratorWarehouse

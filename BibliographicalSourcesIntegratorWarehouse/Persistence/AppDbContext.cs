@@ -29,5 +29,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
         {
             Database.EnsureCreated();
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        {
+            options.UseLazyLoadingProxies()
+                .UseSqlServer("Data Source=.;Initial catalog=BibliographicalSourcesIntegratorWarehouseDB;Integrated Security=true");
+        }
     }
 }
