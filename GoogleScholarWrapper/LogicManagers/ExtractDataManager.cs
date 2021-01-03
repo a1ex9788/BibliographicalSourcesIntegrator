@@ -41,6 +41,11 @@ namespace GoogleScholarWrapper.LogicManagers
 
             string bibTeXFile = GetBibTeXWithSelenium(extractRequest.InitialYear, extractRequest.FinalYear);
 
+            if (bibTeXFile == null) 
+            {
+                return null;
+            }
+
             CreateBibtexFile(bibTeXFile);
 
             return ConvertBibteXToJson();
