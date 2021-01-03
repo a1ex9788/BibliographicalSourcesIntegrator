@@ -20,6 +20,11 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
         {
             Article other = obj as Article;
 
+            if (other == null)
+            {
+                return false;
+            }
+
             bool a = InitialPage == null ? other.InitialPage == null : InitialPage.Equals(other.InitialPage);
             bool b = FinalPage == null ? other.FinalPage == null : FinalPage.Equals(other.FinalPage);
             bool c = Exemplar == null ? other.Exemplar == null : Exemplar.Equals(other.Exemplar);

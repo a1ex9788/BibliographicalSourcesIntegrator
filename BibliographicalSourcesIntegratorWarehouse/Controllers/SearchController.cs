@@ -4,6 +4,7 @@ using System.Linq;
 using BibliographicalSourcesIntegratorContracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 {
@@ -22,11 +23,14 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
         }
 
         [HttpGet("{request}")]
-        public SearchAnswer Search(string request)
+        public string Search(string request)
         {
             _logger.LogInformation("A search request was received: " + request);
 
-            return searchManager.Search(request);
+            JsonSerializerSettings jsSettings = new JsonSerializerSettings();
+            jsSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
+            return JsonConvert.SerializeObject(searchManager.Search(request), Formatting.None, jsSettings);
         }
     }
 }

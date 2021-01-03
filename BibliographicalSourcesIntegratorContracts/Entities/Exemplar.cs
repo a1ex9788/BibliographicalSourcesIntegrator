@@ -26,6 +26,11 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
         {
             Exemplar other = obj as Exemplar;
 
+            if (other == null)
+            {
+                return false;
+            }
+
             bool a = Volume == null ? other.Volume == null : Volume.Equals(other.Volume);
             bool b = Number == null ? other.Number == null : Number.Equals(other.Number);
             bool c = Month == null ? other.Month == null : Month.Equals(other.Month);

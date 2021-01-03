@@ -19,6 +19,11 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
         {
             Journal other = obj as Journal;
 
+            if (other == null)
+            {
+                return false;
+            }
+
             bool a = Name == null ? other.Name == null : Name.Equals((obj as Journal).Name);
 
             return a;

@@ -23,6 +23,11 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
         {
             CongressComunication other = obj as CongressComunication;
 
+            if (other == null)
+            {
+                return false;
+            }
+
             bool a = Congress == null ? other.Congress == null : Congress.Equals(other.Congress);
             bool b = Edition == null ? other.Edition == null : Edition.Equals(other.Edition);
             bool c = Place == null ? other.Place == null : Place.Equals(other.Place);

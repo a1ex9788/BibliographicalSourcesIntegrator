@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace BibliographicalSourcesIntegratorContracts.Entities
 {
@@ -23,6 +24,11 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
         public override bool Equals(object obj)
         {
             Person other = obj as Person;
+
+            if (other == null)
+            {
+                return false;
+            }
 
             bool a = Name == null ? other.Name == null : Name.Equals(other.Name);
             bool b = Surnames == null ? other.Surnames == null : Surnames.Equals(other.Surnames);
