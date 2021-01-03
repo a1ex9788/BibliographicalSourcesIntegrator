@@ -35,7 +35,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             if (preparedJson == null)
             {
-                string errorMessage = extractorName + "extractor: There was a problem preparing the json";
+                string errorMessage = extractorName + "extractor: There was a problem preparing the json.";
 
                 logger.LogInformation(errorMessage);
                 errorList.Add(errorMessage);
@@ -47,7 +47,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             List<T> publications = JsonConvert.DeserializeObject<List<T>>(preparedJson);
 
-            logger.LogInformation(extractorName + "extractor: Creating the publications...");
+            logger.LogInformation(extractorName + "extractor: " + publications.Count() + " publications received. Creating them...");
 
             foreach (T publication in publications)
             {

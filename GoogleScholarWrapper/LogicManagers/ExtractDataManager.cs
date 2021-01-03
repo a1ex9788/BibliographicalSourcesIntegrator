@@ -41,9 +41,9 @@ namespace GoogleScholarWrapper.LogicManagers
 
             string bibTeXFile = GetBibTeXWithSelenium(extractRequest.InitialYear, extractRequest.FinalYear);
 
-            CreateBibteXFile(bibTeXFile);
+            CreateBibtexFile(bibTeXFile);
 
-            return ConverBibteXToJson();
+            return ConvertBibteXToJson();
         }
 
 
@@ -63,11 +63,11 @@ namespace GoogleScholarWrapper.LogicManagers
 
         private string GetBibTeXWithSelenium(int initialYear, int finalYear)
         {
-            string bibTeXFile = "";
+            string bibtexFile = "";
 
             ChromeOptions options = new ChromeOptions();
             options.AddArguments("--start-maximized");
-            //options.AddArguments("--incognito");
+
             ChromeDriver driver = new ChromeDriver(options);
 
             try
@@ -87,15 +87,13 @@ namespace GoogleScholarWrapper.LogicManagers
                 search.Click();
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
 
-
-                for (int page = 1; page <= 5; page++) //Cogemos las 20 primeras páginas
+                for (int page = 1; page <= 5; page++)
                 {
-
                     int element = 1;                
 
                     try
                     {
-                        while (element < 4) //Cogemos los 3 primeros elementos de cada página
+                        while (element < 4)
                         {
                             try
                             {
@@ -106,63 +104,48 @@ namespace GoogleScholarWrapper.LogicManagers
                                     Thread.Sleep(200);
                                     IWebElement BibTeX = driver.FindElementByXPath("//*[@id='gs_citi']/a[1]");
                                     BibTeX.Click();
-                                    bibTeXFile += driver.FindElementByXPath("/html/body/pre").Text + "\n";
-                                    Debug.WriteLine("Contenido:  \n" + bibTeXFile);
+                                    bibtexFile += driver.FindElementByXPath("/html/body/pre").Text + "\n";
+                                    Debug.WriteLine("Contenido:  \n" + bibtexFile);
                                     Thread.Sleep(200);
                                     driver.Navigate().Back();
                                     driver.Navigate().Back();
-
                                 }
-
                             }
-
-                            catch (Exception e)
-                            {
-                            }
+                            catch (Exception) { }
 
                             element++;
                         }
                     }
+                    catch (Exception)
+                    {
+                        element++;
+                    }
 
-                    catch (Exception e) { element++; }
                     driver.Url = "https://scholar.google.es/scholar?start=" + page + "0&hl=es&as_sdt=0,5&as_ylo=" + initialYear + "&as_yhi=" + finalYear;
-
                 }
             }
-
-
-
-
-
             catch (Exception e)
             {
                 _logger.LogError("There was a problem working with Selenium.");
 
-
-                return bibTeXFile; //return null;
+                return null;
             }
-
-
-
-
             finally
             {
                 //Thread.Sleep(2000);
-                driver.Close(); //Cerrar Chrome con Selenium
+                driver.Close();
             }
 
-
-            return bibTeXFile;
-
+            return bibtexFile;
         }
 
-        private void CreateBibteXFile(string bibTeXFile)
+        private void CreateBibtexFile(string bibtexFile)
         {
             Directory.CreateDirectory("TempFiles");
-            File.WriteAllText(bibtexFilePath, bibTeXFile);
+            File.WriteAllText(bibtexFilePath, bibtexFile);
         }
 
-        private string ConverBibteXToJson()
+        private string ConvertBibteXToJson()
         {
             Process process = new Process();
             string command = $"pandoc-citeproc --bib2json {bibtexFilePath} > {jsonFilePath}";
