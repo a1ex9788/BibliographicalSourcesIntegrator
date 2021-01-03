@@ -24,10 +24,10 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
         public (int, List<string>) ExtractData<T>(string extractorName, string json)
         {
-            List<string> errorList = new List<string>();
             List<Article> articlesToSave = new List<Article>();
             List<Book> booksToSave = new List<Book>();
             List<CongressComunication> congressComunicationsToSave = new List<CongressComunication>();
+            List<string> errorList = new List<string>();
 
             logger.LogInformation(extractorName + "extractor: Preparing the json...");
 

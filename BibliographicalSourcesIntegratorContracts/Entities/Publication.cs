@@ -26,9 +26,9 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
         {
             Publication other = obj as Publication;
 
-            bool a = Title == null ? (obj as Publication).Title == null : Title.Equals((obj as Publication).Title);
-            bool b = Year == 0 ? (obj as Publication).Year == 0 : Year.Equals((obj as Publication).Year);
-            bool c = Url == null ? (obj as Publication).Url == null : Url.Equals((obj as Publication).Url);
+            bool a = Title == null ? other.Title == null : Title.Equals(other.Title);
+            bool b = Year == 0 ? other.Year == 0 : Year.Equals(other.Year);
+            bool c = Url == null ? other.Url == null : Url.Equals(other.Url);
 
             return a && b && c;
         }
