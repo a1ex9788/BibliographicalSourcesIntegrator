@@ -39,8 +39,6 @@ namespace GoogleScholarWrapper
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthorization();
