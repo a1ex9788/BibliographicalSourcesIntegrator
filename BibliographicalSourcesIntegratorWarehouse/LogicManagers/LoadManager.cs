@@ -113,6 +113,17 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             try
             {
                 string jsonAnswer = await loadData(extractRequest);
+                
+                if (jsonAnswer == null || jsonAnswer.Equals(""))
+                {
+                    string errorMessage = "The " + sourceName + " wrapper had problems.";
+
+                    errors.Add(errorMessage);
+
+                    _logger.LogError(errorMessage);
+
+                    return (numberOfResults, errors);
+                }
 
                 (numberOfResults, errors) = extractData(sourceName, jsonAnswer);
 
