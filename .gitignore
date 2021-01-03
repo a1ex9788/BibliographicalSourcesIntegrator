@@ -341,3 +341,6 @@ healthchecksdb
 
 # BibTeX and Json temporary files
 GoogleScholarWrapper/TempFiles/
+
+# Sqlite DB
+/BibliographicalSourcesIntegratorWarehouse/BibliographicalSourcesIntegratorWarehouseDB.db

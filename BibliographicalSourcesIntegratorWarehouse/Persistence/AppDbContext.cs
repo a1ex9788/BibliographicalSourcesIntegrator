@@ -33,7 +33,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseLazyLoadingProxies()
-                .UseSqlServer("Data Source=.;Initial catalog=BibliographicalSourcesIntegratorWarehouseDB;Integrated Security=true");
+                .UseSqlite("Data Source=BibliographicalSourcesIntegratorWarehouseDB.db");
         }
     }
 }
