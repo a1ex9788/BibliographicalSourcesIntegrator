@@ -41,6 +41,11 @@ namespace GoogleScholarWrapper.LogicManagers
 
             string bibTeXFile = GetBibTeXWithSelenium(extractRequest.InitialYear, extractRequest.FinalYear);
 
+            if (bibTeXFile == null)
+            {
+                return null;
+            }
+
             CreateBibtexFile(bibTeXFile);
 
             return ConvertBibteXToJson();
@@ -89,7 +94,7 @@ namespace GoogleScholarWrapper.LogicManagers
 
                 for (int page = 1; page <= 5; page++)
                 {
-                    int element = 1;                
+                    int element = 1;
 
                     try
                     {
@@ -130,11 +135,8 @@ namespace GoogleScholarWrapper.LogicManagers
 
                 return null;
             }
-            finally
-            {
-                //Thread.Sleep(2000);
-                driver.Close();
-            }
+
+            driver.Close();
 
             return bibtexFile;
         }
