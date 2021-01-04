@@ -344,3 +344,6 @@ GoogleScholarWrapper/TempFiles/
 
 # Sqlite DB
 /BibliographicalSourcesIntegratorWarehouse/BibliographicalSourcesIntegratorWarehouseDB.db
+
+# App UI shortcut
+/BibliographicalSourcesIntegrator.appref-ms

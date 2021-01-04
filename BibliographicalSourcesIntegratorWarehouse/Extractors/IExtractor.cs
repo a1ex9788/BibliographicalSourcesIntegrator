@@ -80,6 +80,10 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                             congressComunicationsToSave.Add(conference);
                         }
                     }
+                    else
+                    {
+                        errorList.Add("The publication type is not supported.");
+                    }
                 }
                 catch (Exception e)
                 {

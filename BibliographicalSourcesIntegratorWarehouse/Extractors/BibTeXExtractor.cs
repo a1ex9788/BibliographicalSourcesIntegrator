@@ -87,21 +87,21 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         {
             BibTeXPublicationSchema bibtexPublication = publication as BibTeXPublicationSchema;
 
-            return bibtexPublication.type == "article-journal";
+            return bibtexPublication.type.Equals("article-journal");
         }
 
         public override bool IsBook<T>(T publication)
         {
             BibTeXPublicationSchema bibtexPublication = publication as BibTeXPublicationSchema;
 
-            return bibtexPublication.type == "book";
+            return bibtexPublication.type.Equals("book");
         }
 
         public override bool IsCongressComunication<T>(T publication)
         {
             BibTeXPublicationSchema bibtexPublication = publication as BibTeXPublicationSchema;
 
-            return bibtexPublication.type == "paper-conference";
+            return bibtexPublication.type.Equals("paper-conference");
         }
     }
 

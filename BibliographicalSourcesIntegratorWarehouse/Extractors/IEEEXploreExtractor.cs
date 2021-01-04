@@ -86,21 +86,21 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         {
             IEEEXplorerPublicationSchema ieeePublication = publication as IEEEXplorerPublicationSchema;
 
-            return ieeePublication.content_type == "Journals";
+            return ieeePublication.content_type.Equals("Journals");
         }
 
         public override bool IsBook<T>(T publication)
         {
             IEEEXplorerPublicationSchema ieeePublication = publication as IEEEXplorerPublicationSchema;
 
-            return ieeePublication.content_type == "Books";
+            return ieeePublication.content_type.Equals("Books");
         }
 
         public override bool IsCongressComunication<T>(T publication)
         {
             IEEEXplorerPublicationSchema ieeePublication = publication as IEEEXplorerPublicationSchema;
 
-            return ieeePublication.content_type == "Conferences";
+            return ieeePublication.content_type.Equals("Conferences");
         }
 
 
