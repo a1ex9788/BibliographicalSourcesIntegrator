@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Company>FRACOPED S.L.</Company>
+    <Authors>FRACOPED S.L.</Authors>
   </PropertyGroup>
 
   <ItemGroup>
