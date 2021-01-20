@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 {
@@ -12,19 +11,16 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
     {
         private readonly PublicationCreator publicationCreator;
 
-
         public IEEEXploreExtractor(PublicationCreator publicationCreator, DatabaseAccess databaseAccess, ILogger<IEEEXploreExtractor> logger)
             : base(databaseAccess, logger)
         {
             this.publicationCreator = publicationCreator;
         }
 
-
         public (int, List<string>) ExtractData(string sourceName, string json)
         {
             return ExtractData<IEEEXplorerPublicationSchema>(sourceName, json);
         }
-
 
         public override string PrepareJson(string json)
         {
@@ -33,7 +29,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             int indexOfArticle = aux.IndexOf("[");
             aux = aux.Substring(indexOfArticle);
             aux = aux.Remove(aux.Length - 1, 1);
-            
+
             return aux;
         }
 
@@ -103,8 +99,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             return ieeePublication.content_type.Equals("Conferences");
         }
 
-
-        class IEEEXplorerPublicationSchema
+        private class IEEEXplorerPublicationSchema
         {
             public string title { get; set; }
 
@@ -134,7 +129,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             public string content_type { get; set; }
 
-
             public List<(string name, string surnames)> GetAuthors()
             {
                 return authors.GetAuthors();
@@ -146,17 +140,15 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
                 if (publication_date.Contains('-'))
                 {
-                    separator = '-';   
+                    separator = '-';
                 }
 
                 return publication_date.Substring(0, publication_date.IndexOf(separator));
             }
 
-
             public class Author
             {
                 public List<Object> authors { get; set; }
-
 
                 public List<(string name, string surnames)> GetAuthors()
                 {
@@ -169,7 +161,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                         string surnames = "";
                         string completeName = "";
 
-
                         Author2 author = JsonConvert.DeserializeObject<Author2>(o.ToString());
                         completeName = author.full_name;
 
@@ -180,7 +171,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                     }
 
                     return authorsFinal;
-
 
                     string GetName(string completeName)
                     {
@@ -228,20 +218,17 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
                         return surnames.TrimEnd();
                     }
-
                 }
 
-
-                class Author2
+                private class Author2
                 {
-                    string authorUrl;
+                    private string authorUrl;
 
                     public string full_name;
 
-                    string id;
+                    private string id;
 
-                    string author_order;
-
+                    private string author_order;
 
                     public Author2(string authorUrl, string full_name, string id, string author_order)
                     {

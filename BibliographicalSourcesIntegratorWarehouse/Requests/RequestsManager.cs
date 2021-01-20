@@ -1,11 +1,7 @@
 ﻿using BibliographicalSourcesIntegratorContracts;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -13,9 +9,9 @@ namespace BibliographicalSourcesIntegrator
 {
     public class RequestsManager
     {
-        HttpClient DBLPclient = new HttpClient();
-        HttpClient IEEEXclient = new HttpClient();
-        HttpClient BibTeXclient = new HttpClient();
+        private HttpClient DBLPclient = new HttpClient();
+        private HttpClient IEEEXclient = new HttpClient();
+        private HttpClient BibTeXclient = new HttpClient();
 
         public RequestsManager()
         {
@@ -27,11 +23,10 @@ namespace BibliographicalSourcesIntegrator
             BibTeXclient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("aplication/json"));
         }
 
-
         public async Task<string> LoadDataFromDBLP(ExtractRequest extractRequest)
         {
             DBLPclient.BaseAddress = new Uri(ProgramAddresses.DBLPWrapperAddress);
-            
+
             return await MakeARequest("ExtractData/" + JsonSerializer.Serialize(extractRequest), DBLPclient);
 
             //return File.ReadAllText("../DBLPreal.json");
@@ -54,7 +49,6 @@ namespace BibliographicalSourcesIntegrator
 
             //return File.ReadAllText("./archivoBibtex.json");
         }
-
 
         private async Task<string> MakeARequest(string path, HttpClient client)
         {

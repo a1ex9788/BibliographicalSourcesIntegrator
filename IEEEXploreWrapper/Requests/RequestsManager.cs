@@ -1,48 +1,43 @@
-﻿using BibliographicalSourcesIntegratorContracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
+
 //using System.Web.Script.Serialization;
 
 namespace IEEEXploreWrapper.Requests
 {
     public class RequestsManager
     {
-        HttpClient client = new HttpClient();
+        private HttpClient client = new HttpClient();
 
+        private string ApiKeyParameter { get => "&apikey=efv84mzqq6ydx4dbd59jhdcn"; }
 
-        string ApiKeyParameter { get => "&apikey=efv84mzqq6ydx4dbd59jhdcn"; }
+        private int InitialYearValue { get; set; }
 
-        int InitialYearValue { get; set; }
+        private string StartYearParameter { get => $"&start_year={InitialYearValue}"; }
 
-        string StartYearParameter { get => $"&start_year={InitialYearValue}"; }
+        private int FinalYearValue { get; set; }
 
-        int FinalYearValue { get; set; }
+        private string EndYearParameter { get => $"&end_year={FinalYearValue}"; }
 
-        string EndYearParameter { get => $"&end_year={FinalYearValue}"; }
+        private string SortFieldParameter { get => "&sort_field=article_number"; }
 
-        string SortFieldParameter { get => "&sort_field=article_number"; }
+        private string ShortOrderParameter { get => "&sort_order=asc"; }
 
-        string ShortOrderParameter { get => "&sort_order=asc"; }
+        private int MaxRecordsValue { get => 200; }
 
-        int MaxRecordsValue { get => 200; }
+        private string MaxRecordsParameter { get => "&max_records=" + MaxRecordsValue; }
 
-        string MaxRecordsParameter { get => "&max_records=" + MaxRecordsValue; }
+        private int StartRecordValue { get; set; }
 
-        int StartRecordValue { get; set; }
+        private string StartRecordParameter { get => "&start_record=" + StartRecordValue; }
 
-        string StartRecordParameter { get => "&start_record=" + StartRecordValue; }
+        private string ContentTypeValue { get; set; }
 
-        string ContentTypeValue { get; set; }
+        private string ContentTypeParameter { get => "&content_type=" + ContentTypeValue; }
 
-        string ContentTypeParameter { get => "&content_type=" + ContentTypeValue; }
-
-        string Request { get => "?parameter" + ApiKeyParameter + StartYearParameter + EndYearParameter + SortFieldParameter + ShortOrderParameter + MaxRecordsParameter + StartRecordParameter + ContentTypeParameter; }
-
+        private string Request { get => "?parameter" + ApiKeyParameter + StartYearParameter + EndYearParameter + SortFieldParameter + ShortOrderParameter + MaxRecordsParameter + StartRecordParameter + ContentTypeParameter; }
 
         public RequestsManager()
         {
@@ -50,7 +45,6 @@ namespace IEEEXploreWrapper.Requests
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("aplication/json"));
         }
-
 
         public async Task<string> LoadDataFromDataSources(int initialYear, int finalYear)
         {
@@ -82,7 +76,6 @@ namespace IEEEXploreWrapper.Requests
 
             return answer.Substring(0, answer.Length - 1) + "]}";
 
-
             void AddNewAnswer(string newAnswer)
             {
                 int indexOfOpeningSquareBracket = newAnswer.IndexOf('[');
@@ -92,7 +85,7 @@ namespace IEEEXploreWrapper.Requests
             }
         }
 
-        async Task<string> MakeARequest(string path)
+        private async Task<string> MakeARequest(string path)
         {
             HttpResponseMessage response = await client.GetAsync(path);
 
@@ -106,7 +99,7 @@ namespace IEEEXploreWrapper.Requests
             }
         }
 
-        int GetNumberOfArticlesFound(string ieeexploreAnswer)
+        private int GetNumberOfArticlesFound(string ieeexploreAnswer)
         {
             int startPositionOfLabel = ieeexploreAnswer.IndexOf("total_records");
 

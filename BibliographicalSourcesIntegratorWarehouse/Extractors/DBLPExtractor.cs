@@ -12,19 +12,16 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
     {
         private readonly PublicationCreator publicationCreator;
 
-
         public DBLPExtractor(PublicationCreator publicationCreator, DatabaseAccess databaseAccess, ILogger<DBLPExtractor> logger)
             : base(databaseAccess, logger)
         {
             this.publicationCreator = publicationCreator;
         }
 
-
         public (int, List<string>) ExtractData(string sourceName, string json)
         {
             return ExtractData<DBLPPublicationSchema>(sourceName, json);
         }
-
 
         public override string PrepareJson(string source)
         {
@@ -42,7 +39,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             string jsonWithSquareBracketsInAuthorLists = AddSquareBracketsInAuthorListsIfNeeded(jsonArticleList);
 
             return jsonWithSquareBracketsInAuthorLists;
-
 
             static string SearchArticleList(string source)
             {
@@ -80,7 +76,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                     auxToSearchAuthorPos = auxToSearchAuthorPos.Substring(indexOfAuthor + 1);
                     currentInitialAuthorPos += indexOfAuthor + 1;
 
-
                     int currentFirstSquareBracketPos = source.IndexOf(':', posToInvestigate) + numberOfAddedSquareBrackets + 1;
 
                     if (res[currentFirstSquareBracketPos] != '[')
@@ -100,7 +95,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 return res;
             }
         }
-
 
         public override Article CreateArticle<T>(T publication)
         {
@@ -145,8 +139,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         }
     }
 
-
-    class DBLPPublicationSchema
+    internal class DBLPPublicationSchema
     {
         public string mdate { get; set; }
 
@@ -165,7 +158,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         public string url { get; set; }
 
         public string number { get; set; }
-
 
         public List<(string name, string surnames)> GetAuthors()
         {
@@ -197,7 +189,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             }
 
             return authors;
-
 
             string GetName(string completeName)
             {
@@ -290,41 +281,51 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             {
                 case "01":
                     return "January";
+
                 case "02":
                     return "February";
+
                 case "03":
                     return "March";
+
                 case "04":
                     return "April";
+
                 case "05":
                     return "May";
+
                 case "06":
                     return "June";
+
                 case "07":
                     return "July";
+
                 case "08":
                     return "August";
+
                 case "09":
                     return "September";
+
                 case "10":
                     return "October";
+
                 case "11":
                     return "November";
+
                 case "12":
                     return "December";
+
                 default:
                     return null;
             }
         }
 
-
-        class Author
+        private class Author
         {
-            string type;
+            private string type;
 
             // Si se utiliza el json de poliformat hay que llamar a este atributo 'dollar'
             public string text;
-
 
             public Author(string type, string text)
             {

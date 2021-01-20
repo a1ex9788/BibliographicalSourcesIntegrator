@@ -17,7 +17,6 @@ namespace BibliographicalSourcesIntegrator
             InitializeComponent();
         }
 
-
         private void SearchButtonClick(object sender, EventArgs e)
         {
             LoadNewForm(new SearchForm(this));
@@ -27,7 +26,6 @@ namespace BibliographicalSourcesIntegrator
         {
             LoadNewForm(new LoadForm(this));
         }
-
 
         private void LoadNewForm(Form form)
         {

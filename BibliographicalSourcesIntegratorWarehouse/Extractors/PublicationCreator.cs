@@ -3,7 +3,6 @@ using BibliographicalSourcesIntegratorWarehouse.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 {
@@ -29,7 +28,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             alreadyCreatedExemplars = new List<Exemplar>();
             alreadyCreatedJournals = new List<Journal>();
         }
-
 
         public Article CreateArticle(string title, int year, string url, List<(string name, string surnames)> authors,
             string initialPage, string finalPage, string volume, string number, string month, string journalName)
@@ -113,7 +111,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             return book;
         }
 
-
         private void CreateAuthors(List<(string name, string surnames)> authors, Publication publication)
         {
             foreach ((string name, string surnames) in authors)
@@ -135,7 +132,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
                 publication.People.Add(person);
             }
         }
-
 
         private T CreateEntity<T>(T entity, List<T> alreadyCreatedEntities, Func<T, T> getEntity)
         {

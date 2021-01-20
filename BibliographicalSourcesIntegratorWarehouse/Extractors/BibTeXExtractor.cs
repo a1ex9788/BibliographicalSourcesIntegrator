@@ -1,11 +1,8 @@
 ﻿using BibliographicalSourcesIntegratorContracts.Entities;
 using BibliographicalSourcesIntegratorWarehouse.Persistence;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 {
@@ -13,19 +10,16 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
     {
         private readonly PublicationCreator publicationCreator;
 
-
         public BibTeXExtractor(PublicationCreator publicationCreator, DatabaseAccess databaseAccess, ILogger<BibTeXExtractor> logger)
             : base(databaseAccess, logger)
         {
             this.publicationCreator = publicationCreator;
         }
 
-
         public (int, List<string>) ExtractData(string sourceName, string json)
         {
             return ExtractData<BibTeXPublicationSchema>(sourceName, json);
         }
-
 
         public override string PrepareJson(string json)
         {
@@ -33,7 +27,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             return jsonWithoutSlashes;
         }
-
 
         public override Article CreateArticle<T>(T publication)
         {
@@ -58,7 +51,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         {
             BibTeXPublicationSchema bibtexPublication = publication as BibTeXPublicationSchema;
 
-           
             return publicationCreator.CreateBook(
                 title: bibtexPublication.title,
                 year: bibtexPublication.GetYear(),
@@ -105,7 +97,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         }
     }
 
-    class BibTeXPublicationSchema
+    internal class BibTeXPublicationSchema
     {
         public string title { get; set; }
 
@@ -128,7 +120,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         public string url { get; set; }
 
         public string type { get; set; }
-
 
         public string GetInitialPage()
         {
@@ -184,8 +175,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         public int GetYear()
         {
             return issued.GetYear();
-        } 
-
+        }
 
         public class Author
         {
@@ -196,21 +186,19 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
             {
                 this.given = given;
                 this.family = family;
-
             }
+
             public List<Object> authors { get; set; }
         }
-
 
         public class Year
         {
             public List<List<int>> date_parts;
 
-             public int GetYear()
-             {
-                 return date_parts[0][0];
-             } 
-
+            public int GetYear()
+            {
+                return date_parts[0][0];
+            }
         }
     }
 }

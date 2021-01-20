@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BibliographicalSourcesIntegratorContracts;
+﻿using BibliographicalSourcesIntegratorContracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 {

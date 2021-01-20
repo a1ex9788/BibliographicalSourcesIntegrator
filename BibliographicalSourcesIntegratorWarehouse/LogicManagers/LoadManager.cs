@@ -1,11 +1,9 @@
 ﻿using BibliographicalSourcesIntegrator;
 using BibliographicalSourcesIntegratorContracts;
 using BibliographicalSourcesIntegratorWarehouse.Extractors;
-using BibliographicalSourcesIntegratorWarehouse.Persistence;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -29,7 +27,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             _logger = logger;
         }
 
-
         public async Task<LoadAnswer> Load(string request)
         {
             LoadRequest loadRequest = GetLoadRequest(request);
@@ -41,7 +38,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 
             return await ProcessLoadRequest(loadRequest);
         }
-
 
         private LoadRequest GetLoadRequest(string request)
         {
@@ -113,7 +109,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
             try
             {
                 string jsonAnswer = await loadData(extractRequest);
-                
+
                 if (jsonAnswer == null || jsonAnswer.Equals(""))
                 {
                     string errorMessage = "The " + sourceName + " wrapper had problems.";

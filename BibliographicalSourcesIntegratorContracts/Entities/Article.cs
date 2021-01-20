@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-
-namespace BibliographicalSourcesIntegratorContracts.Entities
+﻿namespace BibliographicalSourcesIntegratorContracts.Entities
 {
     public class Article : Publication
     {
@@ -12,9 +6,7 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
 
         public string FinalPage { get; set; }
 
-
         public virtual Exemplar Exemplar { get; set; }
-
 
         public override bool Equals(object obj)
         {

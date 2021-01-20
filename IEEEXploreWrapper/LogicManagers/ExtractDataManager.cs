@@ -2,13 +2,9 @@
 using IEEEXploreWrapper.Requests;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Xml;
 
 namespace IEEEXploreWrapper.LogicManagers
 {
@@ -23,7 +19,6 @@ namespace IEEEXploreWrapper.LogicManagers
             this.requestsManager = requestsManager;
         }
 
-
         public async Task<string> ExtractData(string request)
         {
             ExtractRequest extractRequest = GetExtractRequest(request);
@@ -35,7 +30,6 @@ namespace IEEEXploreWrapper.LogicManagers
 
             return await ExtractDataFromIEEEXploreAPIAsync(extractRequest.InitialYear, extractRequest.FinalYear);
         }
-
 
         private ExtractRequest GetExtractRequest(string request)
         {

@@ -1,19 +1,12 @@
 ﻿using BibliographicalSourcesIntegratorContracts;
 using Microsoft.Extensions.Logging;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Remote;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Xml;
 
 namespace GoogleScholarWrapper.LogicManagers
 {
@@ -23,12 +16,10 @@ namespace GoogleScholarWrapper.LogicManagers
 
         private string bibtexFilePath = "TempFiles\\archivoBibTeX.bib", jsonFilePath = "TempFiles\\archivoJson.json";
 
-
         public ExtractDataManager(ILogger<ExtractDataManager> logger)
         {
             _logger = logger;
         }
-
 
         public string ExtractData(string request)
         {
@@ -50,7 +41,6 @@ namespace GoogleScholarWrapper.LogicManagers
 
             return ConvertBibteXToJson();
         }
-
 
         private ExtractRequest GetExtractRequest(string request)
         {

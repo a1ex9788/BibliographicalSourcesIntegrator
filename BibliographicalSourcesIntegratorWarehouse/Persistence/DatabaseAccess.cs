@@ -1,8 +1,6 @@
 ﻿using BibliographicalSourcesIntegratorContracts.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Persistence
 {
@@ -14,7 +12,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
         {
             this.context = context;
         }
-
 
         public void SaveArticles(List<Article> articles)
         {
@@ -36,7 +33,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
 
             context.SaveChanges();
         }
-
 
         public Article GetArticle(Article article)
         {
@@ -60,7 +56,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
                 cc.FinalPage == congressComunication.FinalPage);
         }
 
-        
         public Book GetBook(Book book)
         {
             return context.Books.FirstOrDefault(b =>
@@ -81,7 +76,7 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
         {
             return context.Exemplars.FirstOrDefault(e =>
                 e.Volume == exemplar.Volume &&
-                e.Number== exemplar.Number &&
+                e.Number == exemplar.Number &&
                 e.Month == exemplar.Volume &&
                 e.Journal.Name == exemplar.Journal.Name);
         }
@@ -91,7 +86,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
             return context.Journals.FirstOrDefault(j =>
                 j.Name == journal.Name);
         }
-
 
         public List<Article> GetArticles(string title, string author, int initialYear, int finalYear)
         {

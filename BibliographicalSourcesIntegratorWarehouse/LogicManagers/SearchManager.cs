@@ -1,12 +1,9 @@
-﻿using BibliographicalSourcesIntegrator;
-using BibliographicalSourcesIntegratorContracts;
+﻿using BibliographicalSourcesIntegratorContracts;
 using BibliographicalSourcesIntegratorWarehouse.Persistence;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Controllers
 {
@@ -15,13 +12,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Controllers
         private readonly ILogger<SearchManager> _logger;
         private readonly DatabaseAccess databaseAccess;
 
-
         public SearchManager(ILogger<SearchManager> logger, DatabaseAccess databaseAccess)
         {
             _logger = logger;
             this.databaseAccess = databaseAccess;
         }
-
 
         public SearchAnswer Search(string request)
         {

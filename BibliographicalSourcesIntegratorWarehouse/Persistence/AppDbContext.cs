@@ -1,9 +1,5 @@
 ﻿using BibliographicalSourcesIntegratorContracts.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Persistence
 {
@@ -22,7 +18,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Persistence
         public DbSet<Journal> Journals { get; set; }
 
         public DbSet<Person> People { get; set; }
-
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)

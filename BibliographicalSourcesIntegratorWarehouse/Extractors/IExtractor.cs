@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 {
@@ -14,13 +13,11 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
         private readonly DatabaseAccess databaseAccess;
         private readonly ILogger<IExtractor> logger;
 
-
         public IExtractor(DatabaseAccess databaseAccess, ILogger<IExtractor> logger)
         {
             this.databaseAccess = databaseAccess;
             this.logger = logger;
         }
-
 
         public (int, List<string>) ExtractData<T>(string extractorName, string json)
         {
@@ -99,7 +96,6 @@ namespace BibliographicalSourcesIntegratorWarehouse.Extractors
 
             return (articlesToSave.Count + booksToSave.Count + congressComunicationsToSave.Count, errorList);
         }
-
 
         public abstract string PrepareJson(string source);
 

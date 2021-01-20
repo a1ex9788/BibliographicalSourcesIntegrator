@@ -1,13 +1,5 @@
 ﻿using BibliographicalSourcesIntegratorContracts;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,7 +10,6 @@ namespace BibliographicalSourcesIntegrator
         private Form homeForm;
 
         private int currentInitialYear, currentFinalYear;
-
 
         public LoadForm(Form homeForm)
         {
@@ -31,7 +22,6 @@ namespace BibliographicalSourcesIntegrator
             currentFinalYear = Convert.ToInt32(numericUpDownFinalYear.Value);
         }
 
-
         private async void LoadDataButtonClick(object sender, EventArgs e)
         {
             InitializeResults();
@@ -39,8 +29,8 @@ namespace BibliographicalSourcesIntegrator
             bool loadDBLP = checkBoxDBLP.Checked;
             bool loadIEEEXplore = checkBoxIEEEXplore.Checked;
             bool loadGoogleScholar = checkBoxGoogleScholar.Checked;
-            int initialYear = (int) numericUpDownInitialYear.Value;
-            int finalYear = (int) numericUpDownFinalYear.Value;
+            int initialYear = (int)numericUpDownInitialYear.Value;
+            int finalYear = (int)numericUpDownFinalYear.Value;
 
             if (!loadDBLP && !loadIEEEXplore && !loadGoogleScholar)
             {
@@ -124,7 +114,6 @@ namespace BibliographicalSourcesIntegrator
             }
 
             richTextBoxErrors.Text = errorText;
-
 
             string PrepareErrorText()
             {

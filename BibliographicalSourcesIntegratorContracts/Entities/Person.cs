@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BibliographicalSourcesIntegratorContracts.Entities
@@ -11,14 +8,11 @@ namespace BibliographicalSourcesIntegratorContracts.Entities
         [Key]
         public int Id { get; set; }
 
-
         public string Name { get; set; }
 
         public string Surnames { get; set; }
 
-
         public virtual ICollection<Publication> Publications { get; set; }
-
 
         public override bool Equals(object obj)
         {

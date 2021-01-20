@@ -1,10 +1,7 @@
 ﻿using BibliographicalSourcesIntegratorContracts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
@@ -14,7 +11,7 @@ namespace BibliographicalSourcesIntegrator
     {
         private static RequestsManager requestsManagerInstance;
 
-        static HttpClient client = new HttpClient();
+        private static HttpClient client = new HttpClient();
 
         private RequestsManager()
         {
@@ -32,7 +29,6 @@ namespace BibliographicalSourcesIntegrator
 
             return requestsManagerInstance;
         }
-
 
         public async Task<SearchAnswer> SearchDataInWarehouse(SearchRequest searchRequest)
         {
@@ -57,7 +53,6 @@ namespace BibliographicalSourcesIntegrator
 
             return new JavaScriptSerializer().Deserialize<LoadAnswer>(answer);
         }
-
 
         private async Task<string> MakeARequest(string path)
         {

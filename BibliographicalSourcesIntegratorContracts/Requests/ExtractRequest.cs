@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BibliographicalSourcesIntegratorContracts
+﻿namespace BibliographicalSourcesIntegratorContracts
 {
     public class ExtractRequest
     {
@@ -11,8 +6,9 @@ namespace BibliographicalSourcesIntegratorContracts
 
         public int FinalYear { get; set; }
 
-
-        public ExtractRequest() { }
+        public ExtractRequest()
+        {
+        }
 
         public ExtractRequest(int initialYear, int finalYear)
         {

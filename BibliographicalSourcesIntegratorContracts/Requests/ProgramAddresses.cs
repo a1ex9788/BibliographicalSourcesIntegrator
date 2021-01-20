@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BibliographicalSourcesIntegratorContracts
+﻿namespace BibliographicalSourcesIntegratorContracts
 {
     public class ProgramAddresses
     {
-        public static string BibliographicalSourcesIntegratorWarehouseAddress 
+        public static string BibliographicalSourcesIntegratorWarehouseAddress
         {
             get => "http://localhost:50001";
         }
-
 
         public static string DBLPWrapperAddress
         {
@@ -28,7 +21,6 @@ namespace BibliographicalSourcesIntegratorContracts
         {
             get => "http://localhost:50004";
         }
-
 
         public static string IEEEXploreAPIAddress
         {

@@ -1,12 +1,9 @@
-﻿using BibliographicalSourcesIntegrator;
-using BibliographicalSourcesIntegratorContracts;
+﻿using BibliographicalSourcesIntegratorContracts;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace DBLPWrapper.LogicManagers
@@ -20,7 +17,6 @@ namespace DBLPWrapper.LogicManagers
             this.logger = logger;
         }
 
-
         public string ExtractData(string request)
         {
             ExtractRequest extractRequest = GetExtractRequest(request);
@@ -32,7 +28,6 @@ namespace DBLPWrapper.LogicManagers
 
             return ExtractDataFromXmlFile(extractRequest.InitialYear, extractRequest.FinalYear);
         }
-
 
         private ExtractRequest GetExtractRequest(string request)
         {
@@ -80,7 +75,6 @@ namespace DBLPWrapper.LogicManagers
 
                 return null;
             }
-
 
             // <title>Numerical analysis of CO<sub>2</sub> concentration and recovery from flue gas by a novel vacuum swing adsorption cycle.</title>
             // <sup>+</sup>

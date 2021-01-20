@@ -3,8 +3,6 @@ using BibliographicalSourcesIntegratorContracts.Entities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,8 +14,7 @@ namespace BibliographicalSourcesIntegrator
 
         private int currentInitialYear, currentFinalYear;
 
-        List<TabPage> tabs = new List<TabPage>();
-
+        private List<TabPage> tabs = new List<TabPage>();
 
         public SearchForm(Form homeForm)
         {
@@ -36,7 +33,6 @@ namespace BibliographicalSourcesIntegrator
             currentFinalYear = Convert.ToInt32(numericUpDownFinalYear.Value);
         }
 
-
         private async void SearchButtonClick(object sender, EventArgs e)
         {
             richTextBoxArticles.Text = "";
@@ -44,8 +40,8 @@ namespace BibliographicalSourcesIntegrator
             bool searchArticle = checkBoxArticle.Checked;
             bool searchBook = checkBoxBook.Checked;
             bool searchCongress = checkBoxCongressComunication.Checked;
-            int initialYear = (int) numericUpDownInitialYear.Value;
-            int finalYear = (int) numericUpDownFinalYear.Value;
+            int initialYear = (int)numericUpDownInitialYear.Value;
+            int finalYear = (int)numericUpDownFinalYear.Value;
             string author = textBoxAuthor.Text;
             string title = textBoxTitle.Text;
 
@@ -130,7 +126,7 @@ namespace BibliographicalSourcesIntegrator
                 {
                     Article a = searchAnswer.Articles[i];
 
-                    text += $"{i+1}.- {a.Title}\n";
+                    text += $"{i + 1}.- {a.Title}\n";
                     text += $"Year: {a.Year}\n";
                     text += a.Url == null ? "" : $"Url: {a.Url}\n";
                     text += a.InitialPage == null && a.FinalPage == null ? "" : $"Pages: {a.InitialPage} - {a.FinalPage}\n";
@@ -194,7 +190,7 @@ namespace BibliographicalSourcesIntegrator
                 {
                     CongressComunication cc = searchAnswer.CongressComunications[i];
 
-                    text += $"{i+1}.- {cc.Title}\n";
+                    text += $"{i + 1}.- {cc.Title}\n";
                     text += $"Year: {cc.Year}\n";
                     text += cc.Url == null ? "" : $"Url: {cc.Url}\n";
                     text += cc.Congress == null ? "" : $"Congress: {cc.Congress}\n";
@@ -219,7 +215,6 @@ namespace BibliographicalSourcesIntegrator
                 tabControlResults.TabPages.Remove(tabs[2]);
             }
 
-
             string PrepareAuthors(ICollection<Person> people)
             {
                 if (people.Count == 0)
@@ -238,12 +233,10 @@ namespace BibliographicalSourcesIntegrator
             }
         }
 
-
         private void CloseForm(object sender, FormClosedEventArgs e)
         {
             homeForm.Show();
         }
-
 
         private void NumericUpDownInitialYearValueChanged(object sender, EventArgs e)
         {
