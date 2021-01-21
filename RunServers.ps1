@@ -2,27 +2,10 @@
 # Execute: Set-ExecutionPolicy RemoteSigned
 
 
-function RunServe([string] $ProjectPath)
-{
-    Start-Process dotnet run -WorkingDirectory $ProjectPath
-}
+Start-Process .\Releases\DBLPWrapper\DBLPWrapper.exe
 
-function Wait1Sec
-{
-    Start-Sleep -s 1
-}
+Start-Process .\Releases\GoogleScholarWrapper\GoogleScholarWrapper.exe
 
+Start-Process .\Releases\IEEEXploreWrapper\IEEEXploreWrapper.exe
 
-RunServe .\DBLPWrapper
-
-Wait1Sec
-
-RunServe .\GoogleScholarWrapper
-
-Wait1Sec
-
-RunServe .\IEEEXploreWrapper
-
-Wait1Sec
-
-RunServe .\BibliographicalSourcesIntegratorWarehouse
+Start-Process .\Releases\BibliographicalSourcesIntegratorWarehouse\BibliographicalSourcesIntegratorWarehouse.exe
