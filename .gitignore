@@ -340,7 +340,7 @@ healthchecksdb
 GoogleScholarWrapper/TempFiles/
 
 # Sqlite DB
-/BibliographicalSourcesIntegratorWarehouse/BibliographicalSourcesIntegratorWarehouseDB.db
+BibliographicalSourcesIntegratorWarehouseDB.db
 
 # App UI shortcut
 /BibliographicalSourcesIntegrator.appref-ms

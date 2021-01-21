@@ -1,3 +1,4 @@
+using BibliographicalSourcesIntegratorContracts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -14,6 +15,7 @@ namespace DBLPWrapper
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseUrls(new string[] { ProgramAddresses.DBLPWrapperAddress });
                     webBuilder.UseStartup<Startup>();
                 });
     }

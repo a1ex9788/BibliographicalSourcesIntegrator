@@ -1,3 +1,4 @@
+using BibliographicalSourcesIntegratorContracts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -14,6 +15,7 @@ namespace GoogleScholarWrapper
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseUrls(new string[] { ProgramAddresses.GoogleScholarWrapperAddress });
                     webBuilder.UseStartup<Startup>();
                 });
     }
