@@ -2,10 +2,14 @@
 # Execute: Set-ExecutionPolicy RemoteSigned
 
 
-Start-Process .\Releases\DBLPWrapper\DBLPWrapper.exe
+Set-Location .\Releases\DBLPWrapper
+Start-Process .\DBLPWrapper.exe
 
-Start-Process .\Releases\GoogleScholarWrapper\GoogleScholarWrapper.exe
+Set-Location ..\GoogleScholarWrapper
+Start-Process .\GoogleScholarWrapper.exe
 
-Start-Process .\Releases\IEEEXploreWrapper\IEEEXploreWrapper.exe
+Set-Location ..\IEEEXploreWrapper
+Start-Process .\IEEEXploreWrapper.exe
 
-Start-Process .\Releases\BibliographicalSourcesIntegratorWarehouse\BibliographicalSourcesIntegratorWarehouse.exe
+Set-Location ..\BibliographicalSourcesIntegratorWarehouse
+Start-Process .\BibliographicalSourcesIntegratorWarehouse.exe
