@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="DBLP.XML" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BibliographicalSourcesIntegratorWarehouse\BibliographicalSourcesIntegratorWarehouse.csproj" />
   </ItemGroup>
 
@@ -20,5 +16,9 @@
     </Reference>
   </ItemGroup>
 
-
+  <ItemGroup>
+    <None Update="DBLP.XML">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
